@@ -82,4 +82,10 @@ public class DefaultCompilerTest {
         final File testFile = createTestFile(FILE_NAME, PROGRAM_WITHOUT_END);
         defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
     }
+
+    @Test
+    public void shouldNotThrowExceptionAbsentEndProgram() throws IOException {
+        final File testFile = createTestFile(FILE_NAME, HELLO_WORLD_PROGRAM);
+        defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+    }
 }
