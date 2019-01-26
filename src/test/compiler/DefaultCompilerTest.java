@@ -23,10 +23,10 @@ public class DefaultCompilerTest {
     private static final String PROGRAM_WITHOUT_END = "Приветствую!\n" +
             "\tСударь, будьте добры, выведите на экран это:\"Моя первая программа на языке Сударь!\"\n";
 
-    private static final String HELLO_WORLD_PROGRAM_AFTER_COMPILE = "public class Main {\n" +
-            "    public static void main(String[] args) {\n" +
-            "        System.out.println(\"Моя первая программа на языке Сударь!\");\n" +
-            "    }\n" +
+    private static final String HELLO_WORLD_PROGRAM_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
+            "public static void main(String[] args) {" + System.lineSeparator() +
+            "System.out.println(\"Моя первая программа на языке Сударь!\");" + System.lineSeparator() +
+            "}" + System.lineSeparator() +
             "}";
 
     private Compiler defaultCompiler = new DefaultCompiler();
@@ -51,7 +51,7 @@ public class DefaultCompilerTest {
         final Scanner scanner = new Scanner(new File(filePath));
         final StringBuilder sb = new StringBuilder();
         while (scanner.hasNextLine()) {
-            sb.append(scanner.nextLine());
+            sb.append(scanner.nextLine() + System.lineSeparator());
         }
         scanner.close();
         return sb.toString();

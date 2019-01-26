@@ -5,6 +5,7 @@ import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class DefaultCompiler implements Compiler {
@@ -13,6 +14,9 @@ public class DefaultCompiler implements Compiler {
     private static final String END_PROGRAM_ABSENT_ERROR_MESSAGE = "The source code should contains end of program!";
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static final String COMMAND_SEPARATOR = ":";
+    private static final String QUOTE = "\"";
+    private static final String POINT = ".";
 
     private static final String SOURCE_FILE_EXTENSION = ".sir";
     private static final String COMPILED_FILE_EXTENSION = ".java";
@@ -21,7 +25,7 @@ public class DefaultCompiler implements Compiler {
     private static final String END_PROGRAM = "Спасибо вам! Всего хорошего!";
 
     private static final String JAVA_START_PROGRAM_EQUIVALENT = "public class Main {" + LINE_SEPARATOR +
-            "    public static void main(String[] args) {" + LINE_SEPARATOR;
+            "public static void main(String[] args) {" + LINE_SEPARATOR;
 
     private static final String JAVA_END_PROGRAM_EQUIVALENT = "}" + LINE_SEPARATOR + "}";
 
@@ -44,23 +48,26 @@ public class DefaultCompiler implements Compiler {
     }
 
     private File compileToJava(@NonNull String javaFilePath, @NonNull String sourceCode) throws IOException {
-        final String javaSourceCode = convertToJava(sourceCode);
+        final char[] javaSourceCode = convertToJava(sourceCode);
         return writeJavaFile(javaFilePath, javaSourceCode);
     }
 
-    private File writeJavaFile(@NonNull String javaFilePath, @NonNull String javaCode) throws IOException {
+    private File writeJavaFile(@NonNull String javaFilePath, @NonNull char[] javaSourceCode) throws IOException {
         File file = new File(javaFilePath);
         BufferedWriter br = new BufferedWriter(new FileWriter(file));
-        br.write(javaCode);
+        for (char symbol : javaSourceCode) {
+            br.write(symbol);
+        }
         br.close();
         return file;
     }
 
-    private String convertToJava(@NonNull final String sourceCode) {
+    private char[] convertToJava(@NonNull final String sourceCode) {
         checkOnErrors(sourceCode);
         final String methodMainBodyCode = getSourceCodeForMethodMain(sourceCode);
         final String methodMainBodyJavaCode = compileToBodyMethodMain(methodMainBodyCode);
-        return JAVA_START_PROGRAM_EQUIVALENT + methodMainBodyJavaCode + JAVA_END_PROGRAM_EQUIVALENT;
+        final String javaCode = JAVA_START_PROGRAM_EQUIVALENT + methodMainBodyJavaCode + JAVA_END_PROGRAM_EQUIVALENT;
+        return javaCode.toCharArray();
     }
 
     private String getSourceCodeForMethodMain(@NonNull String sourceCode) {
@@ -71,13 +78,17 @@ public class DefaultCompiler implements Compiler {
         final StringBuilder sb = new StringBuilder();
         final String[] codeRows = methodMainBodyCode.split(LINE_SEPARATOR);
         for (String codeRow : codeRows) {
-            if (StringUtils.isNotEmpty(codeRow)) {
-
-                sb.append(codeRow);
+            for (Command command : Command.values()) {
+                if (StringUtils.isNotEmpty(codeRow)) {
+                    if (codeRow.contains(command.getSirCommand())) {
+                        final String javaCodeRow = String.format(command.getJavaCommand(), getArgument(codeRow)) + LINE_SEPARATOR;
+                        sb.append(javaCodeRow);
+                    }
+                }
             }
         }
 
-        return sb.toString();
+        return sb.append(LINE_SEPARATOR).append(LINE_SEPARATOR).toString();
     }
 
     private void checkOnErrors(@NonNull String sourceCode) {
@@ -86,6 +97,20 @@ public class DefaultCompiler implements Compiler {
 
         final boolean isEndProgramExists = StringUtils.contains(sourceCode, END_PROGRAM);
         Preconditions.checkArgument(isEndProgramExists, END_PROGRAM_ABSENT_ERROR_MESSAGE);
+    }
+
+    private Object getArgument(String codeRow) {
+        Object argument;
+        String[] methodAndArgument = codeRow.split(COMMAND_SEPARATOR);
+        final String argumentRow = methodAndArgument[1];
+        if (argumentRow.startsWith(QUOTE) && argumentRow.endsWith(QUOTE)) {
+            argument = argumentRow;
+        } else if (argumentRow.contains(POINT)) {
+            argument = Double.valueOf(argumentRow);
+        } else {
+            argument = Long.valueOf(argumentRow);
+        }
+        return argument;
     }
 
 }
