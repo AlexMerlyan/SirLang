@@ -1,4 +1,4 @@
-package code;
+package com.sirlang.code;
 
 import org.apache.commons.lang3.StringUtils;
 

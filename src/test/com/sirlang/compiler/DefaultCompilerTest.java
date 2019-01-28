@@ -1,15 +1,16 @@
-package compiler;
+package com.sirlang.compiler;
 
-import org.apache.commons.lang3.StringUtils;
+import com.sirlang.AbstractTest;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.*;
 import java.util.Scanner;
 
-public class DefaultCompilerTest {
+public class DefaultCompilerTest extends AbstractTest {
 
-    private static final String FILE_NAME = "test_file.sir";
+    private static final String SIR_FILE_NAME = "test_file.sir";
     private static final String FILE_NAME_INCORRECT_EXTENSION = "test_file.txt";
     private static final String FILE_CONTENT = "This is simple example of content";
 
@@ -23,38 +24,14 @@ public class DefaultCompilerTest {
     private static final String PROGRAM_WITHOUT_END = "Приветствую!\n" +
             "\tСударь, будьте добры, выведите на экран это:\"Моя первая программа на языке Сударь!\"\n";
 
-    private static final String HELLO_WORLD_PROGRAM_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
-            "public static void main(String[] args) {" + System.lineSeparator() +
-            "System.out.println(\"Моя первая программа на языке Сударь!\");" + System.lineSeparator() +
-            "}" + System.lineSeparator() +
-            "}";
-
     private Compiler defaultCompiler = new DefaultCompiler();
 
-    @Test
-    public void shouldCompileSourceFileToJavaFile() throws IOException {
-        final File testFile = createTestFile(FILE_NAME, FILE_CONTENT);
-        final String compiledFilePath = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
-        final String content = readContent(compiledFilePath);
-        Assert.assertTrue(StringUtils.isNotEmpty(content));
-    }
-
-    private File createTestFile(String fileName, String content) throws IOException {
-        File testFile = new File(fileName);
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(testFile));
-        bufferedWriter.write(content);
-        bufferedWriter.close();
-        return testFile;
-    }
-
-    private String readContent(String filePath) throws FileNotFoundException {
-        final Scanner scanner = new Scanner(new File(filePath));
-        final StringBuilder sb = new StringBuilder();
-        while (scanner.hasNextLine()) {
-            sb.append(scanner.nextLine() + System.lineSeparator());
-        }
-        scanner.close();
-        return sb.toString();
+    @After
+    public void removeTestFiles() {
+        new File(SIR_FILE_NAME).delete();
+        new File(FILE_NAME_INCORRECT_EXTENSION).delete();
+        new File(COMPILED_FILE_NAME).delete();
+        new File(BYTE_CODE_FILE_NAME).delete();
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -65,7 +42,7 @@ public class DefaultCompilerTest {
 
     @Test
     public void shouldCompileHelloWorldProgram() throws IOException {
-        final File testFile = createTestFile(FILE_NAME, HELLO_WORLD_PROGRAM);
+        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
         final String compiledFilePath = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
         final String content = readContent(compiledFilePath);
         Assert.assertEquals(HELLO_WORLD_PROGRAM_AFTER_COMPILE, content);
@@ -73,19 +50,36 @@ public class DefaultCompilerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionAbsentStartProgram() throws IOException {
-        final File testFile = createTestFile(FILE_NAME, PROGRAM_WITHOUT_START);
+        final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_START);
         defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionAbsentEndProgram() throws IOException {
-        final File testFile = createTestFile(FILE_NAME, PROGRAM_WITHOUT_END);
+        final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_END);
         defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
     public void shouldNotThrowExceptionAbsentEndProgram() throws IOException {
-        final File testFile = createTestFile(FILE_NAME, HELLO_WORLD_PROGRAM);
+        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
         defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+    }
+
+    @Test
+    public void shouldCompileToMainJavaFile() throws IOException {
+        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
+        final String compiledFilePath = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+        Assert.assertTrue(compiledFilePath.contains(COMPILED_FILE_NAME));
+    }
+
+    private String readContent(String filePath) throws FileNotFoundException {
+        final Scanner scanner = new Scanner(new File(filePath));
+        final StringBuilder sb = new StringBuilder();
+        while (scanner.hasNextLine()) {
+            sb.append(scanner.nextLine()).append(System.lineSeparator());
+        }
+        scanner.close();
+        return sb.toString();
     }
 }

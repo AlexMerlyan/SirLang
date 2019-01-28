@@ -1,17 +1,16 @@
-package compiler;
+package com.sirlang.compiler;
 
 import com.google.common.base.Preconditions;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class DefaultCompiler implements Compiler {
     private static final String FILE_EXTENSION_ERROR_MESSAGE = "The source file should be with .sir extension!";
-    private static final String START_PROGRAM_ABSENT_ERROR_MESSAGE = "The source code should contains start of program!";
-    private static final String END_PROGRAM_ABSENT_ERROR_MESSAGE = "The source code should contains end of program!";
+    private static final String START_PROGRAM_ABSENT_ERROR_MESSAGE = "The source com.sirlang.code should contains start of program!";
+    private static final String END_PROGRAM_ABSENT_ERROR_MESSAGE = "The source com.sirlang.code should contains end of program!";
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String COMMAND_SEPARATOR = ":";
@@ -19,7 +18,7 @@ public class DefaultCompiler implements Compiler {
     private static final String POINT = ".";
 
     private static final String SOURCE_FILE_EXTENSION = ".sir";
-    private static final String COMPILED_FILE_EXTENSION = ".java";
+    private static final String COMPILED_FILE_NAME = "Main.java";
 
     private static final String START_PROGRAM = "Приветствую!";
     private static final String END_PROGRAM = "Спасибо вам! Всего хорошего!";
@@ -31,9 +30,11 @@ public class DefaultCompiler implements Compiler {
 
     public String compileSourceFile(@NonNull String sourcePath) throws IOException {
         Preconditions.checkArgument(sourcePath.contains(SOURCE_FILE_EXTENSION), FILE_EXTENSION_ERROR_MESSAGE);
-        String sourceCode = readSourceFile(sourcePath);
-        String javaFilePath = sourcePath.replace(SOURCE_FILE_EXTENSION, COMPILED_FILE_EXTENSION);
-        File javaFile = compileToJava(javaFilePath, sourceCode);
+        final String sourceCode = readSourceFile(sourcePath);
+        final int startFileNameIndex = sourcePath.lastIndexOf("/") + 1;
+        final String fileNameWithExtension = sourcePath.substring(startFileNameIndex);
+        final String javaFilePath = sourcePath.replace(fileNameWithExtension, COMPILED_FILE_NAME);
+        final File javaFile = compileToJava(javaFilePath, sourceCode);
         return javaFile.getAbsolutePath();
     }
 
@@ -88,7 +89,7 @@ public class DefaultCompiler implements Compiler {
             }
         }
 
-        return sb.append(LINE_SEPARATOR).append(LINE_SEPARATOR).toString();
+        return sb.toString();
     }
 
     private void checkOnErrors(@NonNull String sourceCode) {

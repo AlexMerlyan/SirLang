@@ -1,7 +1,7 @@
-package code.runner;
+package com.sirlang.code.runner;
 
-import code.CodeRunner;
-import code.JavaCodeRunner;
+import com.sirlang.code.CodeRunner;
+import com.sirlang.code.JavaCodeRunner;
 import org.junit.Test;
 
 public class JavaCodeRunnerTest {
