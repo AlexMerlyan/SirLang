@@ -43,13 +43,13 @@ public class SirLangCompilerTest extends AbstractCompilerTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExtensionFileException() throws IOException {
+    public void shouldThrowExtensionFileExceptionTest() throws IOException {
         final File testFile = createTestFile(FILE_NAME_INCORRECT_EXTENSION, FILE_CONTENT);
         defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
-    public void shouldCompileHelloWorldProgram() throws IOException {
+    public void shouldCompileHelloWorldProgramTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
         final File compiledFile = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
         final String content = readContent(compiledFile);
@@ -57,25 +57,25 @@ public class SirLangCompilerTest extends AbstractCompilerTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExceptionAbsentStartProgram() throws IOException {
+    public void shouldThrowExceptionAbsentStartProgramTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_START);
         defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExceptionAbsentEndProgram() throws IOException {
+    public void shouldThrowExceptionAbsentEndProgramTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_END);
         defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
-    public void shouldNotThrowExceptionAbsentEndProgram() throws IOException {
+    public void shouldNotThrowExceptionAbsentEndProgramTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
         defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
-    public void shouldCompileToMainJavaFile() throws IOException {
+    public void shouldCompileToMainJavaFileTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
         final File compiledFile = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
         Assert.assertTrue(compiledFile.getPath().contains(COMPILED_FILE_NAME));
