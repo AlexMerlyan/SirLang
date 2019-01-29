@@ -25,7 +25,7 @@ public class Main {
 
     public static void main(String[] args) {
         if (args.length > 0) {
-
+            compileByFilePath(args[0]);
         } else {
             System.out.println(NO_ARGUMENTS_TO_COMPILE);
         }

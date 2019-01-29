@@ -2,6 +2,8 @@ package com.sirlang;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
+import org.junit.internal.runners.JUnit4ClassRunner;
+import org.junit.runner.RunWith;
 
 import java.io.BufferedWriter;
 import java.io.File;
