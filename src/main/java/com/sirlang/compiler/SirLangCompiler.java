@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.*;
 import java.util.Scanner;
 
-public class DefaultCompiler implements Compiler {
+public class SirLangCompiler implements Compiler {
     private static final String FILE_EXTENSION_ERROR_MESSAGE = "The source file should be with .sir extension!";
     private static final String START_PROGRAM_ABSENT_ERROR_MESSAGE = "The source com.sirlang.java should contains start of program!";
     private static final String END_PROGRAM_ABSENT_ERROR_MESSAGE = "The source com.sirlang.java should contains end of program!";
@@ -28,14 +28,13 @@ public class DefaultCompiler implements Compiler {
 
     private static final String JAVA_END_PROGRAM_EQUIVALENT = "}" + LINE_SEPARATOR + "}";
 
-    public String compileSourceFile(@NonNull String sourcePath) throws IOException {
+    public File compileSourceFile(@NonNull String sourcePath) throws IOException {
         Preconditions.checkArgument(sourcePath.contains(SOURCE_FILE_EXTENSION), FILE_EXTENSION_ERROR_MESSAGE);
         final String sourceCode = readSourceFile(sourcePath);
         final int startFileNameIndex = sourcePath.lastIndexOf("/") + 1;
         final String fileNameWithExtension = sourcePath.substring(startFileNameIndex);
         final String javaFilePath = sourcePath.replace(fileNameWithExtension, COMPILED_FILE_NAME);
-        final File javaFile = compileToJava(javaFilePath, sourceCode);
-        return javaFile.getAbsolutePath();
+        return compileToJava(javaFilePath, sourceCode);
     }
 
     private String readSourceFile(@NonNull String path) throws FileNotFoundException {

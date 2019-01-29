@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.Scanner;
 
 @Slf4j
-public class DefaultCompilerTest extends AbstractCompilerTest {
+public class SirLangCompilerTest extends AbstractCompilerTest {
 
     private static final String SIR_FILE_NAME = "test_file.sir";
     private static final String FILE_NAME_INCORRECT_EXTENSION = "test_file.txt";
@@ -26,7 +26,7 @@ public class DefaultCompilerTest extends AbstractCompilerTest {
     private static final String PROGRAM_WITHOUT_END = "Приветствую!\n" +
             "\tСударь, будьте добры, выведите на экран это:\"Моя первая программа на языке Сударь!\"\n";
 
-    private Compiler defaultCompiler = new DefaultCompiler();
+    private Compiler defaultCompiler = new SirLangCompiler();
 
     @After
     @Override
@@ -51,8 +51,8 @@ public class DefaultCompilerTest extends AbstractCompilerTest {
     @Test
     public void shouldCompileHelloWorldProgram() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
-        final String compiledFilePath = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
-        final String content = readContent(compiledFilePath);
+        final File compiledFile = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+        final String content = readContent(compiledFile);
         Assert.assertEquals(HELLO_WORLD_PROGRAM_AFTER_COMPILE, content);
     }
 
@@ -77,12 +77,12 @@ public class DefaultCompilerTest extends AbstractCompilerTest {
     @Test
     public void shouldCompileToMainJavaFile() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
-        final String compiledFilePath = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
-        Assert.assertTrue(compiledFilePath.contains(COMPILED_FILE_NAME));
+        final File compiledFile = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+        Assert.assertTrue(compiledFile.getPath().contains(COMPILED_FILE_NAME));
     }
 
-    private String readContent(String filePath) throws FileNotFoundException {
-        final Scanner scanner = new Scanner(new File(filePath));
+    private String readContent(File file) throws FileNotFoundException {
+        final Scanner scanner = new Scanner(file);
         final StringBuilder sb = new StringBuilder();
         while (scanner.hasNextLine()) {
             sb.append(scanner.nextLine()).append(System.lineSeparator());
