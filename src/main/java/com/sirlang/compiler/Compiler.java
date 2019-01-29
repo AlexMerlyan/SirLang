@@ -1,7 +1,8 @@
 package com.sirlang.compiler;
 
+import java.io.File;
 import java.io.IOException;
 
 public interface Compiler {
-    String compileSourceFile(String sourcePath) throws IOException;
+    File compileSourceFile(String sourcePath) throws IOException;
 }

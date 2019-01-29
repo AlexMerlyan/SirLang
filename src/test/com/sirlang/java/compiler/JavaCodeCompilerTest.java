@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 @Slf4j
 public class JavaCodeCompilerTest extends AbstractCompilerTest {
 
-    private CodeCompiler codeCompiler = new JavaCodeCompiler();
+    private JavaCodeCompiler codeCompiler = new JavaCodeCompilerImpl();
 
     @Test
     public void shouldCompileJavaClass() throws IOException, InterruptedException {
