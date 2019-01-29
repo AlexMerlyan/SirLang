@@ -1,6 +1,7 @@
 package com.sirlang.compiler;
 
-import com.sirlang.AbstractTest;
+import com.sirlang.AbstractCompilerTest;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,7 +9,8 @@ import org.junit.Test;
 import java.io.*;
 import java.util.Scanner;
 
-public class DefaultCompilerTest extends AbstractTest {
+@Slf4j
+public class DefaultCompilerTest extends AbstractCompilerTest {
 
     private static final String SIR_FILE_NAME = "test_file.sir";
     private static final String FILE_NAME_INCORRECT_EXTENSION = "test_file.txt";
@@ -27,11 +29,17 @@ public class DefaultCompilerTest extends AbstractTest {
     private Compiler defaultCompiler = new DefaultCompiler();
 
     @After
+    @Override
     public void removeTestFiles() {
-        new File(SIR_FILE_NAME).delete();
-        new File(FILE_NAME_INCORRECT_EXTENSION).delete();
-        new File(COMPILED_FILE_NAME).delete();
-        new File(BYTE_CODE_FILE_NAME).delete();
+        super.removeTestFiles();
+        boolean isFileDeleted = new File(SIR_FILE_NAME).delete();
+        if (isFileDeleted) {
+            log.info(LOG_FILE_WAS_DELETED, SIR_FILE_NAME);
+        }
+        isFileDeleted = new File(FILE_NAME_INCORRECT_EXTENSION).delete();
+        if (isFileDeleted) {
+            log.info(LOG_FILE_WAS_DELETED, FILE_NAME_INCORRECT_EXTENSION);
+        }
     }
 
     @Test(expected = IllegalArgumentException.class)

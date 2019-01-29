@@ -1,4 +1,4 @@
-package com.sirlang.code;
+package com.sirlang.java.executor;
 
 import lombok.Getter;
 
@@ -6,7 +6,7 @@ import lombok.Getter;
 public class ExecutionResult {
     private String consoleOutput;
 
-    public ExecutionResult(String consoleOutput) {
+    ExecutionResult(String consoleOutput) {
         this.consoleOutput = consoleOutput;
     }
 }

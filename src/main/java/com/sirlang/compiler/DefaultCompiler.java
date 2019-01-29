@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class DefaultCompiler implements Compiler {
     private static final String FILE_EXTENSION_ERROR_MESSAGE = "The source file should be with .sir extension!";
-    private static final String START_PROGRAM_ABSENT_ERROR_MESSAGE = "The source com.sirlang.code should contains start of program!";
-    private static final String END_PROGRAM_ABSENT_ERROR_MESSAGE = "The source com.sirlang.code should contains end of program!";
+    private static final String START_PROGRAM_ABSENT_ERROR_MESSAGE = "The source com.sirlang.java should contains start of program!";
+    private static final String END_PROGRAM_ABSENT_ERROR_MESSAGE = "The source com.sirlang.java should contains end of program!";
 
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String COMMAND_SEPARATOR = ":";
