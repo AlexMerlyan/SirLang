@@ -1,4 +1,4 @@
-package compiler;
+package com.sirlang.compiler;
 
 import java.io.IOException;
 
