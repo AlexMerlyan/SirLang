@@ -1,38 +1,29 @@
 package com.sirlang.assembler;
 
-import com.sirlang.AbstractAssemblerTest;
+import com.sirlang.AbstractTest;
+import com.sirlang.SirLangProgram;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
+import static com.sirlang.SirLangProgramCode.*;
+
 @Slf4j
-public class SirLangAssemblerTest extends AbstractAssemblerTest {
+@RunWith(DataProviderRunner.class)
+public class SirLangAssemblerTest extends AbstractTest {
 
     private static final String SIR_FILE_NAME = "test_file.sir";
     private static final String FILE_NAME_INCORRECT_EXTENSION = "test_file.txt";
     private static final String FILE_CONTENT = "This is simple example of content";
-
-    private static final String HELLO_WORLD_PROGRAM = "Приветствую!\n" +
-            "\tСударь, будьте добры, выведите на экран это:\"Моя первая программа на языке Сударь!\"\n" +
-            "Спасибо вам! Всего хорошего!";
-
-    private static final String HELLO_WORLD_PROGRAM_WITHOUT_COMMAS = "Приветствую!\n" +
-            "\tСударь будьте добры выведите на экран это:\"Моя первая программа на языке Сударь!\"\n" +
-            "Спасибо вам! Всего хорошего!";
-
-    private static final String HELLO_WORLD_PROGRAM_WITHOUT_COMMAS_AND_LOWER_CASE = "приветствую!\n" +
-            "\tсударь будьте добры выведите на экран это:\"Моя первая программа на языке Сударь!\"\n" +
-            "спасибо вам! всего хорошего!";
-
-    private static final String PROGRAM_WITHOUT_START = "Сударь, будьте добры, выведите на экран это:" +
-            "\"Моя первая программа на языке Сударь!\"\nСпасибо вам! Всего хорошего!";
-
-    private static final String PROGRAM_WITHOUT_END = "Приветствую!\n" +
-            "\tСударь, будьте добры, выведите на экран это:\"Моя первая программа на языке Сударь!\"\n";
 
     private Assembler defaultAssembler = new SirLangAssembler();
 
@@ -40,66 +31,47 @@ public class SirLangAssemblerTest extends AbstractAssemblerTest {
     @Override
     public void removeTestFiles() {
         super.removeTestFiles();
-        boolean isFileDeleted = new File(SIR_FILE_NAME).delete();
+        boolean isFileDeleted = new File(FILE_NAME_INCORRECT_EXTENSION).delete();
         if (isFileDeleted) {
-            log.info(LOG_FILE_WAS_DELETED, SIR_FILE_NAME);
-        }
-        isFileDeleted = new File(FILE_NAME_INCORRECT_EXTENSION).delete();
-        if (isFileDeleted) {
-            log.info(LOG_FILE_WAS_DELETED, FILE_NAME_INCORRECT_EXTENSION);
+            log.debug(LOG_FILE_WAS_DELETED, FILE_NAME_INCORRECT_EXTENSION);
         }
     }
 
+    @Test
+    @UseDataProvider("dataProvideSirLangProgram")
+    public void shouldCompileSirLangProgram(SirLangProgram program) throws IOException {
+        final File testFile = createTestFile(SIR_FILE_NAME, program.getSirLangProgram());
+        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
+        final String content = readContent(compiledFile);
+        Assert.assertEquals(program.getJavaEquivalentProgram(), content);
+    }
+
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExtensionFileExceptionTest() throws IOException {
+    public void shouldThrowExtensionFileException() throws IOException {
         final File testFile = createTestFile(FILE_NAME_INCORRECT_EXTENSION, FILE_CONTENT);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
-    @Test
-    public void shouldCompileHelloWorldProgramTest() throws IOException {
-        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
-        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
-        final String content = readContent(compiledFile);
-        Assert.assertEquals(HELLO_WORLD_PROGRAM_AFTER_COMPILE, content);
-    }
-
-    @Test
-    public void shouldCompileHelloWorldWithoutCommasProgramTest() throws IOException {
-        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM_WITHOUT_COMMAS);
-        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
-        final String content = readContent(compiledFile);
-        Assert.assertEquals(HELLO_WORLD_PROGRAM_AFTER_COMPILE, content);
-    }
-
-    @Test
-    public void shouldCompileHelloWorldWithoutCommasAndLowerCaseProgramTest() throws IOException {
-        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM_WITHOUT_COMMAS_AND_LOWER_CASE);
-        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
-        final String content = readContent(compiledFile);
-        Assert.assertEquals(HELLO_WORLD_PROGRAM_AFTER_COMPILE, content);
-    }
-
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExceptionAbsentStartProgramTest() throws IOException {
+    public void shouldThrowExceptionAbsentStartProgram() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_START);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowExceptionAbsentEndProgramTest() throws IOException {
+    public void shouldThrowExceptionAbsentEndProgram() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_END);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
-    public void shouldNotThrowExceptionAbsentEndProgramTest() throws IOException {
+    public void shouldNotThrowExceptionAbsentEndProgram() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
-    public void shouldCompileToMainJavaFileTest() throws IOException {
+    public void shouldCompileToMainJavaFile() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
         final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
         Assert.assertTrue(compiledFile.getPath().contains(COMPILED_FILE_NAME));

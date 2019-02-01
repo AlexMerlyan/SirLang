@@ -14,8 +14,8 @@ import static com.sirlang.java.JavaConstants.COMPILED_FILE_NAME;
 public class SirLangAssembler implements Assembler {
     private static final String BOOLEAN_NOT_FOUND_ERROR_MESSAGE = "Boolean value was not found!";
     private static final String FILE_EXTENSION_ERROR_MESSAGE = "The source file should be with .sir extension!";
-    private static final String START_PROGRAM_ABSENT_ERROR_MESSAGE = "The source code of sirlang should contains start of program!";
-    private static final String END_PROGRAM_ABSENT_ERROR_MESSAGE = "The source code of sirlang should contains end of program!";
+    private static final String START_PROGRAM_ABSENT_ERROR_MESSAGE = "The source code of SirLang should contains start of program!";
+    private static final String END_PROGRAM_ABSENT_ERROR_MESSAGE = "The source code of SirLang should contains end of program!";
 
     private static final String SOURCE_FILE_EXTENSION = ".sir";
 
@@ -52,8 +52,8 @@ public class SirLangAssembler implements Assembler {
     }
 
     private File writeJavaFile(@NonNull final String javaFilePath, @NonNull final char[] javaSourceCode) throws IOException {
-        File file = new File(javaFilePath);
-        BufferedWriter br = new BufferedWriter(new FileWriter(file));
+        final File file = new File(javaFilePath);
+        final BufferedWriter br = new BufferedWriter(new FileWriter(file));
         for (char symbol : javaSourceCode) {
             br.write(symbol);
         }
@@ -112,7 +112,7 @@ public class SirLangAssembler implements Assembler {
         return sb.toString();
     }
 
-    private void checkOnErrors(@NonNull String sourceCode) {
+    private void checkOnErrors(@NonNull final String sourceCode) {
         final boolean isStartProgramExists = StringUtils.containsIgnoreCase(sourceCode, START_PROGRAM);
         Preconditions.checkArgument(isStartProgramExists, START_PROGRAM_ABSENT_ERROR_MESSAGE);
 
@@ -120,27 +120,29 @@ public class SirLangAssembler implements Assembler {
         Preconditions.checkArgument(isEndProgramExists, END_PROGRAM_ABSENT_ERROR_MESSAGE);
     }
 
-    private Object getArgument(String codeRow) {
-        Object argument;
-        String[] methodAndArgument = codeRow.split(COMMAND_SEPARATOR);
-        final String argumentRow = methodAndArgument[1];
-        if (argumentRow.startsWith(QUOTE) && argumentRow.endsWith(QUOTE)) {
-            argument = argumentRow;
-        } else if (NumberUtils.isNumber(argumentRow)) {
-            if (argumentRow.contains(POINT)) {
-                argument = Double.valueOf(argumentRow);
+    private Object getArgument(final String codeRow) {
+        final Object parsedArgument;
+        final String[] methodAndArgument = codeRow.split(COMMAND_SEPARATOR);
+        final String argument = methodAndArgument[1].trim();
+        if (argument.startsWith(QUOTE) && argument.endsWith(QUOTE)) {
+            parsedArgument = argument;
+        } else if (NumberUtils.isNumber(argument.replace(COMMA, POINT))) {
+            if (argument.contains(POINT)) {
+                parsedArgument = Double.valueOf(argument);
+            } else if (argument.contains(COMMA)) {
+                parsedArgument = Double.valueOf(argument.replace(COMMA, POINT));
             } else {
-                argument = Long.valueOf(argumentRow);
+                parsedArgument = argument + LONG_POSTFIX;
             }
         } else {
-            argument = getBoolean(argumentRow);
+            parsedArgument = getBoolean(argument);
         }
-        return argument;
+        return parsedArgument;
     }
 
-    private Boolean getBoolean(String argument) {
-        for (BooleanKeyword keyword : BooleanKeyword.values()) {
-            for (String keywordVariant : keyword.getKeywords()) {
+    private Boolean getBoolean(final String argument) {
+        for (final BooleanKeyword keyword : BooleanKeyword.values()) {
+            for (final String keywordVariant : keyword.getKeywords()) {
                 if (StringUtils.equalsIgnoreCase(argument, keywordVariant)) {
                     if (keyword == BooleanKeyword.BOOLEAN_TRUE) {
                         return Boolean.TRUE;

@@ -13,5 +13,4 @@ public enum BooleanKeyword {
         this.keywords = keywords;
     }
 
-
 }
