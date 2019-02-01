@@ -3,19 +3,15 @@ package com.sirlang.assembler;
 import com.google.common.base.Preconditions;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.*;
 import java.util.Scanner;
 
-import static com.sirlang.assembler.Symbols.*;
+import static com.sirlang.assembler.ErrorMessages.*;
+import static com.sirlang.assembler.Symbols.LINE_SEPARATOR;
 import static com.sirlang.java.JavaConstants.COMPILED_FILE_NAME;
 
 public class SirLangAssembler implements Assembler {
-    private static final String BOOLEAN_NOT_FOUND_ERROR_MESSAGE = "Boolean value was not found!";
-    private static final String FILE_EXTENSION_ERROR_MESSAGE = "The source file should be with .sir extension!";
-    private static final String START_PROGRAM_ABSENT_ERROR_MESSAGE = "The source code of SirLang should contains start of program!";
-    private static final String END_PROGRAM_ABSENT_ERROR_MESSAGE = "The source code of SirLang should contains end of program!";
 
     private static final String SOURCE_FILE_EXTENSION = ".sir";
 
@@ -26,6 +22,8 @@ public class SirLangAssembler implements Assembler {
             "public static void main(String[] args) {" + LINE_SEPARATOR;
 
     private static final String JAVA_END_PROGRAM_EQUIVALENT = "}" + LINE_SEPARATOR + "}";
+
+    private final CodeRawTranslator rawTranslator = new CodeRawTranslator();
 
     public File compileSourceFile(@NonNull final String sourcePath) throws IOException {
         Preconditions.checkArgument(sourcePath.contains(SOURCE_FILE_EXTENSION), FILE_EXTENSION_ERROR_MESSAGE);
@@ -98,17 +96,8 @@ public class SirLangAssembler implements Assembler {
         final StringBuilder sb = new StringBuilder();
         final String[] codeRows = methodMainBodyCode.split(LINE_SEPARATOR);
         for (String codeRow : codeRows) {
-            if (StringUtils.isNotEmpty(codeRow)) {
-                final String formattedCodeRow = codeRow.replaceAll(COMMA, StringUtils.EMPTY).toLowerCase();
-                for (Command command : Command.values()) {
-                    if (formattedCodeRow.contains(command.getSirCommand())) {
-                        final String javaCodeRow = String.format(command.getJavaCommand(), getArgument(codeRow)) + LINE_SEPARATOR;
-                        sb.append(javaCodeRow);
-                    }
-                }
-            }
+            sb.append(rawTranslator.transformToJava(codeRow));
         }
-
         return sb.toString();
     }
 
@@ -118,41 +107,6 @@ public class SirLangAssembler implements Assembler {
 
         final boolean isEndProgramExists = StringUtils.containsIgnoreCase(sourceCode, END_PROGRAM);
         Preconditions.checkArgument(isEndProgramExists, END_PROGRAM_ABSENT_ERROR_MESSAGE);
-    }
-
-    private Object getArgument(final String codeRow) {
-        final Object parsedArgument;
-        final String[] methodAndArgument = codeRow.split(COMMAND_SEPARATOR);
-        final String argument = methodAndArgument[1].trim();
-        if (argument.startsWith(QUOTE) && argument.endsWith(QUOTE)) {
-            parsedArgument = argument;
-        } else if (NumberUtils.isNumber(argument.replace(COMMA, POINT))) {
-            if (argument.contains(POINT)) {
-                parsedArgument = Double.valueOf(argument);
-            } else if (argument.contains(COMMA)) {
-                parsedArgument = Double.valueOf(argument.replace(COMMA, POINT));
-            } else {
-                parsedArgument = argument + LONG_POSTFIX;
-            }
-        } else {
-            parsedArgument = getBoolean(argument);
-        }
-        return parsedArgument;
-    }
-
-    private Boolean getBoolean(final String argument) {
-        for (final BooleanKeyword keyword : BooleanKeyword.values()) {
-            for (final String keywordVariant : keyword.getKeywords()) {
-                if (StringUtils.equalsIgnoreCase(argument, keywordVariant)) {
-                    if (keyword == BooleanKeyword.BOOLEAN_TRUE) {
-                        return Boolean.TRUE;
-                    } else {
-                        return Boolean.FALSE;
-                    }
-                }
-            }
-        }
-        throw new IllegalArgumentException(BOOLEAN_NOT_FOUND_ERROR_MESSAGE);
     }
 
 }
