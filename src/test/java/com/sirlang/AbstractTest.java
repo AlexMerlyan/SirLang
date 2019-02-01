@@ -30,11 +30,15 @@ public abstract class AbstractTest {
         File file = new File(COMPILED_FILE_NAME);
         boolean isFileDeleted = file.exists() && file.delete();
         if (isFileDeleted) {
-            log.info(LOG_FILE_WAS_DELETED, COMPILED_FILE_NAME);
+            log.debug(LOG_FILE_WAS_DELETED, COMPILED_FILE_NAME);
         }
         isFileDeleted = new File(BYTE_CODE_FILE_NAME).delete();
         if (isFileDeleted) {
-            log.info(LOG_FILE_WAS_DELETED, BYTE_CODE_FILE_NAME);
+            log.debug(LOG_FILE_WAS_DELETED, BYTE_CODE_FILE_NAME);
+        }
+        isFileDeleted = new File(SIR_FILE_NAME).delete();
+        if (isFileDeleted) {
+            log.debug(LOG_FILE_WAS_DELETED, SIR_FILE_NAME);
         }
     }
 
