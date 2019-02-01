@@ -1,8 +1,8 @@
-package com.sirlang.compiler;
+package com.sirlang.assembler;
 
 import java.io.File;
 import java.io.IOException;
 
-public interface Compiler {
+public interface Assembler {
     File compileSourceFile(String sourcePath) throws IOException;
 }
