@@ -6,4 +6,5 @@ class Symbols {
     static final String QUOTE = "\"";
     static final String POINT = ".";
     static final String COMMA = ",";
+    static final String LONG_POSTFIX = "L";
 }

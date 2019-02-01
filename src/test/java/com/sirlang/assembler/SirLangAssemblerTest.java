@@ -1,7 +1,7 @@
 package com.sirlang.assembler;
 
 import com.sirlang.AbstractTest;
-import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.sirlang.SirLangProgram;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +10,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
-import static com.sirlang.SirLangPrograms.*;
+import static com.sirlang.SirLangProgramCode.*;
 
 @Slf4j
 @RunWith(DataProviderRunner.class)
@@ -36,21 +38,12 @@ public class SirLangAssemblerTest extends AbstractTest {
     }
 
     @Test
-    @UseDataProvider("dataProviderHelloWorldProgram")
-    public void shouldCompileHelloWorldProgram(String helloWorldProgram) throws IOException {
-        final File testFile = createTestFile(SIR_FILE_NAME, helloWorldProgram);
+    @UseDataProvider("dataProvideSirLangProgram")
+    public void shouldCompileSirLangProgram(SirLangProgram program) throws IOException {
+        final File testFile = createTestFile(SIR_FILE_NAME, program.getSirLangProgram());
         final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
         final String content = readContent(compiledFile);
-        Assert.assertEquals(HELLO_WORLD_PROGRAM_AFTER_COMPILE, content);
-    }
-
-    @DataProvider
-    public static Object[][] dataProviderHelloWorldProgram() {
-        return new Object[][] {
-                {HELLO_WORLD_PROGRAM},
-                {HELLO_WORLD_PROGRAM_WITHOUT_COMMAS},
-                {HELLO_WORLD_PROGRAM_WITHOUT_COMMAS_AND_LOWER_CASE},
-        };
+        Assert.assertEquals(program.getJavaEquivalentProgram(), content);
     }
 
     @Test(expected = IllegalArgumentException.class)

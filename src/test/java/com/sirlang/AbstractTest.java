@@ -1,14 +1,15 @@
 package com.sirlang;
 
+import com.tngtech.java.junit.dataprovider.DataProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
-import org.junit.internal.runners.JUnit4ClassRunner;
-import org.junit.runner.RunWith;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 public abstract class AbstractTest {
@@ -17,13 +18,7 @@ public abstract class AbstractTest {
 
     protected static final String COMPILED_FILE_NAME = "Main.java";
     protected static final String SIR_FILE_NAME = "test_file.sir";
-    protected static final String EXPECTED_CONSOLE_OUTPUT = "Моя первая программа на языке Сударь!";
     protected static final String LOG_FILE_WAS_DELETED = "File was deleted: {}";
-    protected static final String HELLO_WORLD_PROGRAM_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
-            "public static void main(String[] args) {" + System.lineSeparator() +
-            "System.out.println(\"Моя первая программа на языке Сударь!\");" + System.lineSeparator() +
-            "}" + System.lineSeparator() +
-            "}" + System.lineSeparator();
 
     @After
     public void removeTestFiles() {
@@ -40,6 +35,17 @@ public abstract class AbstractTest {
         if (isFileDeleted) {
             log.debug(LOG_FILE_WAS_DELETED, SIR_FILE_NAME);
         }
+    }
+
+    @DataProvider
+    public static List<List<SirLangProgram>> dataProvideSirLangProgram() {
+        List<List<SirLangProgram>> sirLangProgramLists = new ArrayList<>();
+        for (SirLangProgram sirLangProgram : SirLangProgram.values()) {
+            final ArrayList<SirLangProgram> sirLangProgramList = new ArrayList<>();
+            sirLangProgramList.add(sirLangProgram);
+            sirLangProgramLists.add(sirLangProgramList);
+        }
+        return sirLangProgramLists;
     }
 
     protected File createTestFile(String fileName, String content) throws IOException {
