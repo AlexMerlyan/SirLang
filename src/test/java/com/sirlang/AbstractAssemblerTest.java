@@ -11,7 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 @Slf4j
-public abstract class AbstractCompilerTest {
+public abstract class AbstractAssemblerTest {
 
     protected static final String LOG_FILE_WAS_DELETED = "File was deleted: {}";
 

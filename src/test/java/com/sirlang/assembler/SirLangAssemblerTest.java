@@ -1,6 +1,6 @@
-package com.sirlang.compiler;
+package com.sirlang.assembler;
 
-import com.sirlang.AbstractCompilerTest;
+import com.sirlang.AbstractAssemblerTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Assert;
@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.Scanner;
 
 @Slf4j
-public class SirLangCompilerTest extends AbstractCompilerTest {
+public class SirLangAssemblerTest extends AbstractAssemblerTest {
 
     private static final String SIR_FILE_NAME = "test_file.sir";
     private static final String FILE_NAME_INCORRECT_EXTENSION = "test_file.txt";
@@ -20,13 +20,21 @@ public class SirLangCompilerTest extends AbstractCompilerTest {
             "\tСударь, будьте добры, выведите на экран это:\"Моя первая программа на языке Сударь!\"\n" +
             "Спасибо вам! Всего хорошего!";
 
+    private static final String HELLO_WORLD_PROGRAM_WITHOUT_COMMAS = "Приветствую!\n" +
+            "\tСударь будьте добры выведите на экран это:\"Моя первая программа на языке Сударь!\"\n" +
+            "Спасибо вам! Всего хорошего!";
+
+    private static final String HELLO_WORLD_PROGRAM_WITHOUT_COMMAS_AND_LOWER_CASE = "приветствую!\n" +
+            "\tсударь будьте добры выведите на экран это:\"Моя первая программа на языке Сударь!\"\n" +
+            "спасибо вам! всего хорошего!";
+
     private static final String PROGRAM_WITHOUT_START = "Сударь, будьте добры, выведите на экран это:" +
             "\"Моя первая программа на языке Сударь!\"\nСпасибо вам! Всего хорошего!";
 
     private static final String PROGRAM_WITHOUT_END = "Приветствую!\n" +
             "\tСударь, будьте добры, выведите на экран это:\"Моя первая программа на языке Сударь!\"\n";
 
-    private Compiler defaultCompiler = new SirLangCompiler();
+    private Assembler defaultAssembler = new SirLangAssembler();
 
     @After
     @Override
@@ -45,13 +53,29 @@ public class SirLangCompilerTest extends AbstractCompilerTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExtensionFileExceptionTest() throws IOException {
         final File testFile = createTestFile(FILE_NAME_INCORRECT_EXTENSION, FILE_CONTENT);
-        defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+        defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
     public void shouldCompileHelloWorldProgramTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
-        final File compiledFile = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
+        final String content = readContent(compiledFile);
+        Assert.assertEquals(HELLO_WORLD_PROGRAM_AFTER_COMPILE, content);
+    }
+
+    @Test
+    public void shouldCompileHelloWorldWithoutCommasProgramTest() throws IOException {
+        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM_WITHOUT_COMMAS);
+        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
+        final String content = readContent(compiledFile);
+        Assert.assertEquals(HELLO_WORLD_PROGRAM_AFTER_COMPILE, content);
+    }
+
+    @Test
+    public void shouldCompileHelloWorldWithoutCommasAndLowerCaseProgramTest() throws IOException {
+        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM_WITHOUT_COMMAS_AND_LOWER_CASE);
+        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
         final String content = readContent(compiledFile);
         Assert.assertEquals(HELLO_WORLD_PROGRAM_AFTER_COMPILE, content);
     }
@@ -59,25 +83,25 @@ public class SirLangCompilerTest extends AbstractCompilerTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionAbsentStartProgramTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_START);
-        defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+        defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionAbsentEndProgramTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_END);
-        defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+        defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
     public void shouldNotThrowExceptionAbsentEndProgramTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
-        defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+        defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
     public void shouldCompileToMainJavaFileTest() throws IOException {
         final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
-        final File compiledFile = defaultCompiler.compileSourceFile(testFile.getAbsolutePath());
+        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
         Assert.assertTrue(compiledFile.getPath().contains(COMPILED_FILE_NAME));
     }
 
