@@ -1,6 +1,6 @@
 package com.sirlang.assembler;
 
-import com.sirlang.AbstractAssemblerTest;
+import com.sirlang.AbstractTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Assert;
@@ -9,30 +9,14 @@ import org.junit.Test;
 import java.io.*;
 import java.util.Scanner;
 
+import static com.sirlang.SirLangPrograms.*;
+
 @Slf4j
-public class SirLangAssemblerTest extends AbstractAssemblerTest {
+public class SirLangAssemblerTest extends AbstractTest {
 
     private static final String SIR_FILE_NAME = "test_file.sir";
     private static final String FILE_NAME_INCORRECT_EXTENSION = "test_file.txt";
     private static final String FILE_CONTENT = "This is simple example of content";
-
-    private static final String HELLO_WORLD_PROGRAM = "Приветствую!\n" +
-            "\tСударь, будьте добры, выведите на экран это:\"Моя первая программа на языке Сударь!\"\n" +
-            "Спасибо вам! Всего хорошего!";
-
-    private static final String HELLO_WORLD_PROGRAM_WITHOUT_COMMAS = "Приветствую!\n" +
-            "\tСударь будьте добры выведите на экран это:\"Моя первая программа на языке Сударь!\"\n" +
-            "Спасибо вам! Всего хорошего!";
-
-    private static final String HELLO_WORLD_PROGRAM_WITHOUT_COMMAS_AND_LOWER_CASE = "приветствую!\n" +
-            "\tсударь будьте добры выведите на экран это:\"Моя первая программа на языке Сударь!\"\n" +
-            "спасибо вам! всего хорошего!";
-
-    private static final String PROGRAM_WITHOUT_START = "Сударь, будьте добры, выведите на экран это:" +
-            "\"Моя первая программа на языке Сударь!\"\nСпасибо вам! Всего хорошего!";
-
-    private static final String PROGRAM_WITHOUT_END = "Приветствую!\n" +
-            "\tСударь, будьте добры, выведите на экран это:\"Моя первая программа на языке Сударь!\"\n";
 
     private Assembler defaultAssembler = new SirLangAssembler();
 

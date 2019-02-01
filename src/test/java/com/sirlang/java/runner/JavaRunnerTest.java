@@ -1,6 +1,6 @@
 package com.sirlang.java.runner;
 
-import com.sirlang.AbstractAssemblerTest;
+import com.sirlang.AbstractTest;
 import com.sirlang.java.compiler.JavaCodeCompiler;
 import com.sirlang.java.compiler.JavaCodeCompilerImpl;
 import com.sirlang.java.executor.JavaCodeRunner;
@@ -14,9 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Slf4j
-public class JavaCodeRunnerImplTest extends AbstractAssemblerTest {
-
-    private static final String EXPECTED_CONSOLE_OUTPUT = "Моя первая программа на языке Сударь!";
+public class JavaRunnerTest extends AbstractTest {
 
     private JavaCodeCompiler codeCompiler = new JavaCodeCompilerImpl();
     private JavaCodeRunner javaCodeRunner = new JavaCodeRunnerImpl();

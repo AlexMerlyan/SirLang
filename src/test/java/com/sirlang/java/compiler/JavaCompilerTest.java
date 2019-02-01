@@ -1,6 +1,6 @@
 package com.sirlang.java.compiler;
 
-import com.sirlang.AbstractAssemblerTest;
+import com.sirlang.AbstractTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @Slf4j
-public class JavaCodeAssemblerTest extends AbstractAssemblerTest {
+public class JavaCompilerTest extends AbstractTest {
 
     private JavaCodeCompiler codeCompiler = new JavaCodeCompilerImpl();
 

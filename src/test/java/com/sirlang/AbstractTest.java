@@ -11,18 +11,19 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 @Slf4j
-public abstract class AbstractAssemblerTest {
+public abstract class AbstractTest {
 
+    private static final String BYTE_CODE_FILE_NAME = "Main.class";
+
+    protected static final String COMPILED_FILE_NAME = "Main.java";
+    protected static final String SIR_FILE_NAME = "test_file.sir";
+    protected static final String EXPECTED_CONSOLE_OUTPUT = "Моя первая программа на языке Сударь!";
     protected static final String LOG_FILE_WAS_DELETED = "File was deleted: {}";
-
     protected static final String HELLO_WORLD_PROGRAM_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
             "public static void main(String[] args) {" + System.lineSeparator() +
             "System.out.println(\"Моя первая программа на языке Сударь!\");" + System.lineSeparator() +
             "}" + System.lineSeparator() +
             "}" + System.lineSeparator();
-
-    protected static final String COMPILED_FILE_NAME = "Main.java";
-    private static final String BYTE_CODE_FILE_NAME = "Main.class";
 
     @After
     public void removeTestFiles() {
