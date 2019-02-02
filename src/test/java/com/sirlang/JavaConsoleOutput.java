@@ -19,7 +19,7 @@ public interface JavaConsoleOutput {
     String PRINT_LONG_MULTIPLY_DOUBLE_PROGRAM_OUTPUT = "15.0";
     String PRINT_LONG_DIVIDE_DOUBLE_PROGRAM_OUTPUT = "2.4";
     String PRINT_BOOLEAN_TRUE_PLUS_STRING_PROGRAM_OUTPUT = "true это моя строка";
-    String PRINT_STRING_PLUS_BOOLEAN_FALSE_PROGRAM_OUTPUT = "Это моя строка true";
+    String PRINT_STRING_PLUS_BOOLEAN_FALSE_PROGRAM_OUTPUT = "Это моя строка false";
     String PRINT_STRING_PLUS_LONG_PLUS_DOUBLE_PROGRAM_OUTPUT = "СТРОКА С ЧИСЛАМИ = 62.2";
     String PRINT_LONG_PLUS_LONG_STRING_PLUS_LONG_PLUS_DOUBLE_PROGRAM_OUTPUT = "4СТРОКА + С + 1,1 + ЧИСЛАМИ = 62.2";
 }
