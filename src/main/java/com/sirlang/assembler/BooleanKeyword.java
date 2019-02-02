@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum BooleanKeyword {
     BOOLEAN_TRUE("Правда", "Тру"),
-    BOOLEAN_FALSE("Лошь", "Неправда", "Обман");
+    BOOLEAN_FALSE("Ложь", "Неправда", "Обман");
 
     private String[] keywords;
 

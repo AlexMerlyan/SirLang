@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static com.sirlang.SirLangProgramCode.*;
+import static com.sirlang.SirLangPrintProgramCode.*;
 
 @Slf4j
 @RunWith(DataProviderRunner.class)

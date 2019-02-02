@@ -3,6 +3,8 @@ package com.sirlang.assembler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.util.Optional;
+
 import static com.sirlang.assembler.ErrorMessages.BOOLEAN_NOT_FOUND_ERROR_MESSAGE;
 import static com.sirlang.assembler.Symbols.*;
 
@@ -26,6 +28,8 @@ class CodeRawTranslator {
         final String argument = methodAndArgument[1].trim();
         if (argument.startsWith(QUOTE) && argument.endsWith(QUOTE)) {
             parsedArgument = argument;
+        } else if(isPlusOperation(argument)) {
+            parsedArgument = calculatePlusOperation(argument);
         } else if (NumberUtils.isNumber(argument.replace(COMMA, POINT))) {
             if (argument.contains(POINT)) {
                 parsedArgument = Double.valueOf(argument);
@@ -35,24 +39,54 @@ class CodeRawTranslator {
                 parsedArgument = argument + LONG_POSTFIX;
             }
         } else {
-            parsedArgument = getBoolean(argument);
+            parsedArgument = getBoolean(argument).orElseThrow(() -> new IllegalArgumentException(BOOLEAN_NOT_FOUND_ERROR_MESSAGE));
         }
         return parsedArgument;
     }
 
-    private Boolean getBoolean(final String argument) {
+    private boolean isPlusOperation(final String argument) {
+        return argument.contains(PLUS);
+    }
+
+    private boolean isMathemathicOperation(final String argument) {
+        return argument.contains(PLUS) || argument.contains(MINUS) || argument.contains(MULTIPLY) || argument.contains(DIVIDE);
+    }
+
+    private String calculatePlusOperation(final String argument) {
+        final String[] arguments = argument.split(SCREENING_PLUS);
+        final StringBuilder sb = new StringBuilder();
+        boolean isNotLastArg;
+        for (int i = 0; i < arguments.length; i++) {
+            final String arg = arguments[i].trim();
+            if (NumberUtils.isNumber(arg.replace(COMMA, POINT))) {
+                sb.append(arg.replace(COMMA, POINT));
+            } else if (getBoolean(arg).isPresent()) {
+                sb.append(getBoolean(arg).get());
+            } else {
+                sb.append(arg);
+            }
+            isNotLastArg = i != arguments.length - 1;
+            if (isNotLastArg) {
+                sb.append(PLUS);
+            }
+        }
+
+        return sb.toString();
+    }
+
+    private Optional<Boolean> getBoolean(final String argument) {
         for (final BooleanKeyword keyword : BooleanKeyword.values()) {
             for (final String keywordVariant : keyword.getKeywords()) {
                 if (StringUtils.equalsIgnoreCase(argument, keywordVariant)) {
                     if (keyword == BooleanKeyword.BOOLEAN_TRUE) {
-                        return Boolean.TRUE;
+                        return Optional.of(Boolean.TRUE);
                     } else {
-                        return Boolean.FALSE;
+                        return Optional.of(Boolean.FALSE);
                     }
                 }
             }
         }
-        throw new IllegalArgumentException(BOOLEAN_NOT_FOUND_ERROR_MESSAGE);
+        return Optional.empty();
     }
 
 }
