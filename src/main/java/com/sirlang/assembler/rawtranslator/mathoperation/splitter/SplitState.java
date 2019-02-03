@@ -17,4 +17,13 @@ class SplitState {
     SplitState(final int lastCharIndex) {
         this.lastCharIndex = lastCharIndex;
     }
+
+    void inverseIsStringBooleanField() {
+        isString = !isString;
+    }
+
+    boolean isNotString() {
+        return !isString;
+    }
+
 }

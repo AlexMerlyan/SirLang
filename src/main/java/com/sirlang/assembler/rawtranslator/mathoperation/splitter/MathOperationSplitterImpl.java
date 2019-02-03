@@ -1,14 +1,12 @@
 package com.sirlang.assembler.rawtranslator.mathoperation.splitter;
 
-import com.sirlang.assembler.rawtranslator.mathoperation.MathOperation;
-import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitter;
-import com.sirlang.assembler.rawtranslator.mathoperation.splitter.SplitState;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.CHAR_QUOTE;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 public class MathOperationSplitterImpl implements MathOperationSplitter {
 
@@ -32,25 +30,48 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
     }
 
     private void splitByCharIfNeeded(final SplitState state, final String argument, final char operationChar) {
-        String operand = StringUtils.EMPTY;
         if (isStartOrEndString(state.getCurrentChar())) {
-            if (!state.isString()) {
-                operand = argument.substring(state.getStartIndex(), state.getIteration());
-                state.setStartIndex(state.getIteration());
-            }
-            state.setString(!state.isString());
-            if (!state.isString()) {
-                final int nextIndex = state.getIteration() + 1;
-                operand = argument.substring(state.getStartIndex(), nextIndex);
-                state.setStartIndex(nextIndex);
-            }
+            updateStateStringCase(state, argument);
         } else if (operationChar == state.getCurrentChar() && !state.isString()) {
-            operand = argument.substring(state.getStartIndex(), state.getIteration());
-            state.setStartIndex(updateStartIndexForOperationCase(state.getIteration()));
+            updateStateOperationCharCase(state, argument);
         } else if (isLastIndex(state.getIteration(), state.getLastCharIndex())) {
-            operand = argument.substring(state.getStartIndex());
+            updateStateLastIndexCase(state, argument);
+        } else {
+            state.setOperand(EMPTY);
         }
+    }
+
+    private void updateStateStringCase(SplitState state, String argument) {
+        String operand = EMPTY;
+        if (isStartOfString(state)) {
+            operand = argument.substring(state.getStartIndex(), state.getIteration());
+            state.setStartIndex(state.getIteration());
+        } else if (isEndOfString(state)) {
+            final int nextIndex = state.getIteration() + 1;
+            operand = argument.substring(state.getStartIndex(), nextIndex);
+            state.setStartIndex(nextIndex);
+        }
+        state.inverseIsStringBooleanField();
         state.setOperand(operand);
+    }
+
+    private void updateStateOperationCharCase(final SplitState state, final String argument) {
+        final String operand = argument.substring(state.getStartIndex(), state.getIteration());
+        state.setStartIndex(updateStartIndexForOperationCase(state.getIteration()));
+        state.setOperand(operand);
+    }
+
+    private void updateStateLastIndexCase(final SplitState state, final String argument) {
+        final String operand = argument.substring(state.getStartIndex());
+        state.setOperand(operand);
+    }
+
+    private boolean isStartOfString(final SplitState state) {
+        return state.isNotString();
+    }
+
+    private boolean isEndOfString(final SplitState state) {
+        return state.isString();
     }
 
     private boolean isLastIndex(final int iteration, final int lastCharIndex) {
