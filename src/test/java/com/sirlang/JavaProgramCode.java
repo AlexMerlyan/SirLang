@@ -127,4 +127,16 @@ public interface JavaProgramCode {
             "}" + System.lineSeparator() +
             "}" + System.lineSeparator();
 
+    String PRINT_STRING_PLUS_LONG_PLUS_STRING_WITH_PLUS_IN_END_PROGRAM_AFTER_COMPIILE = "public class Main {" + System.lineSeparator() +
+            "public static void main(String[] args) {" + System.lineSeparator() +
+            "System.out.println(\"Это моя строка \" + 555 + \"Тестовая строка+\");" + System.lineSeparator() +
+            "}" + System.lineSeparator() +
+            "}" + System.lineSeparator();
+
+    String PRINT_STRING_PLUS_LONG_PLUS_STRING_WITH_MINUS_IN_END_PROGRAM_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
+            "public static void main(String[] args) {" + System.lineSeparator() +
+            "System.out.println(\"Это моя строка \" + 555 + \"Тестовая строка-\");" + System.lineSeparator() +
+            "}" + System.lineSeparator() +
+            "}" + System.lineSeparator();
+
 }

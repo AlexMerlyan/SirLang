@@ -1,4 +1,4 @@
-package com.sirlang.assembler;
+package com.sirlang.assembler.rawtranslator.datatype;
 
 import lombok.Getter;
 

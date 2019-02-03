@@ -1,6 +1,6 @@
-package com.sirlang.assembler;
+package com.sirlang.assembler.error;
 
-import static com.sirlang.assembler.Symbols.LINE_SEPARATOR;
+import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 
 public interface ErrorMessages {
     String BOOLEAN_NOT_FOUND_ERROR_MESSAGE = "Boolean value was not found!";

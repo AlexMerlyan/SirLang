@@ -1,14 +1,15 @@
 package com.sirlang.assembler;
 
 import com.google.common.base.Preconditions;
+import com.sirlang.assembler.rawtranslator.CodeRawTranslatorImpl;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.util.Scanner;
 
-import static com.sirlang.assembler.ErrorMessages.*;
-import static com.sirlang.assembler.Symbols.LINE_SEPARATOR;
+import static com.sirlang.assembler.error.ErrorMessages.*;
+import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 import static com.sirlang.java.JavaConstants.COMPILED_FILE_NAME;
 
 public class SirLangAssembler implements Assembler {
@@ -23,7 +24,7 @@ public class SirLangAssembler implements Assembler {
 
     private static final String JAVA_END_PROGRAM_EQUIVALENT = "}" + LINE_SEPARATOR + "}";
 
-    private final CodeRawTranslator rawTranslator = new CodeRawTranslator();
+    private final CodeRawTranslatorImpl rawTranslator = new CodeRawTranslatorImpl();
 
     public File compileSourceFile(@NonNull final String sourcePath) throws IOException {
         Preconditions.checkArgument(sourcePath.contains(SOURCE_FILE_EXTENSION), FILE_EXTENSION_ERROR_MESSAGE);
