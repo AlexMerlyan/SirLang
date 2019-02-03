@@ -20,7 +20,7 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
             for (int i = 0; i < symbols.length; i++) {
                 state.setCurrentChar(symbols[i]);
                 state.setIteration(i);
-                splitByCharIfNeeded(state, argument, operationChar);
+                updateState(state, argument, operationChar);
                 if (StringUtils.isNotEmpty(state.getOperand())) {
                     strings.add(state.getOperand());
                 }
@@ -29,7 +29,7 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
         return strings;
     }
 
-    private void splitByCharIfNeeded(final SplitState state, final String argument, final char operationChar) {
+    private void updateState(final SplitState state, final String argument, final char operationChar) {
         if (isStartOrEndString(state.getCurrentChar())) {
             updateStateStringCase(state, argument);
         } else if (operationChar == state.getCurrentChar() && !state.isString()) {

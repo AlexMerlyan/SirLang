@@ -11,52 +11,59 @@ import java.util.Optional;
 
 import static com.sirlang.assembler.rawtranslator.mathoperation.MathOperation.*;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.*;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class MathOperationTranslatorImpl implements MathOperationTranslator {
 
     private MathOperationSplitter splitter = new MathOperationSplitterImpl();
 
     @Override
-    public String transformMathematicalOperations(final String argument) {
-        String transformedArg = argument;
+    public String transformMathematicalOperations(final String expression) {
+        String transformedExpression = expression;
         for (MathOperation operation : MathOperation.values()) {
-            transformedArg = transformMathematicalOperation(transformedArg, operation);
+            transformedExpression = transformMathematicalOperation(transformedExpression, operation);
         }
-        return transformedArg;
+        return transformedExpression;
     }
 
-    private String transformMathematicalOperation(final String argument, final MathOperation operation) {
+    private String transformMathematicalOperation(final String expression, final MathOperation operation) {
         final String result;
         if (PLUS == operation) {
-            result = transformPlusOperation(argument);
+            result = transformPlusOperation(expression);
         } else {
-            result = transformOtherMathematicalOperation(argument, operation);
+            result = transformOtherMathematicalOperation(expression, operation);
         }
         return result;
     }
 
-    private String transformPlusOperation(final String argument) {
-        final List<String> arguments = splitter.splitByCharOperation(argument, PLUS.getCharEquivalent());
+    private String transformPlusOperation(final String expression) {
+        final List<String> arguments = splitter.splitByCharOperation(expression, PLUS.getCharEquivalent());
         final StringBuilder sb = new StringBuilder();
-        boolean isNotLastArg;
         int lastArgumentsIndex = arguments.size() - 1;
         for (int i = 0; i < arguments.size(); i++) {
-            final String arg = arguments.get(i).trim();
-            if (isString(arg)) {
-                sb.append(arg);
-            } else if (NumberUtils.isNumber(arg.replace(COMMA, POINT))) {
-                sb.append(arg.replace(COMMA, POINT));
-            } else if (getBoolean(arg).isPresent()) {
-                sb.append(getBoolean(arg).get());
-            } else if (isMathematicsExpression(arg)) {
-                sb.append(arg);
-            }
-            isNotLastArg = (i != lastArgumentsIndex);
-            if (isNotLastArg && StringUtils.isNotEmpty(arg)) {
+            String arg = arguments.get(i).trim();
+            arg = getArgForPlusOperation(arg);
+            sb.append(arg);
+            if (hasNextIterationElement(i, lastArgumentsIndex) && isNotEmpty(arg)) {
                 sb.append(PLUS.getOperation());
             }
         }
         return sb.toString();
+    }
+
+    private String getArgForPlusOperation(final String arg) {
+        String preparedArg = EMPTY;
+        if (isString(arg)) {
+            preparedArg = arg;
+        } else if (NumberUtils.isNumber(arg.replace(COMMA, POINT))) {
+            preparedArg = arg.replace(COMMA, POINT);
+        } else if (getBoolean(arg).isPresent()) {
+            preparedArg = getBoolean(arg).get().toString();
+        } else if (isMathematicsExpression(arg)) {
+            preparedArg = arg;
+        }
+        return preparedArg;
     }
 
     private String transformOtherMathematicalOperation(final String argument, final MathOperation operation) {

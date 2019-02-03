@@ -4,10 +4,10 @@ import com.sirlang.assembler.command.Command;
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator;
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslatorImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import static com.sirlang.assembler.error.ErrorMessages.BOOLEAN_NOT_FOUND_ERROR_MESSAGE;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.*;
+import static org.apache.commons.lang3.math.NumberUtils.isNumber;
 
 public class CodeRawTranslatorImpl implements CodeRawTranslator {
 
@@ -26,23 +26,33 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
     }
 
     private Object getArgument(final String codeRow) {
-        final Object parsedArgument;
         final String[] methodAndArgument = codeRow.split(COMMAND_SEPARATOR);
-        final String argument = methodAndArgument[1].trim();
-        if (operationTranslator.isString(argument)) {
-            parsedArgument = argument;
-        } else if(operationTranslator.isMathematicsExpression(argument)) {
-            parsedArgument = operationTranslator.transformMathematicalOperations(argument);
-        } else if (NumberUtils.isNumber(argument.replace(COMMA, POINT))) {
-            if (argument.contains(POINT)) {
-                parsedArgument = Double.valueOf(argument);
-            } else if (argument.contains(COMMA)) {
-                parsedArgument = Double.valueOf(argument.replace(COMMA, POINT));
-            } else {
-                parsedArgument = argument + LONG_POSTFIX;
-            }
+        final String formattedArgument = methodAndArgument[1].trim();
+        return getParsedArgument(formattedArgument);
+    }
+
+    private Object getParsedArgument(String formattedArgument) {
+        Object parsedArgument;
+        if (operationTranslator.isString(formattedArgument)) {
+            parsedArgument = formattedArgument;
+        } else if(operationTranslator.isMathematicsExpression(formattedArgument)) {
+            parsedArgument = operationTranslator.transformMathematicalOperations(formattedArgument);
+        } else if (isNumber(formattedArgument.replace(COMMA, POINT))) {
+            parsedArgument = getParsedNumber(formattedArgument);
         } else {
-            parsedArgument = operationTranslator.getBoolean(argument).orElseThrow(() -> new IllegalArgumentException(BOOLEAN_NOT_FOUND_ERROR_MESSAGE));
+            parsedArgument = operationTranslator.getBoolean(formattedArgument).orElseThrow(() -> new IllegalArgumentException(BOOLEAN_NOT_FOUND_ERROR_MESSAGE));
+        }
+        return parsedArgument;
+    }
+
+    private Object getParsedNumber(String formattedArgument) {
+        Object parsedArgument;
+        if (formattedArgument.contains(POINT)) {
+            parsedArgument = Double.valueOf(formattedArgument);
+        } else if (formattedArgument.contains(COMMA)) {
+            parsedArgument = Double.valueOf(formattedArgument.replace(COMMA, POINT));
+        } else {
+            parsedArgument = formattedArgument + LONG_POSTFIX;
         }
         return parsedArgument;
     }
