@@ -7,9 +7,9 @@ public enum BooleanKeyword {
     BOOLEAN_TRUE("Правда", "Тру"),
     BOOLEAN_FALSE("Ложь", "Неправда", "Обман");
 
-    private String[] keywords;
+    private final String[] keywords;
 
-    BooleanKeyword(String... keywords) {
+    BooleanKeyword(final String... keywords) {
         this.keywords = keywords;
     }
 

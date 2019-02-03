@@ -1,6 +1,7 @@
 package com.sirlang.assembler;
 
 import com.google.common.base.Preconditions;
+import com.sirlang.assembler.rawtranslator.CodeRawTranslator;
 import com.sirlang.assembler.rawtranslator.CodeRawTranslatorImpl;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +25,7 @@ public class SirLangAssembler implements Assembler {
 
     private static final String JAVA_END_PROGRAM_EQUIVALENT = "}" + LINE_SEPARATOR + "}";
 
-    private final CodeRawTranslatorImpl rawTranslator = new CodeRawTranslatorImpl();
+    private final CodeRawTranslator rawTranslator = new CodeRawTranslatorImpl();
 
     public File compileSourceFile(@NonNull final String sourcePath) throws IOException {
         Preconditions.checkArgument(sourcePath.contains(SOURCE_FILE_EXTENSION), FILE_EXTENSION_ERROR_MESSAGE);

@@ -25,7 +25,7 @@ public class SirLangAssemblerTest extends AbstractTest {
     private static final String FILE_NAME_INCORRECT_EXTENSION = "test_file.txt";
     private static final String FILE_CONTENT = "This is simple example of content";
 
-    private Assembler defaultAssembler = new SirLangAssembler();
+    private final Assembler defaultAssembler = new SirLangAssembler();
 
     @After
     @Override

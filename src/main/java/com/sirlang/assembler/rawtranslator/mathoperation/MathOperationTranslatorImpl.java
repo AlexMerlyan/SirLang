@@ -16,7 +16,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class MathOperationTranslatorImpl implements MathOperationTranslator {
 
-    private MathOperationSplitter splitter = new MathOperationSplitterImpl();
+    private final MathOperationSplitter splitter = new MathOperationSplitterImpl();
 
     @Override
     public String transformMathematicalOperations(final String expression) {
@@ -97,8 +97,7 @@ public class MathOperationTranslatorImpl implements MathOperationTranslator {
         return argument.startsWith(QUOTE) && argument.endsWith(QUOTE);
     }
 
-    @Override
-    public boolean isNotString(final String argument) {
+    private boolean isNotString(final String argument) {
         return !isString(argument);
     }
 

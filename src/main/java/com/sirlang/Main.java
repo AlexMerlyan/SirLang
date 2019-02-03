@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Slf4j
-public class Main {
+class Main {
 
     private static final Assembler ASSEMBLER = new SirLangAssembler();
     private static final JavaCodeCompiler JAVA_CODE_COMPILER = new JavaCodeCompilerImpl();

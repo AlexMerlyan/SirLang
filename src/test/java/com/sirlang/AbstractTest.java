@@ -37,6 +37,7 @@ public abstract class AbstractTest {
         }
     }
 
+    @SuppressWarnings("unused")
     @DataProvider
     public static List<List<SirLangProgram>> dataProvideSirLangProgram() {
         List<List<SirLangProgram>> sirLangProgramLists = new ArrayList<>();

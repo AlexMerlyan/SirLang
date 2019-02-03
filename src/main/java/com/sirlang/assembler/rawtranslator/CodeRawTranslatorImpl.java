@@ -11,7 +11,7 @@ import static org.apache.commons.lang3.math.NumberUtils.isNumber;
 
 public class CodeRawTranslatorImpl implements CodeRawTranslator {
 
-    private MathOperationTranslator operationTranslator = new MathOperationTranslatorImpl();
+    private final MathOperationTranslator operationTranslator = new MathOperationTranslatorImpl();
 
     public String transformToJava(String codeRow) {
         if (StringUtils.isNotEmpty(codeRow)) {
