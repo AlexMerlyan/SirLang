@@ -36,8 +36,7 @@ public class MathOperationTranslatorImpl implements MathOperationTranslator {
     }
 
     private String transformPlusOperation(final String argument) {
-        //final List<String> arguments = splitter.splitByCharOperation(argument, PLUS.getCharEquivalent());
-        final List<String> arguments = splitter.splitByCharOperation(argument, PLUS);
+        final List<String> arguments = splitter.splitByCharOperation(argument, PLUS.getCharEquivalent());
         final StringBuilder sb = new StringBuilder();
         boolean isNotLastArg;
         int lastArgumentsIndex = arguments.size() - 1;
@@ -61,8 +60,7 @@ public class MathOperationTranslatorImpl implements MathOperationTranslator {
     }
 
     private String transformOtherMathematicalOperation(final String argument, final MathOperation operation) {
-        //final List<String> arguments = splitter.splitByCharOperation(argument, operation.getCharEquivalent());
-        final List<String> arguments = splitter.splitByCharOperation(argument, operation);
+        final List<String> arguments = splitter.splitByCharOperation(argument, operation.getCharEquivalent());
         final StringBuilder sb = new StringBuilder();
         final int lastArgumentsIndex = arguments.size() - 1;
         for (int i = 0; i < arguments.size(); i++) {

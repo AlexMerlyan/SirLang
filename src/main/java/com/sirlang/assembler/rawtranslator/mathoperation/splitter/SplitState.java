@@ -6,18 +6,15 @@ import lombok.Setter;
 @Getter
 @Setter
 class SplitState {
-    private final int iteration;
-    private final char currentChar;
     private final int lastCharIndex;
 
     private boolean isString;
+    private char currentChar;
+    private int iteration;
     private int startIndex;
     private String operand;
 
-    SplitState(final int iteration, final char currentChar, final int lastCharIndex, final boolean isString) {
-        this.iteration = iteration;
-        this.currentChar = currentChar;
+    SplitState(final int lastCharIndex) {
         this.lastCharIndex = lastCharIndex;
-        this.isString = isString;
     }
 }

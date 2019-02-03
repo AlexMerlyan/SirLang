@@ -18,46 +18,20 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
         if (StringUtils.isNotEmpty(argument)) {
             final char[] symbols = argument.toCharArray();
             final int lastCharIndex = symbols.length - 1;
-            int startIndex = 0;
-            boolean isString = false;
-            SplitState state = new SplitState(0, symbols[0], lastCharIndex, false);
-            for (int i = 1; i < symbols.length; i++) {
-                state = splitByCharIfNeeded(state, argument, operationChar);
-                strings.add(state.getOperand());
+            final SplitState state = new SplitState(lastCharIndex);
+            for (int i = 0; i < symbols.length; i++) {
+                state.setCurrentChar(symbols[i]);
+                state.setIteration(i);
+                splitByCharIfNeeded(state, argument, operationChar);
+                if (StringUtils.isNotEmpty(state.getOperand())) {
+                    strings.add(state.getOperand());
+                }
             }
         }
         return strings;
     }
 
-    @Override
-    public List<String> splitByCharOperation(String argument, MathOperation mathOperation) {
-        final List<String> strings = new ArrayList<>();
-        final char[] symbols = argument.toCharArray();
-        int startIndex = 0;
-        final char operationChar = mathOperation.getCharEquivalent();
-        boolean isString = false;
-        for (int i = 0; i < symbols.length; i++) {
-            if (CHAR_QUOTE == symbols[i]) {
-                if (!isString) {
-                    strings.add(argument.substring(startIndex, i));
-                    startIndex = i;
-                }
-                isString = !isString;
-                if (!isString) {
-                    strings.add(argument.substring(startIndex, i + 1));
-                    startIndex = i + 1;
-                }
-            } else if (operationChar == symbols[i] && !isString) {
-                strings.add(argument.substring(startIndex, i));
-                startIndex = i + 1;
-            } else if (i == symbols.length - 1) {
-                strings.add(argument.substring(startIndex));
-            }
-        }
-        return strings;
-    }
-
-    private SplitState splitByCharIfNeeded(final SplitState state, final String argument, final char operationChar) {
+    private void splitByCharIfNeeded(final SplitState state, final String argument, final char operationChar) {
         String operand = StringUtils.EMPTY;
         if (isStartOrEndString(state.getCurrentChar())) {
             if (!state.isString()) {
@@ -77,7 +51,6 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
             operand = argument.substring(state.getStartIndex());
         }
         state.setOperand(operand);
-        return state;
     }
 
     private boolean isLastIndex(final int iteration, final int lastCharIndex) {
