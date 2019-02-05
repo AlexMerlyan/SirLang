@@ -139,4 +139,11 @@ public interface JavaProgramCode {
             "}" + System.lineSeparator() +
             "}" + System.lineSeparator();
 
+    String HELLO_WORLD_PROGRAM_WITH_STRING_VAR_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
+            "public static void main(String[] args) {" + System.lineSeparator() +
+            "String var0 = \"Моя первая программа на языке Сударь!\";" + System.lineSeparator() +
+            "System.out.println(var0);" + System.lineSeparator() +
+            "}" + System.lineSeparator() +
+            "}" + System.lineSeparator();
+
 }

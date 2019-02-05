@@ -24,4 +24,5 @@ public interface JavaConsoleOutput {
     String PRINT_LONG_PLUS_LONG_STRING_PLUS_LONG_PLUS_DOUBLE_PROGRAM_OUTPUT = "4СТРОКА + С + 1,1 + ЧИСЛАМИ = 62.2";
     String PRINT_STRING_PLUS_LONG_PLUS_STRING_WITH_PLUS_IN_END_PROGRAM_OUTPUT = "Это моя строка 555Тестовая строка+";
     String PRINT_STRING_PLUS_LONG_PLUS_STRING_WITH_MINUS_IN_END_PROGRAM_OUTPUT = "Это моя строка 555Тестовая строка-";
+    String HELLO_WORLD_WITH_STRING_VAR_PROGRAM_OUTPUT = "Моя первая программа на языке Сударь!";
 }

@@ -3,6 +3,7 @@ package com.sirlang.assembler.rawtranslator;
 import com.sirlang.assembler.command.Command;
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator;
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslatorImpl;
+import com.sirlang.assembler.rawtranslator.variable.SirLangVariable;
 import org.apache.commons.lang3.StringUtils;
 
 import static com.sirlang.ErrorMessages.BOOLEAN_NOT_FOUND_ERROR_MESSAGE;
@@ -18,11 +19,40 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
             final String formattedCodeRow = codeRow.replaceAll(COMMA, StringUtils.EMPTY).toLowerCase();
             for (Command command : Command.values()) {
                 if (formattedCodeRow.contains(command.getSirCommand())) {
+                    if (command.isContainAdditionalCommand()) {
+                        getSirVariable(codeRow, command);
+                    }
                     return String.format(command.getJavaCommand(), getArgument(codeRow)) + LINE_SEPARATOR;
                 }
             }
         }
         return StringUtils.EMPTY;
+    }
+
+    private SirLangVariable getSirVariable(final String codeRow, final Command command) {
+        final String formattedCodeRow = codeRow.replaceAll(COMMA, StringUtils.EMPTY).toLowerCase();
+        final String notTrimVarName = formattedCodeRow.split(COMMAND_SEPARATOR)[0];
+        final String name = notTrimVarName.trim();
+
+        final String commandAndNameValuePair = codeRow.replace(command.getSirCommand(), StringUtils.EMPTY);
+        final String notTrimValue = commandAndNameValuePair.split(COMMAND_SEPARATOR)[1];
+        final String value = notTrimValue.trim();
+        final Class type = getValueType(value);
+
+        return new SirLangVariable(name, value, type);
+    }
+
+    private Class getValueType(final String value) {
+        final Class type;
+        if (operationTranslator.isString(value)) {
+            type = String.class;
+        } else if (isNumber(value)) {
+            Object parsedNumber = getParsedNumber(value);
+            type = parsedNumber.getClass();
+        } else {
+            type = Boolean.class;
+        }
+        return type;
     }
 
     private Object getArgument(final String codeRow) {
