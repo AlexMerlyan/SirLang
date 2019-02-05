@@ -7,9 +7,10 @@ import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
-import static com.sirlang.assembler.error.ErrorMessages.*;
+import static com.sirlang.ErrorMessages.*;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 import static com.sirlang.java.JavaConstants.COMPILED_FILE_NAME;
 
@@ -97,9 +98,7 @@ public class SirLangAssembler implements Assembler {
     private String compileToBodyMethodMain(@NonNull final String methodMainBodyCode) {
         final StringBuilder sb = new StringBuilder();
         final String[] codeRows = methodMainBodyCode.split(LINE_SEPARATOR);
-        for (String codeRow : codeRows) {
-            sb.append(rawTranslator.transformToJava(codeRow));
-        }
+        Arrays.stream(codeRows).forEach(codeRow -> sb.append(rawTranslator.transformToJava(codeRow)));
         return sb.toString();
     }
 

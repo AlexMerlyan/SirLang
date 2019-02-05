@@ -5,7 +5,7 @@ import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslatorImpl;
 import org.apache.commons.lang3.StringUtils;
 
-import static com.sirlang.assembler.error.ErrorMessages.BOOLEAN_NOT_FOUND_ERROR_MESSAGE;
+import static com.sirlang.ErrorMessages.BOOLEAN_NOT_FOUND_ERROR_MESSAGE;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.*;
 import static org.apache.commons.lang3.math.NumberUtils.isNumber;
 
