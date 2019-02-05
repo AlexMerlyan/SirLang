@@ -1,7 +1,7 @@
 package com.sirlang.assembler;
 
 import com.sirlang.AbstractTest;
-import com.sirlang.SirLangProgram;
+import com.sirlang.program.SirLangProgram;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static com.sirlang.SirLangPrintProgramCode.*;
+import static com.sirlang.program.SirLangPrintProgramCode.*;
 
 @Slf4j
 @RunWith(DataProviderRunner.class)

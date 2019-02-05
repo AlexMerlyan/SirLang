@@ -1,4 +1,4 @@
-package com.sirlang;
+package com.sirlang.program;
 
 public interface JavaConsoleOutput {
     String HELLO_WORLD_PROGRAM_OUTPUT = "Моя первая программа на языке Сударь!";

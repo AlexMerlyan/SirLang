@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
-import static com.sirlang.JavaProgramCode.HELLO_WORLD_PROGRAM_AFTER_COMPILE;
+import static com.sirlang.program.JavaProgramCode.HELLO_WORLD_PROGRAM_AFTER_COMPILE;
 import static com.sirlang.java.JavaConstants.BYTE_CODE_EXTENSION;
 import static com.sirlang.java.JavaConstants.JAVA_EXTENSION;
 import static org.junit.Assert.assertFalse;

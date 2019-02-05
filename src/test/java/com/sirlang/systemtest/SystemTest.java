@@ -1,7 +1,7 @@
 package com.sirlang.systemtest;
 
 import com.sirlang.AbstractTest;
-import com.sirlang.SirLangProgram;
+import com.sirlang.program.SirLangProgram;
 import com.sirlang.assembler.Assembler;
 import com.sirlang.assembler.SirLangAssembler;
 import com.sirlang.java.compiler.JavaCodeCompiler;

@@ -1,4 +1,4 @@
-package com.sirlang;
+package com.sirlang.program;
 
 public interface JavaProgramCode {
     String HELLO_WORLD_PROGRAM_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
