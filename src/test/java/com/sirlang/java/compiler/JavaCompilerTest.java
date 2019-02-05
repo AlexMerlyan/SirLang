@@ -1,21 +1,22 @@
 package com.sirlang.java.compiler;
 
-import com.sirlang.AbstractCompilerTest;
+import com.sirlang.AbstractTest;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 
-import static com.sirlang.java.Constants.BYTE_CODE_EXTENSION;
-import static com.sirlang.java.Constants.JAVA_EXTENSION;
+import static com.sirlang.program.JavaProgramCode.HELLO_WORLD_PROGRAM_AFTER_COMPILE;
+import static com.sirlang.java.JavaConstants.BYTE_CODE_EXTENSION;
+import static com.sirlang.java.JavaConstants.JAVA_EXTENSION;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @Slf4j
-public class JavaCodeCompilerTest extends AbstractCompilerTest {
+public class JavaCompilerTest extends AbstractTest {
 
-    private JavaCodeCompiler codeCompiler = new JavaCodeCompilerImpl();
+    private final JavaCodeCompiler codeCompiler = new JavaCodeCompilerImpl();
 
     @Test
     public void shouldCompileJavaClass() throws IOException, InterruptedException {

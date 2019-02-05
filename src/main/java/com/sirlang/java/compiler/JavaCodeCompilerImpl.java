@@ -3,7 +3,7 @@ package com.sirlang.java.compiler;
 import java.io.File;
 import java.io.IOException;
 
-import static com.sirlang.java.Constants.*;
+import static com.sirlang.java.JavaConstants.*;
 
 public class JavaCodeCompilerImpl implements JavaCodeCompiler {
 
