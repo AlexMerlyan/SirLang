@@ -1,7 +1,7 @@
 package com.sirlang.assembler;
 
 import com.sirlang.AbstractTest;
-import com.sirlang.SirLangProgram;
+import com.sirlang.program.SirLangProgram;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static com.sirlang.SirLangProgramCode.*;
+import static com.sirlang.program.SirLangPrintProgramCode.*;
 
 @Slf4j
 @RunWith(DataProviderRunner.class)
@@ -25,7 +25,7 @@ public class SirLangAssemblerTest extends AbstractTest {
     private static final String FILE_NAME_INCORRECT_EXTENSION = "test_file.txt";
     private static final String FILE_CONTENT = "This is simple example of content";
 
-    private Assembler defaultAssembler = new SirLangAssembler();
+    private final Assembler defaultAssembler = new SirLangAssembler();
 
     @After
     @Override

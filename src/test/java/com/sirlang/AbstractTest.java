@@ -1,5 +1,6 @@
 package com.sirlang;
 
+import com.sirlang.program.SirLangProgram;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
@@ -37,6 +38,7 @@ public abstract class AbstractTest {
         }
     }
 
+    @SuppressWarnings("unused")
     @DataProvider
     public static List<List<SirLangProgram>> dataProvideSirLangProgram() {
         List<List<SirLangProgram>> sirLangProgramLists = new ArrayList<>();

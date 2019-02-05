@@ -13,14 +13,14 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
-import static com.sirlang.JavaConsoleOutput.HELLO_WORLD_PROGRAM_OUTPUT;
-import static com.sirlang.JavaProgramCode.HELLO_WORLD_PROGRAM_AFTER_COMPILE;
+import static com.sirlang.program.JavaConsoleOutput.HELLO_WORLD_PROGRAM_OUTPUT;
+import static com.sirlang.program.JavaProgramCode.HELLO_WORLD_PROGRAM_AFTER_COMPILE;
 
 @Slf4j
 public class JavaRunnerTest extends AbstractTest {
 
-    private JavaCodeCompiler codeCompiler = new JavaCodeCompilerImpl();
-    private JavaCodeRunner javaCodeRunner = new JavaCodeRunnerImpl();
+    private final JavaCodeCompiler codeCompiler = new JavaCodeCompilerImpl();
+    private final JavaCodeRunner javaCodeRunner = new JavaCodeRunnerImpl();
 
     @Test
     public void shouldRunJavaFile() throws IOException, InterruptedException {

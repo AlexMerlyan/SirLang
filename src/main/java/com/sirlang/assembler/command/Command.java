@@ -1,7 +1,8 @@
-package com.sirlang.assembler;
+package com.sirlang.assembler.command;
 
 import lombok.Getter;
 
+@SuppressWarnings("ALL")
 @Getter
 public enum Command {
     PRINT("сударь будьте добры выведите на экран это:", "System.out.println(%s);");
