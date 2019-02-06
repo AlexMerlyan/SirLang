@@ -2,10 +2,12 @@ package com.sirlang.assembler.command;
 
 import lombok.Getter;
 
+import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
+
 @Getter
 public enum Command {
-    PRINT("сударь будьте добры выведите на экран это", "System.out.println(%s);", false),
-    INIT_VAR("сударь будьте добры запомните это", "%s var%d = %s;", true);
+    PRINT("сударь будьте добры выведите на экран это", "System.out.println(%s);" + LINE_SEPARATOR, false),
+    INIT_VAR("сударь будьте добры запомните это как", "%s %s = %s;" + LINE_SEPARATOR, true);
 
     private final String sirCommand;
     private final String javaCommand;

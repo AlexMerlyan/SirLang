@@ -1,7 +1,11 @@
 package com.sirlang.assembler.rawtranslator.variable;
 
+import java.util.Optional;
+
 public interface VariableService {
-    void getVarByName(String varName);
-    void saveVar(SirLangVariable variable);
-    void removeVarByName(String varName);
+    Optional<JavaVariable> getOptionalVarByName(final String varName);
+    JavaVariable getVarByName(final String varName);
+    String saveVar(final String sirLangVarName, final JavaVariable variable);
+    @SuppressWarnings("unused")
+    void removeVarByName(final String varName);
 }
