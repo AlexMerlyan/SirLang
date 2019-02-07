@@ -1,5 +1,7 @@
 package com.sirlang.program;
 
+import static java.lang.System.lineSeparator;
+
 public interface JavaConsoleOutput {
     String HELLO_WORLD_PROGRAM_OUTPUT = "Моя первая программа на языке Сударь!";
     String PRINT_BOOLEAN_TRUE_PROGRAM_OUTPUT = "true";
@@ -25,4 +27,10 @@ public interface JavaConsoleOutput {
     String PRINT_STRING_PLUS_LONG_PLUS_STRING_WITH_PLUS_IN_END_PROGRAM_OUTPUT = "Это моя строка 555Тестовая строка+";
     String PRINT_STRING_PLUS_LONG_PLUS_STRING_WITH_MINUS_IN_END_PROGRAM_OUTPUT = "Это моя строка 555Тестовая строка-";
     String HELLO_WORLD_WITH_STRING_VAR_PROGRAM_OUTPUT = "Моя первая программа на языке Сударь!";
+    String PRINT_PROGRAM_WITH_LONG_VAR_OUTPUT = "2019";
+    String PRINT_PROGRAM_WITH_DOUBLE_WITH_COMMA_VAR_OUTPUT = "2019.1";
+    String PRINT_PROGRAM_WITH_DOUBLE_WITH_POINT_VAR_OUTPUT = "2019.1";
+    String PRINT_PROGRAM_WITH_BOOLEAN_VAR_OUTPUT = "true";
+    String PRINT_PROGRAM_WITH_DOUBLE_LONG_STRING_BOOLEAN_VAR_OUTPUT = "false" + lineSeparator() + 2019 + lineSeparator()
+            + 2019.1 + lineSeparator() + "Моя строка";
 }

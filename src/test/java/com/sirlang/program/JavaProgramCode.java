@@ -146,4 +146,45 @@ public interface JavaProgramCode {
             "}" + System.lineSeparator() +
             "}" + System.lineSeparator();
 
+    String PRINT_PROGRAM_WITH_LONG_VAR_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
+            "public static void main(String[] args) {" + System.lineSeparator() +
+            "Long var0 = 2019L;" + System.lineSeparator() +
+            "System.out.println(var0);" + System.lineSeparator() +
+            "}" + System.lineSeparator() +
+            "}" + System.lineSeparator();
+
+    String PRINT_PROGRAM_WITH_DOUBLE_WITH_COMMA_VAR_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
+            "public static void main(String[] args) {" + System.lineSeparator() +
+            "Double var0 = 2019.1;" + System.lineSeparator() +
+            "System.out.println(var0);" + System.lineSeparator() +
+            "}" + System.lineSeparator() +
+            "}" + System.lineSeparator();
+
+    String PRINT_PROGRAM_WITH_DOUBLE_WITH_POINT_VAR_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
+            "public static void main(String[] args) {" + System.lineSeparator() +
+            "Double var0 = 2019.1;" + System.lineSeparator() +
+            "System.out.println(var0);" + System.lineSeparator() +
+            "}" + System.lineSeparator() +
+            "}" + System.lineSeparator();
+
+    String PRINT_PROGRAM_WITH_BOOLEAN_VAR_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
+            "public static void main(String[] args) {" + System.lineSeparator() +
+            "Boolean var0 = true;" + System.lineSeparator() +
+            "System.out.println(var0);" + System.lineSeparator() +
+            "}" + System.lineSeparator() +
+            "}" + System.lineSeparator();
+
+    String PRINT_PROGRAM_WITH_DOUBLE_LONG_STRING_BOOLEAN_VAR_AFTER_COMPILE = "public class Main {" + System.lineSeparator() +
+            "public static void main(String[] args) {" + System.lineSeparator() +
+            "Boolean var0 = false;" + System.lineSeparator() +
+            "Long var1 = 2019L;" + System.lineSeparator() +
+            "Double var2 = 2019.1;" + System.lineSeparator() +
+            "String var3 = \"Моя строка\";" + System.lineSeparator() +
+            "System.out.println(var0);" + System.lineSeparator() +
+            "System.out.println(var1);" + System.lineSeparator() +
+            "System.out.println(var2);" + System.lineSeparator() +
+            "System.out.println(var3);" + System.lineSeparator() +
+            "}" + System.lineSeparator() +
+            "}" + System.lineSeparator();
+
 }
