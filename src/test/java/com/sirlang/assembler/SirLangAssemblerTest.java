@@ -5,6 +5,7 @@ import com.sirlang.program.SirLangProgram;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static com.sirlang.program.SirLangPrintProgramCode.*;
+import static com.sirlang.program.SirLangProgramCode.*;
 
 @Slf4j
 @RunWith(DataProviderRunner.class)
@@ -39,47 +40,47 @@ public class SirLangAssemblerTest extends AbstractTest {
 
     @Test
     @UseDataProvider("dataProvideSirLangProgram")
-    public void shouldCompileSirLangProgram(SirLangProgram program) throws IOException {
-        final File testFile = createTestFile(SIR_FILE_NAME, program.getSirLangProgram());
-        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
-        final String content = readContent(compiledFile);
+    public void shouldCompileSirLangProgram(@NotNull SirLangProgram program) throws IOException {
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, program.getSirLangProgram());
+        @NotNull final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
+        @NotNull final String content = readContent(compiledFile);
         Assert.assertEquals(program.getJavaEquivalentProgram(), content);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExtensionFileException() throws IOException {
-        final File testFile = createTestFile(FILE_NAME_INCORRECT_EXTENSION, FILE_CONTENT);
+        @NotNull final File testFile = createTestFile(FILE_NAME_INCORRECT_EXTENSION, FILE_CONTENT);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionAbsentStartProgram() throws IOException {
-        final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_START);
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_START);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionAbsentEndProgram() throws IOException {
-        final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_END);
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_END);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
     public void shouldNotThrowExceptionAbsentEndProgram() throws IOException {
-        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
     public void shouldCompileToMainJavaFile() throws IOException {
-        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
-        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
+        @NotNull final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
         Assert.assertTrue(compiledFile.getPath().contains(COMPILED_FILE_NAME));
     }
 
-    private String readContent(File file) throws FileNotFoundException {
-        final Scanner scanner = new Scanner(file);
-        final StringBuilder sb = new StringBuilder();
+    private String readContent(@NotNull File file) throws FileNotFoundException {
+        @NotNull final Scanner scanner = new Scanner(file);
+        @NotNull final StringBuilder sb = new StringBuilder();
         while (scanner.hasNextLine()) {
             sb.append(scanner.nextLine()).append(System.lineSeparator());
         }

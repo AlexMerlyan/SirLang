@@ -3,6 +3,7 @@ package com.sirlang;
 import com.sirlang.program.SirLangProgram;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 
 import java.io.BufferedWriter;
@@ -23,7 +24,7 @@ public abstract class AbstractTest {
 
     @After
     public void removeTestFiles() {
-        File file = new File(COMPILED_FILE_NAME);
+        @NotNull File file = new File(COMPILED_FILE_NAME);
         boolean isFileDeleted = file.exists() && file.delete();
         if (isFileDeleted) {
             log.debug(LOG_FILE_WAS_DELETED, COMPILED_FILE_NAME);
@@ -38,21 +39,23 @@ public abstract class AbstractTest {
         }
     }
 
+    @NotNull
     @SuppressWarnings("unused")
     @DataProvider
     public static List<List<SirLangProgram>> dataProvideSirLangProgram() {
-        List<List<SirLangProgram>> sirLangProgramLists = new ArrayList<>();
+        @NotNull List<List<SirLangProgram>> sirLangProgramLists = new ArrayList<>();
         for (SirLangProgram sirLangProgram : SirLangProgram.values()) {
-            final ArrayList<SirLangProgram> sirLangProgramList = new ArrayList<>();
+            @NotNull final ArrayList<SirLangProgram> sirLangProgramList = new ArrayList<>();
             sirLangProgramList.add(sirLangProgram);
             sirLangProgramLists.add(sirLangProgramList);
         }
         return sirLangProgramLists;
     }
 
-    protected File createTestFile(String fileName, String content) throws IOException {
-        File testFile = new File(fileName);
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(testFile));
+    @NotNull
+    protected File createTestFile(@NotNull String fileName, @NotNull String content) throws IOException {
+        @NotNull File testFile = new File(fileName);
+        @NotNull BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(testFile));
         bufferedWriter.write(content);
         bufferedWriter.close();
         return testFile;

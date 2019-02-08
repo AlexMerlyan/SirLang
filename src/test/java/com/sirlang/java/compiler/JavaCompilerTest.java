@@ -2,6 +2,7 @@ package com.sirlang.java.compiler;
 
 import com.sirlang.AbstractTest;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.io.File;
@@ -20,12 +21,12 @@ public class JavaCompilerTest extends AbstractTest {
 
     @Test
     public void shouldCompileJavaClass() throws IOException, InterruptedException {
-        File file = createTestFile(COMPILED_FILE_NAME, HELLO_WORLD_PROGRAM_AFTER_COMPILE);
-        final String byteCodeFilePath = file.getAbsolutePath().replace(JAVA_EXTENSION, BYTE_CODE_EXTENSION);
-        File notExistingByteCodeFile = new File(byteCodeFilePath);
+        @NotNull File file = createTestFile(COMPILED_FILE_NAME, HELLO_WORLD_PROGRAM_AFTER_COMPILE);
+        @NotNull final String byteCodeFilePath = file.getAbsolutePath().replace(JAVA_EXTENSION, BYTE_CODE_EXTENSION);
+        @NotNull File notExistingByteCodeFile = new File(byteCodeFilePath);
         assertFalse(notExistingByteCodeFile.exists());
         codeCompiler.compileJavaFile(file);
-        File byteCodeFile = new File(byteCodeFilePath);
+        @NotNull File byteCodeFile = new File(byteCodeFilePath);
         assertTrue(byteCodeFile.exists());
     }
 

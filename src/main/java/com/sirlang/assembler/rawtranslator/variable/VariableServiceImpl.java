@@ -1,5 +1,7 @@
 package com.sirlang.assembler.rawtranslator.variable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -22,17 +24,14 @@ public class VariableServiceImpl implements VariableService {
         return variables.get(varName);
     }
 
+    @NotNull
     @Override
-    public String saveVar(final String sirLangVarName, final JavaVariable variable) {
-        final String javaVarName = VAR + variableCount;
+    public String saveVar(final String sirLangVarName, @NotNull final JavaVariable variable) {
+        @NotNull final String javaVarName = VAR + variableCount;
         variable.setName(javaVarName);
         variables.put(sirLangVarName, variable);
         variableCount++;
         return javaVarName;
     }
 
-    @Override
-    public void removeVarByName(String varName) {
-        variables.remove(varName);
-    }
 }
