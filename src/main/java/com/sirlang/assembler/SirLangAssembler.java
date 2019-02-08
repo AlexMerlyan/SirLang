@@ -5,6 +5,7 @@ import com.sirlang.assembler.rawtranslator.CodeRawTranslator;
 import com.sirlang.assembler.rawtranslator.CodeRawTranslatorImpl;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.Scanner;
 
 import static com.sirlang.ErrorMessages.*;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
+import static com.sirlang.assembler.rawtranslator.symbols.Symbols.SLASH;
 import static com.sirlang.java.JavaConstants.COMPILED_FILE_NAME;
 
 public class SirLangAssembler implements Assembler {
@@ -28,18 +30,19 @@ public class SirLangAssembler implements Assembler {
 
     private final CodeRawTranslator rawTranslator = new CodeRawTranslatorImpl();
 
-    public File compileSourceFile(@NonNull final String sourcePath) throws IOException {
+    @NotNull
+    public File compileSourceFile(@NotNull @NonNull final String sourcePath) throws IOException {
         Preconditions.checkArgument(sourcePath.contains(SOURCE_FILE_EXTENSION), FILE_EXTENSION_ERROR_MESSAGE);
-        final String sourceCode = readSourceFile(sourcePath);
-        final int startFileNameIndex = sourcePath.lastIndexOf("/") + 1;
-        final String fileNameWithExtension = sourcePath.substring(startFileNameIndex);
-        final String javaFilePath = sourcePath.replace(fileNameWithExtension, COMPILED_FILE_NAME);
+        @NotNull final String sourceCode = readSourceFile(sourcePath);
+        final int startFileNameIndex = sourcePath.lastIndexOf(SLASH) + 1;
+        @NotNull final String fileNameWithExtension = sourcePath.substring(startFileNameIndex);
+        @NotNull final String javaFilePath = sourcePath.replace(fileNameWithExtension, COMPILED_FILE_NAME);
         return compileToJava(javaFilePath, sourceCode);
     }
 
-    private String readSourceFile(@NonNull final String path) throws FileNotFoundException {
-        final Scanner scanner = new Scanner(new File(path));
-        final StringBuilder sb = new StringBuilder();
+    private String readSourceFile(@NotNull @NonNull final String path) throws FileNotFoundException {
+        @NotNull final Scanner scanner = new Scanner(new File(path));
+        @NotNull final StringBuilder sb = new StringBuilder();
         while (scanner.hasNextLine()) {
             sb.append(scanner.nextLine()).append(LINE_SEPARATOR);
         }
@@ -47,14 +50,16 @@ public class SirLangAssembler implements Assembler {
         return sb.toString();
     }
 
-    private File compileToJava(@NonNull final String javaFilePath, @NonNull final String sourceCode) throws IOException {
-        final char[] javaSourceCode = convertToJava(sourceCode);
+    @NotNull
+    private File compileToJava(@NotNull @NonNull final String javaFilePath, @NotNull @NonNull final String sourceCode) throws IOException {
+        @NotNull final char[] javaSourceCode = convertToJava(sourceCode);
         return writeJavaFile(javaFilePath, javaSourceCode);
     }
 
-    private File writeJavaFile(@NonNull final String javaFilePath, @NonNull final char[] javaSourceCode) throws IOException {
-        final File file = new File(javaFilePath);
-        final BufferedWriter br = new BufferedWriter(new FileWriter(file));
+    @NotNull
+    private File writeJavaFile(@NotNull @NonNull final String javaFilePath, @NonNull final char[] javaSourceCode) throws IOException {
+        @NotNull final File file = new File(javaFilePath);
+        @NotNull final BufferedWriter br = new BufferedWriter(new FileWriter(file));
         for (char symbol : javaSourceCode) {
             br.write(symbol);
         }
@@ -62,16 +67,16 @@ public class SirLangAssembler implements Assembler {
         return file;
     }
 
-    private char[] convertToJava(@NonNull final String sourceCode) {
+    private char[] convertToJava(@NotNull @NonNull final String sourceCode) {
         checkOnErrors(sourceCode);
-        final String methodMainBodyCode = getSourceCodeForMethodMain(sourceCode);
-        final String methodMainBodyJavaCode = compileToBodyMethodMain(methodMainBodyCode);
-        final String javaCode = JAVA_START_PROGRAM_EQUIVALENT + methodMainBodyJavaCode + JAVA_END_PROGRAM_EQUIVALENT;
+        @NotNull final String methodMainBodyCode = getSourceCodeForMethodMain(sourceCode);
+        @NotNull final String methodMainBodyJavaCode = compileToBodyMethodMain(methodMainBodyCode);
+        @NotNull final String javaCode = JAVA_START_PROGRAM_EQUIVALENT + methodMainBodyJavaCode + JAVA_END_PROGRAM_EQUIVALENT;
         return javaCode.toCharArray();
     }
 
     private String getSourceCodeForMethodMain(@NonNull final String sourceCode) {
-        final String[] codeRows = sourceCode.split(LINE_SEPARATOR);
+        @NotNull final String[] codeRows = sourceCode.split(LINE_SEPARATOR);
         final String startProgramCode = getStartProgramToReplace(codeRows);
         final String endProgramCode = getEndProgramToReplace(codeRows);
         return sourceCode.replace(startProgramCode, StringUtils.EMPTY).replace(endProgramCode, StringUtils.EMPTY);
@@ -96,8 +101,8 @@ public class SirLangAssembler implements Assembler {
     }
 
     private String compileToBodyMethodMain(@NonNull final String methodMainBodyCode) {
-        final StringBuilder sb = new StringBuilder();
-        final String[] codeRows = methodMainBodyCode.split(LINE_SEPARATOR);
+        @NotNull final StringBuilder sb = new StringBuilder();
+        @NotNull final String[] codeRows = methodMainBodyCode.split(LINE_SEPARATOR);
         Arrays.stream(codeRows).forEach(codeRow -> sb.append(rawTranslator.transformToJava(codeRow)));
         return sb.toString();
     }

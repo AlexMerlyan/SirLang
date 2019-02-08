@@ -12,6 +12,7 @@ import com.sirlang.java.executor.JavaCodeRunnerImpl;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,18 +28,19 @@ public class SystemTest extends AbstractTest {
     private static final JavaCodeCompiler JAVA_CODE_COMPILER = new JavaCodeCompilerImpl();
     private static final JavaCodeRunner JAVA_CODE_RUNNER = new JavaCodeRunnerImpl();
 
+    @NotNull
     private ExecutionResult compileByFilePath(final String sirLangFilePath) throws IOException, InterruptedException {
-        final File javaFile = ASSEMBLER.compileSourceFile(sirLangFilePath);
-        final File byteCodeFile = JAVA_CODE_COMPILER.compileJavaFile(javaFile);
+        @NotNull final File javaFile = ASSEMBLER.compileSourceFile(sirLangFilePath);
+        @NotNull final File byteCodeFile = JAVA_CODE_COMPILER.compileJavaFile(javaFile);
         return JAVA_CODE_RUNNER.runCompiledCode(byteCodeFile);
     }
 
     @Test
     @UseDataProvider("dataProvideSirLangProgram")
-    public void shouldCompileHelloWorldProgram(SirLangProgram program) throws IOException, InterruptedException {
+    public void shouldCompileHelloWorldProgram(@NotNull SirLangProgram program) throws IOException, InterruptedException {
         log.debug("Start test with program: {}", program.getSirLangProgram());
-        final File testFile = createTestFile(SIR_FILE_NAME, program.getSirLangProgram());
-        final ExecutionResult executionResult = compileByFilePath(testFile.getAbsolutePath());
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, program.getSirLangProgram());
+        @NotNull final ExecutionResult executionResult = compileByFilePath(testFile.getAbsolutePath());
         Assert.assertEquals(program.getJavaOutputConsole(), executionResult.getConsoleOutput());
     }
 
