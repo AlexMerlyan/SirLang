@@ -3,11 +3,6 @@ package com.sirlang.program;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 
 public interface JavaConsoleOutput {
-    String HELLO_WORLD_PROGRAM_OUTPUT = "Моя первая программа на языке Сударь!" + LINE_SEPARATOR;
-    String PRINT_BOOLEAN_TRUE_PROGRAM_OUTPUT = "true" + LINE_SEPARATOR;
-    String PRINT_BOOLEAN_FALSE_PROGRAM_OUTPUT = "false" + LINE_SEPARATOR;
-    String PRINT_DOUBLE_VALUE_PROGRAM_OUTPUT = "2.2" + LINE_SEPARATOR;
-    String PRINT_LONG_VALUE_PROGRAM_OUTPUT = "28784723222" + LINE_SEPARATOR;
     String PRINT_LONG_PLUS_LONG_PROGRAM_OUTPUT = "100" + LINE_SEPARATOR;
     String PRINT_LONG_MINUS_LONG_PROGRAM_OUTPUT = "10" + LINE_SEPARATOR;
     String PRINT_LONG_MULTIPLY_LONG_PROGRAM_OUTPUT = "40" + LINE_SEPARATOR;

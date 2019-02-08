@@ -14,8 +14,8 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
-import static com.sirlang.program.JavaConsoleOutput.HELLO_WORLD_PROGRAM_OUTPUT;
-import static com.sirlang.program.JavaProgramCode.HELLO_WORLD_PROGRAM_AFTER_COMPILE;
+import static com.sirlang.program.helloworld.JavaHelloWorldCode.HELLO_WORLD_JAVA_CODE;
+import static com.sirlang.program.helloworld.JavaHelloWorldOutput.HELLO_WORLD_OUTPUT;
 
 @Slf4j
 public class JavaRunnerTest extends AbstractTest {
@@ -25,10 +25,10 @@ public class JavaRunnerTest extends AbstractTest {
 
     @Test
     public void shouldRunJavaFile() throws IOException, InterruptedException {
-        @NotNull final File testFile = createTestFile(COMPILED_FILE_NAME, HELLO_WORLD_PROGRAM_AFTER_COMPILE);
+        @NotNull final File testFile = createTestFile(COMPILED_FILE_NAME, HELLO_WORLD_JAVA_CODE);
         @NotNull final File byteCodeFile = codeCompiler.compileJavaFile(testFile);
         @NotNull final ExecutionResult result = javaCodeRunner.runCompiledCode(byteCodeFile);
         final String consoleOutput = result.getConsoleOutput();
-        Assert.assertEquals(HELLO_WORLD_PROGRAM_OUTPUT, consoleOutput);
+        Assert.assertEquals(HELLO_WORLD_OUTPUT, consoleOutput);
     }
 }

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import static com.sirlang.program.SirLangProgramCode.*;
+import static com.sirlang.program.helloworld.SirLangHelloWorld.HELLO_WORLD;
 
 @Slf4j
 @RunWith(DataProviderRunner.class)
@@ -67,13 +68,13 @@ public class SirLangAssemblerTest extends AbstractTest {
 
     @Test
     public void shouldNotThrowExceptionAbsentEndProgram() throws IOException {
-        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
     public void shouldCompileToMainJavaFile() throws IOException {
-        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD);
         @NotNull final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
         Assert.assertTrue(compiledFile.getPath().contains(COMPILED_FILE_NAME));
     }
