@@ -1,4 +1,4 @@
-package com.sirlang.program.print_datatypes;
+package com.sirlang.program.datatypes;
 
 public interface SirLangDataType {
 

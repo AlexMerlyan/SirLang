@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static com.sirlang.program.SirLangProgramCode.*;
+import static com.sirlang.program.IncorrectSirLangProgramCode.*;
 import static com.sirlang.program.helloworld.SirLangHelloWorld.HELLO_WORLD;
 
 @Slf4j
