@@ -1,7 +1,6 @@
 package com.sirlang;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +34,7 @@ public class MainTest extends AbstractTest {
 
     @Test
     public void shouldCompileSirLangFileThroughMainMethod() throws IOException {
-        @NotNull File file = createTestFile(SIR_FILE_NAME, HELLO_WORLD);
+        final File file = createTestFile(SIR_FILE_NAME, HELLO_WORLD);
         Main.main(file.getAbsolutePath());
         assertEquals(HELLO_WORLD_OUTPUT + LINE_SEPARATOR, outContent.toString());
     }

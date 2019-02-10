@@ -7,7 +7,6 @@ import com.sirlang.java.executor.ExecutionResult;
 import com.sirlang.java.executor.JavaCodeRunner;
 import com.sirlang.java.executor.JavaCodeRunnerImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,9 +24,9 @@ public class JavaRunnerTest extends AbstractTest {
 
     @Test
     public void shouldRunJavaFile() throws IOException, InterruptedException {
-        @NotNull final File testFile = createTestFile(COMPILED_FILE_NAME, HELLO_WORLD_JAVA_CODE);
-        @NotNull final File byteCodeFile = codeCompiler.compileJavaFile(testFile);
-        @NotNull final ExecutionResult result = javaCodeRunner.runCompiledCode(byteCodeFile);
+        final File testFile = createTestFile(COMPILED_FILE_NAME, HELLO_WORLD_JAVA_CODE);
+        final File byteCodeFile = codeCompiler.compileJavaFile(testFile);
+        final ExecutionResult result = javaCodeRunner.runCompiledCode(byteCodeFile);
         final String consoleOutput = result.getConsoleOutput();
         Assert.assertEquals(HELLO_WORLD_OUTPUT, consoleOutput);
     }

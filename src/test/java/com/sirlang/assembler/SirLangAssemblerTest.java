@@ -10,7 +10,6 @@ import com.sirlang.program.vars.SirLangVarsProgram;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,7 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import static com.sirlang.program.IncorrectSirLangProgramCode.*;
+import static com.sirlang.program.IncorrectSirLangProgramCode.PROGRAM_WITHOUT_END;
+import static com.sirlang.program.IncorrectSirLangProgramCode.PROGRAM_WITHOUT_START;
 import static com.sirlang.program.helloworld.SirLangHelloWorld.HELLO_WORLD;
 
 @Slf4j
@@ -46,81 +46,81 @@ public class SirLangAssemblerTest extends AbstractTest {
 
     @Test
     @UseDataProvider("dataProvideSirLangHelloWorldProgram")
-    public void shouldCompileSirLangHelloWorldProgram(@NotNull SirLangHelloWorldProgram program) throws IOException {
+    public void shouldCompileSirLangHelloWorldProgram(SirLangHelloWorldProgram program) throws IOException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
     }
 
     @Test
     @UseDataProvider("dataProvideSirLangConcatProgram")
-    public void shouldCompileSirLangConcatProgram(@NotNull SirLangConcatProgram program) throws IOException {
+    public void shouldCompileSirLangConcatProgram(SirLangConcatProgram program) throws IOException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
     }
 
     @Test
     @UseDataProvider("dataProvideSirLangDataTypeProgram")
-    public void shouldCompileSirLangDataTypeProgram(@NotNull SirLangDataTypeProgram program) throws IOException {
+    public void shouldCompileSirLangDataTypeProgram(SirLangDataTypeProgram program) throws IOException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
     }
 
     @Test
     @UseDataProvider("dataProvideSirLangExpressionProgram")
-    public void shouldCompileSirLangExpressionProgram(@NotNull SirLangExpressionProgram program) throws IOException {
+    public void shouldCompileSirLangExpressionProgram(SirLangExpressionProgram program) throws IOException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
     }
 
     @Test
     @UseDataProvider("dataProvideSirLangVarsProgram")
-    public void shouldCompileSirLangExpressionProgram(@NotNull SirLangVarsProgram program) throws IOException {
+    public void shouldCompileSirLangExpressionProgram(SirLangVarsProgram program) throws IOException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
     }
 
     @Test
     @UseDataProvider("dataProvideSirLangConcatVarsProgram")
-    public void shouldCompileSirLangConcatVarsProgram(@NotNull SirLangConcatVarsProgram program) throws IOException {
+    public void shouldCompileSirLangConcatVarsProgram(SirLangConcatVarsProgram program) throws IOException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
     }
 
     private void compileAndAssertSirLangProgram(String sirLangProgram, String javaEquivalentProgram) throws IOException {
-        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, sirLangProgram);
-        @NotNull final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
-        @NotNull final String content = readContent(compiledFile);
+        final File testFile = createTestFile(SIR_FILE_NAME, sirLangProgram);
+        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
+        final String content = readContent(compiledFile);
         Assert.assertEquals(javaEquivalentProgram, content);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExtensionFileException() throws IOException {
-        @NotNull final File testFile = createTestFile(FILE_NAME_INCORRECT_EXTENSION, FILE_CONTENT);
+        final File testFile = createTestFile(FILE_NAME_INCORRECT_EXTENSION, FILE_CONTENT);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionAbsentStartProgram() throws IOException {
-        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_START);
+        final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_START);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionAbsentEndProgram() throws IOException {
-        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_END);
+        final File testFile = createTestFile(SIR_FILE_NAME, PROGRAM_WITHOUT_END);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
     public void shouldNotThrowExceptionAbsentEndProgram() throws IOException {
-        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD);
+        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD);
         defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
     }
 
     @Test
     public void shouldCompileToMainJavaFile() throws IOException {
-        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD);
-        @NotNull final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
+        final File testFile = createTestFile(SIR_FILE_NAME, HELLO_WORLD);
+        final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
         Assert.assertTrue(compiledFile.getPath().contains(COMPILED_FILE_NAME));
     }
 
-    private String readContent(@NotNull File file) throws FileNotFoundException {
-        @NotNull final Scanner scanner = new Scanner(file);
-        @NotNull final StringBuilder sb = new StringBuilder();
+    private String readContent(File file) throws FileNotFoundException {
+        final Scanner scanner = new Scanner(file);
+        final StringBuilder sb = new StringBuilder();
         while (scanner.hasNextLine()) {
             sb.append(scanner.nextLine()).append(System.lineSeparator());
         }
