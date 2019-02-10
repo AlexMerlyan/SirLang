@@ -1,6 +1,6 @@
 package com.sirlang.program.expression;
 
-public interface SirLangExpression {
+interface SirLangExpression {
 
     String PRINT_LONG_PLUS_LONG = "Приветствую!\n" +
             "\tСударь, будьте добры, выведите на экран это: 55 + 45\n" +

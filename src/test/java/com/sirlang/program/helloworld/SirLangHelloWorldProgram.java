@@ -1,4 +1,4 @@
-package com.sirlang.program;
+package com.sirlang.program.helloworld;
 
 import lombok.Getter;
 
@@ -17,6 +17,7 @@ public enum SirLangHelloWorldProgram {
     private final String javaEquivalentProgram;
     private final String javaOutputConsole;
 
+    @SuppressWarnings("SameParameterValue")
     SirLangHelloWorldProgram(final String sirLangProgram, final String javaEquivalentProgram, final String javaOutputConsole) {
         this.sirLangProgram = sirLangProgram;
         this.javaEquivalentProgram = javaEquivalentProgram;

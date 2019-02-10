@@ -3,6 +3,12 @@ package com.sirlang.assembler;
 import com.google.common.base.Preconditions;
 import com.sirlang.assembler.rawtranslator.CodeRawTranslator;
 import com.sirlang.assembler.rawtranslator.CodeRawTranslatorImpl;
+import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator;
+import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslatorImpl;
+import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitter;
+import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitterImpl;
+import com.sirlang.assembler.rawtranslator.variable.VariableService;
+import com.sirlang.assembler.rawtranslator.variable.VariableServiceImpl;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +34,14 @@ public class SirLangAssembler implements Assembler {
 
     private static final String JAVA_END_PROGRAM_EQUIVALENT = "}" + LINE_SEPARATOR + "}";
 
-    private final CodeRawTranslator rawTranslator = new CodeRawTranslatorImpl();
+    private final CodeRawTranslator rawTranslator;
+
+    public SirLangAssembler() {
+        final VariableService variableService = new VariableServiceImpl();
+        final MathOperationSplitter splitter = new MathOperationSplitterImpl();
+        final MathOperationTranslator operationTranslator = new MathOperationTranslatorImpl(splitter, variableService);
+        this.rawTranslator = new CodeRawTranslatorImpl(variableService, operationTranslator);
+    }
 
     @NotNull
     public File compileSourceFile(@NotNull @NonNull final String sourcePath) throws IOException {

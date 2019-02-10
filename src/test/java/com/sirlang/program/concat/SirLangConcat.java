@@ -1,6 +1,6 @@
 package com.sirlang.program.concat;
 
-public interface SirLangConcat {
+interface SirLangConcat {
 
     String PRINT_BOOLEAN_TRUE_PLUS_STRING = "Приветствую!\n" +
             "\tСударь, будьте добры, выведите на экран это: правда + \" это моя строка\"\n" +

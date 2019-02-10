@@ -1,6 +1,6 @@
 package com.sirlang.program.vars;
 
-public interface SirLangVar {
+interface SirLangVar {
 
     String HELLO_WORLD_WITH_STRING_VAR = "Приветствую!\n" +
             "\tСударь, будьте добры, запомните это как строка для первой программы:\"Моя первая программа на языке Сударь!\"\n" +

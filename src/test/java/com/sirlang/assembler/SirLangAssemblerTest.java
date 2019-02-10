@@ -1,7 +1,12 @@
 package com.sirlang.assembler;
 
 import com.sirlang.AbstractTest;
-import com.sirlang.program.*;
+import com.sirlang.program.concat.SirLangConcatProgram;
+import com.sirlang.program.concatvars.SirLangConcatVarsProgram;
+import com.sirlang.program.datatypes.SirLangDataTypeProgram;
+import com.sirlang.program.expression.SirLangExpressionProgram;
+import com.sirlang.program.helloworld.SirLangHelloWorldProgram;
+import com.sirlang.program.vars.SirLangVarsProgram;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +71,12 @@ public class SirLangAssemblerTest extends AbstractTest {
     @Test
     @UseDataProvider("dataProvideSirLangVarsProgram")
     public void shouldCompileSirLangExpressionProgram(@NotNull SirLangVarsProgram program) throws IOException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangConcatVarsProgram")
+    public void shouldCompileSirLangConcatVarsProgram(@NotNull SirLangConcatVarsProgram program) throws IOException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
     }
 

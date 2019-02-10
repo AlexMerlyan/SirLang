@@ -2,15 +2,11 @@ package com.sirlang.assembler.rawtranslator;
 
 import com.sirlang.assembler.command.Command;
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator;
-import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslatorImpl;
 import com.sirlang.assembler.rawtranslator.variable.JavaVariable;
 import com.sirlang.assembler.rawtranslator.variable.VariableService;
-import com.sirlang.assembler.rawtranslator.variable.VariableServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Optional;
 
 import static com.sirlang.ErrorMessages.BOOLEAN_NOT_FOUND_ERROR_MESSAGE;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.*;
@@ -20,8 +16,13 @@ import static org.apache.commons.lang3.math.NumberUtils.isNumber;
 @Slf4j
 public class CodeRawTranslatorImpl implements CodeRawTranslator {
 
-    private final MathOperationTranslator operationTranslator = new MathOperationTranslatorImpl();
-    private final VariableService variableService = new VariableServiceImpl();
+    private final VariableService variableService;
+    private final MathOperationTranslator operationTranslator;
+
+    public CodeRawTranslatorImpl(final VariableService variableService, final MathOperationTranslator operationTranslator) {
+        this.variableService = variableService;
+        this.operationTranslator = operationTranslator;
+    }
 
     public String transformToJava(@NotNull final String codeRow) {
         if (StringUtils.isNotEmpty(codeRow)) {
@@ -83,7 +84,7 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
         Object parsedArgument;
         if (operationTranslator.isString(formattedArgument)) {
             parsedArgument = formattedArgument;
-        } else if (isVariableName(formattedArgument)) {
+        } else if (variableService.isVariableName(formattedArgument)) {
             final JavaVariable varByName = variableService.getVarByName(formattedArgument);
             parsedArgument = varByName.getName();
         } else if (operationTranslator.isMathematicsExpression(formattedArgument)) {
@@ -95,11 +96,6 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
                     -> new IllegalArgumentException(BOOLEAN_NOT_FOUND_ERROR_MESSAGE + formattedArgument));
         }
         return parsedArgument;
-    }
-
-    private boolean isVariableName(final String formattedArgument) {
-        final Optional<JavaVariable> optionalVarByName = variableService.getOptionalVarByName(formattedArgument);
-        return optionalVarByName.isPresent();
     }
 
     private Object getParsedNumber(final String formattedArgument) {

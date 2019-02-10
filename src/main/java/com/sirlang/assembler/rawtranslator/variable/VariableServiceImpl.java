@@ -13,9 +13,7 @@ public class VariableServiceImpl implements VariableService {
     private int variableCount;
     private final Map<String, JavaVariable> variables = new HashMap<>();
 
-
-    @Override
-    public Optional<JavaVariable> getOptionalVarByName(String varName) {
+    private Optional<JavaVariable> getOptionalVarByName(String varName) {
         return Optional.ofNullable(variables.get(varName));
     }
 
@@ -32,6 +30,12 @@ public class VariableServiceImpl implements VariableService {
         variables.put(sirLangVarName, variable);
         variableCount++;
         return javaVarName;
+    }
+
+    @Override
+    public boolean isVariableName(final String formattedArgument) {
+        final Optional<JavaVariable> optionalVarByName = getOptionalVarByName(formattedArgument);
+        return optionalVarByName.isPresent();
     }
 
 }

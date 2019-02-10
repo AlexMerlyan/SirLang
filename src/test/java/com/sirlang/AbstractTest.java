@@ -1,6 +1,11 @@
 package com.sirlang;
 
-import com.sirlang.program.*;
+import com.sirlang.program.concat.SirLangConcatProgram;
+import com.sirlang.program.concatvars.SirLangConcatVarsProgram;
+import com.sirlang.program.datatypes.SirLangDataTypeProgram;
+import com.sirlang.program.expression.SirLangExpressionProgram;
+import com.sirlang.program.helloworld.SirLangHelloWorldProgram;
+import com.sirlang.program.vars.SirLangVarsProgram;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -12,8 +17,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
+@SuppressWarnings("ALL")
 @Slf4j
 public abstract class AbstractTest {
 
@@ -70,6 +75,12 @@ public abstract class AbstractTest {
         return getProgramsDataProvider(SirLangVarsProgram.values());
     }
 
+    @NotNull
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangConcatVarsProgram() {
+        return getProgramsDataProvider(SirLangConcatVarsProgram.values());
+    }
+
     private static List<List<Object>> getProgramsDataProvider(Object[] objects) {
         @NotNull List<List<Object>> programLists = new ArrayList<>();
         for (Object program : objects) {
@@ -81,9 +92,9 @@ public abstract class AbstractTest {
     }
 
     @NotNull
-    protected File createTestFile(@NotNull String fileName, @NotNull String content) throws IOException {
-        @NotNull File testFile = new File(fileName);
-        @NotNull BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(testFile));
+    protected File createTestFile(@NotNull final String fileName, @NotNull final String content) throws IOException {
+        @NotNull final File testFile = new File(fileName);
+        @NotNull final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(testFile));
         bufferedWriter.write(content);
         bufferedWriter.close();
         return testFile;

@@ -1,4 +1,4 @@
-package com.sirlang.program;
+package com.sirlang.program.concat;
 
 import lombok.Getter;
 

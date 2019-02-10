@@ -2,7 +2,7 @@ package com.sirlang.program.vars;
 
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 
-public interface JavaVarCode {
+interface JavaVarCode {
 
     String HELLO_WORLD_WITH_STRING_VAR_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
             "public static void main(String[] args) {" + LINE_SEPARATOR +

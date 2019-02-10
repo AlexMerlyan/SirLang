@@ -1,16 +1,10 @@
-package com.sirlang.program;
+package com.sirlang.program.vars;
 
 import lombok.Getter;
 
 import static com.sirlang.program.vars.JavaVarCode.*;
-import static com.sirlang.program.vars.JavaVarCode.PRINT_WITH_BOOLEAN_VAR_JAVA_CODE;
-import static com.sirlang.program.vars.JavaVarCode.PRINT_WITH_DOUBLE_LONG_STRING_BOOLEAN_VAR_JAVA_CODE;
 import static com.sirlang.program.vars.JavaVarOutput.*;
-import static com.sirlang.program.vars.JavaVarOutput.PRINT_WITH_BOOLEAN_VAR_OUTPUT;
-import static com.sirlang.program.vars.JavaVarOutput.PRINT_WITH_DOUBLE_LONG_STRING_BOOLEAN_VAR_OUTPUT;
 import static com.sirlang.program.vars.SirLangVar.*;
-import static com.sirlang.program.vars.SirLangVar.PRINT_WITH_BOOLEAN_VAR;
-import static com.sirlang.program.vars.SirLangVar.PRINT_WITH_DOUBLE_LONG_STRING_BOOLEAN_VAR;
 
 @Getter
 public enum SirLangVarsProgram {

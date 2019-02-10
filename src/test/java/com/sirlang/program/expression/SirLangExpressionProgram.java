@@ -1,16 +1,10 @@
-package com.sirlang.program;
+package com.sirlang.program.expression;
 
 import lombok.Getter;
 
 import static com.sirlang.program.expression.JavaExpressionCode.*;
-import static com.sirlang.program.expression.JavaExpressionCode.PRINT_LONG_DIVIDE_DOUBLE_JAVA_CODE;
-import static com.sirlang.program.expression.JavaExpressionCode.PRINT_LONG_MULTIPLY_DOUBLE_JAVA_CODE;
 import static com.sirlang.program.expression.JavaExpressionOutput.*;
-import static com.sirlang.program.expression.JavaExpressionOutput.PRINT_LONG_DIVIDE_DOUBLE_OUTPUT;
-import static com.sirlang.program.expression.JavaExpressionOutput.PRINT_LONG_MULTIPLY_DOUBLE_OUTPUT;
 import static com.sirlang.program.expression.SirLangExpression.*;
-import static com.sirlang.program.expression.SirLangExpression.PRINT_LONG_DIVIDE_DOUBLE;
-import static com.sirlang.program.expression.SirLangExpression.PRINT_LONG_MULTIPLY_DOUBLE;
 
 @Getter
 public enum SirLangExpressionProgram {

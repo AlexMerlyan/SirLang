@@ -1,11 +1,10 @@
-package com.sirlang.program;
+package com.sirlang.program.datatypes;
 
 import lombok.Getter;
 
 import static com.sirlang.program.datatypes.JavaDataTypeCode.*;
 import static com.sirlang.program.datatypes.JavaDataTypeOutput.*;
 import static com.sirlang.program.datatypes.SirLangDataType.*;
-import static com.sirlang.program.datatypes.SirLangDataType.PRINT_LONG_VALUE;
 
 @Getter
 public enum SirLangDataTypeProgram {

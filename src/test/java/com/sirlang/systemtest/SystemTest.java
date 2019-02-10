@@ -1,7 +1,6 @@
 package com.sirlang.systemtest;
 
 import com.sirlang.AbstractTest;
-import com.sirlang.program.*;
 import com.sirlang.assembler.Assembler;
 import com.sirlang.assembler.SirLangAssembler;
 import com.sirlang.java.compiler.JavaCodeCompiler;
@@ -9,6 +8,12 @@ import com.sirlang.java.compiler.JavaCodeCompilerImpl;
 import com.sirlang.java.executor.ExecutionResult;
 import com.sirlang.java.executor.JavaCodeRunner;
 import com.sirlang.java.executor.JavaCodeRunnerImpl;
+import com.sirlang.program.concat.SirLangConcatProgram;
+import com.sirlang.program.concatvars.SirLangConcatVarsProgram;
+import com.sirlang.program.datatypes.SirLangDataTypeProgram;
+import com.sirlang.program.expression.SirLangExpressionProgram;
+import com.sirlang.program.helloworld.SirLangHelloWorldProgram;
+import com.sirlang.program.vars.SirLangVarsProgram;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +67,12 @@ public class SystemTest extends AbstractTest {
     @Test
     @UseDataProvider("dataProvideSirLangVarsProgram")
     public void shouldCompileSirLangExpressionProgram(@NotNull SirLangVarsProgram program) throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangConcatVarsProgram")
+    public void shouldCompileSirLangConcatVarsProgram(@NotNull SirLangConcatVarsProgram program) throws IOException, InterruptedException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
     }
 

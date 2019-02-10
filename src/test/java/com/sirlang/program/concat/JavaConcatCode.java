@@ -2,7 +2,7 @@ package com.sirlang.program.concat;
 
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 
-public interface JavaConcatCode {
+interface JavaConcatCode {
 
     String PRINT_BOOLEAN_TRUE_PLUS_STRING_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
             "public static void main(String[] args) {" + LINE_SEPARATOR +

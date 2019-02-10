@@ -2,7 +2,7 @@ package com.sirlang.program.expression;
 
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 
-public interface JavaExpressionCode {
+interface JavaExpressionCode {
 
     String PRINT_LONG_PLUS_LONG_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
             "public static void main(String[] args) {" + LINE_SEPARATOR +

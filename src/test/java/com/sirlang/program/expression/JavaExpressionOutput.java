@@ -2,7 +2,7 @@ package com.sirlang.program.expression;
 
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 
-public interface JavaExpressionOutput {
+interface JavaExpressionOutput {
     String PRINT_LONG_PLUS_LONG_OUTPUT = "100" + LINE_SEPARATOR;
     String PRINT_LONG_MINUS_LONG_OUTPUT = "10" + LINE_SEPARATOR;
     String PRINT_LONG_MULTIPLY_LONG_OUTPUT = "40" + LINE_SEPARATOR;

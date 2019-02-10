@@ -2,7 +2,7 @@ package com.sirlang.program.vars;
 
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 
-public interface JavaVarOutput {
+interface JavaVarOutput {
     String HELLO_WORLD_WITH_STRING_VAR_OUTPUT = "Моя первая программа на языке Сударь!" + LINE_SEPARATOR;
     String PRINT_WITH_LONG_VAR_OUTPUT = "2019" + LINE_SEPARATOR;
     String PRINT_WITH_DOUBLE_WITH_COMMA_VAR_OUTPUT = "2019.1" + LINE_SEPARATOR;

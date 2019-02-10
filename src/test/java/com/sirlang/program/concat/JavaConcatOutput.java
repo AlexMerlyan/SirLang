@@ -2,7 +2,7 @@ package com.sirlang.program.concat;
 
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 
-public interface JavaConcatOutput {
+interface JavaConcatOutput {
     String PRINT_BOOLEAN_TRUE_PLUS_STRING_OUTPUT = "true это моя строка" + LINE_SEPARATOR;
     String PRINT_STRING_PLUS_BOOLEAN_FALSE_OUTPUT = "Это моя строка false" + LINE_SEPARATOR;
     String PRINT_STRING_PLUS_LONG_PLUS_DOUBLE_OUTPUT = "СТРОКА С ЧИСЛАМИ = 62.2" + LINE_SEPARATOR;

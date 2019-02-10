@@ -1,6 +1,6 @@
 package com.sirlang.program.datatypes;
 
-public interface SirLangDataType {
+interface SirLangDataType {
 
     String PRINT_BOOLEAN_TRUE = "Приветствую!\n" +
             "\tСударь, будьте добры, выведите на экран это: правда\n" +
