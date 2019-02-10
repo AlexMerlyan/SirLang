@@ -1,6 +1,6 @@
 package com.sirlang;
 
-import com.sirlang.program.SirLangProgram;
+import com.sirlang.program.*;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Slf4j
 public abstract class AbstractTest {
@@ -40,16 +41,43 @@ public abstract class AbstractTest {
     }
 
     @NotNull
-    @SuppressWarnings("unused")
     @DataProvider
-    public static List<List<SirLangProgram>> dataProvideSirLangProgram() {
-        @NotNull List<List<SirLangProgram>> sirLangProgramLists = new ArrayList<>();
-        for (SirLangProgram sirLangProgram : SirLangProgram.values()) {
-            @NotNull final ArrayList<SirLangProgram> sirLangProgramList = new ArrayList<>();
-            sirLangProgramList.add(sirLangProgram);
-            sirLangProgramLists.add(sirLangProgramList);
+    public static List<List<Object>> dataProvideSirLangHelloWorldProgram() {
+        return getProgramsDataProvider(SirLangHelloWorldProgram.values());
+    }
+
+    @NotNull
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangConcatProgram() {
+        return getProgramsDataProvider(SirLangConcatProgram.values());
+    }
+
+    @NotNull
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangDataTypeProgram() {
+        return getProgramsDataProvider(SirLangDataTypeProgram.values());
+    }
+
+    @NotNull
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangExpressionProgram() {
+        return getProgramsDataProvider(SirLangExpressionProgram.values());
+    }
+
+    @NotNull
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangVarsProgram() {
+        return getProgramsDataProvider(SirLangVarsProgram.values());
+    }
+
+    private static List<List<Object>> getProgramsDataProvider(Object[] objects) {
+        @NotNull List<List<Object>> programLists = new ArrayList<>();
+        for (Object program : objects) {
+            @NotNull final ArrayList<Object> programs = new ArrayList<>();
+            programs.add(program);
+            programLists.add(programs);
         }
-        return sirLangProgramLists;
+        return programLists;
     }
 
     @NotNull

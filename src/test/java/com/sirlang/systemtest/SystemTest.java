@@ -1,7 +1,7 @@
 package com.sirlang.systemtest;
 
 import com.sirlang.AbstractTest;
-import com.sirlang.program.SirLangProgram;
+import com.sirlang.program.*;
 import com.sirlang.assembler.Assembler;
 import com.sirlang.assembler.SirLangAssembler;
 import com.sirlang.java.compiler.JavaCodeCompiler;
@@ -36,12 +36,39 @@ public class SystemTest extends AbstractTest {
     }
 
     @Test
-    @UseDataProvider("dataProvideSirLangProgram")
-    public void shouldCompileHelloWorldProgram(@NotNull SirLangProgram program) throws IOException, InterruptedException {
-        log.debug("Start test with program: {}", program.getSirLangProgram());
-        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, program.getSirLangProgram());
+    @UseDataProvider("dataProvideSirLangHelloWorldProgram")
+    public void shouldCompileSirLangHelloWorldProgram(@NotNull SirLangHelloWorldProgram program) throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangConcatProgram")
+    public void shouldCompileSirLangConcatProgram(@NotNull SirLangConcatProgram program) throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangDataTypeProgram")
+    public void shouldCompileSirLangDataTypeProgram(@NotNull SirLangDataTypeProgram program) throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangExpressionProgram")
+    public void shouldCompileSirLangExpressionProgram(@NotNull SirLangExpressionProgram program) throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangVarsProgram")
+    public void shouldCompileSirLangExpressionProgram(@NotNull SirLangVarsProgram program) throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    private void compileAndAssertSirLangProgram(String sirLangProgram, String javaOutputConsole) throws IOException, InterruptedException {
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, sirLangProgram);
         @NotNull final ExecutionResult executionResult = compileByFilePath(testFile.getAbsolutePath());
-        Assert.assertEquals(program.getJavaOutputConsole(), executionResult.getConsoleOutput());
+        Assert.assertEquals(javaOutputConsole, executionResult.getConsoleOutput());
     }
 
 }

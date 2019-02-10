@@ -1,7 +1,7 @@
 package com.sirlang.assembler;
 
 import com.sirlang.AbstractTest;
-import com.sirlang.program.SirLangProgram;
+import com.sirlang.program.*;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -40,12 +40,40 @@ public class SirLangAssemblerTest extends AbstractTest {
     }
 
     @Test
-    @UseDataProvider("dataProvideSirLangProgram")
-    public void shouldCompileSirLangProgram(@NotNull SirLangProgram program) throws IOException {
-        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, program.getSirLangProgram());
+    @UseDataProvider("dataProvideSirLangHelloWorldProgram")
+    public void shouldCompileSirLangHelloWorldProgram(@NotNull SirLangHelloWorldProgram program) throws IOException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangConcatProgram")
+    public void shouldCompileSirLangConcatProgram(@NotNull SirLangConcatProgram program) throws IOException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangDataTypeProgram")
+    public void shouldCompileSirLangDataTypeProgram(@NotNull SirLangDataTypeProgram program) throws IOException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangExpressionProgram")
+    public void shouldCompileSirLangExpressionProgram(@NotNull SirLangExpressionProgram program) throws IOException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangVarsProgram")
+    public void shouldCompileSirLangExpressionProgram(@NotNull SirLangVarsProgram program) throws IOException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
+    }
+
+    private void compileAndAssertSirLangProgram(String sirLangProgram, String javaEquivalentProgram) throws IOException {
+        @NotNull final File testFile = createTestFile(SIR_FILE_NAME, sirLangProgram);
         @NotNull final File compiledFile = defaultAssembler.compileSourceFile(testFile.getAbsolutePath());
         @NotNull final String content = readContent(compiledFile);
-        Assert.assertEquals(program.getJavaEquivalentProgram(), content);
+        Assert.assertEquals(javaEquivalentProgram, content);
     }
 
     @Test(expected = IllegalArgumentException.class)
