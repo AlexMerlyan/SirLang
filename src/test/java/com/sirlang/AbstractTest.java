@@ -1,9 +1,13 @@
 package com.sirlang;
 
-import com.sirlang.program.SirLangProgram;
+import com.sirlang.program.concat.SirLangConcatProgram;
+import com.sirlang.program.concatvars.SirLangConcatVarsProgram;
+import com.sirlang.program.datatypes.SirLangDataTypeProgram;
+import com.sirlang.program.expression.SirLangExpressionProgram;
+import com.sirlang.program.helloworld.SirLangHelloWorldProgram;
+import com.sirlang.program.vars.SirLangVarsProgram;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 
 import java.io.BufferedWriter;
@@ -13,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @Slf4j
 public abstract class AbstractTest {
 
@@ -24,7 +29,7 @@ public abstract class AbstractTest {
 
     @After
     public void removeTestFiles() {
-        @NotNull File file = new File(COMPILED_FILE_NAME);
+        final File file = new File(COMPILED_FILE_NAME);
         boolean isFileDeleted = file.exists() && file.delete();
         if (isFileDeleted) {
             log.debug(LOG_FILE_WAS_DELETED, COMPILED_FILE_NAME);
@@ -39,23 +44,56 @@ public abstract class AbstractTest {
         }
     }
 
-    @NotNull
-    @SuppressWarnings("unused")
+
     @DataProvider
-    public static List<List<SirLangProgram>> dataProvideSirLangProgram() {
-        @NotNull List<List<SirLangProgram>> sirLangProgramLists = new ArrayList<>();
-        for (SirLangProgram sirLangProgram : SirLangProgram.values()) {
-            @NotNull final ArrayList<SirLangProgram> sirLangProgramList = new ArrayList<>();
-            sirLangProgramList.add(sirLangProgram);
-            sirLangProgramLists.add(sirLangProgramList);
-        }
-        return sirLangProgramLists;
+    public static List<List<Object>> dataProvideSirLangHelloWorldProgram() {
+        return getProgramsDataProvider(SirLangHelloWorldProgram.values());
     }
 
-    @NotNull
-    protected File createTestFile(@NotNull String fileName, @NotNull String content) throws IOException {
-        @NotNull File testFile = new File(fileName);
-        @NotNull BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(testFile));
+
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangConcatProgram() {
+        return getProgramsDataProvider(SirLangConcatProgram.values());
+    }
+
+
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangDataTypeProgram() {
+        return getProgramsDataProvider(SirLangDataTypeProgram.values());
+    }
+
+
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangExpressionProgram() {
+        return getProgramsDataProvider(SirLangExpressionProgram.values());
+    }
+
+
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangVarsProgram() {
+        return getProgramsDataProvider(SirLangVarsProgram.values());
+    }
+
+
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangConcatVarsProgram() {
+        return getProgramsDataProvider(SirLangConcatVarsProgram.values());
+    }
+
+    private static List<List<Object>> getProgramsDataProvider(final Object[] objects) {
+        List<List<Object>> programLists = new ArrayList<>();
+        for (Object program : objects) {
+            final ArrayList<Object> programs = new ArrayList<>();
+            programs.add(program);
+            programLists.add(programs);
+        }
+        return programLists;
+    }
+
+
+    protected File createTestFile(final String fileName, final String content) throws IOException {
+        final File testFile = new File(fileName);
+        final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(testFile));
         bufferedWriter.write(content);
         bufferedWriter.close();
         return testFile;

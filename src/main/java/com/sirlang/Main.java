@@ -8,7 +8,6 @@ import com.sirlang.java.executor.ExecutionResult;
 import com.sirlang.java.executor.JavaCodeRunner;
 import com.sirlang.java.executor.JavaCodeRunnerImpl;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -32,9 +31,9 @@ class Main {
 
     private static void compileByFilePath(final String sirLangFilePath) {
         try {
-            @NotNull final File javaFile = ASSEMBLER.compileSourceFile(sirLangFilePath);
-            @NotNull final File byteCodeFile = JAVA_CODE_COMPILER.compileJavaFile(javaFile);
-            @NotNull final ExecutionResult executionResult = JAVA_CODE_RUNNER.runCompiledCode(byteCodeFile);
+            final File javaFile = ASSEMBLER.compileSourceFile(sirLangFilePath);
+            final File byteCodeFile = JAVA_CODE_COMPILER.compileJavaFile(javaFile);
+            final ExecutionResult executionResult = JAVA_CODE_RUNNER.runCompiledCode(byteCodeFile);
             System.out.println(executionResult.getConsoleOutput());
         } catch (Exception e) {
             System.out.println(SOMETHING_WAS_WRONG);

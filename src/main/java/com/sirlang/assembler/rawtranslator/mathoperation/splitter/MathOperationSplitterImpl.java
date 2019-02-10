@@ -1,7 +1,6 @@
 package com.sirlang.assembler.rawtranslator.mathoperation.splitter;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +10,13 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 public class MathOperationSplitterImpl implements MathOperationSplitter {
 
-    @NotNull
     @Override
-    public List<String> splitByCharOperation(@NotNull final String argument, final char operationChar) {
-        @NotNull final List<String> strings = new ArrayList<>();
+    public List<String> splitByCharOperation(final String argument, final char operationChar) {
+        final List<String> strings = new ArrayList<>();
         if (StringUtils.isNotEmpty(argument)) {
-            @NotNull final char[] symbols = argument.toCharArray();
+            final char[] symbols = argument.toCharArray();
             final int lastCharIndex = symbols.length - 1;
-            @NotNull final SplitState state = new SplitState(lastCharIndex);
+            final SplitState state = new SplitState(lastCharIndex);
             for (int i = 0; i < symbols.length; i++) {
                 state.setCurrentChar(symbols[i]);
                 state.setIteration(i);
@@ -31,7 +29,7 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
         return strings;
     }
 
-    private void updateState(final SplitState state, @NotNull final String argument, final char operationChar) {
+    private void updateState(final SplitState state, final String argument, final char operationChar) {
         if (isStartOrEndString(state.getCurrentChar())) {
             updateStateStringCase(state, argument);
         } else if (operationChar == state.getCurrentChar() && !state.isString()) {
@@ -43,7 +41,7 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
         }
     }
 
-    private void updateStateStringCase(@NotNull SplitState state, @NotNull String argument) {
+    private void updateStateStringCase(SplitState state, String argument) {
         String operand = EMPTY;
         if (isStartOfString(state)) {
             operand = argument.substring(state.getStartIndex(), state.getIteration());
@@ -58,13 +56,13 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
     }
 
     private void updateStateOperationCharCase(final SplitState state, final String argument) {
-        @NotNull final String operand = argument.substring(state.getStartIndex(), state.getIteration());
+        final String operand = argument.substring(state.getStartIndex(), state.getIteration());
         state.setStartIndex(updateStartIndexForOperationCase(state.getIteration()));
         state.setOperand(operand);
     }
 
     private void updateStateLastIndexCase(final SplitState state, final String argument) {
-        @NotNull final String operand = argument.substring(state.getStartIndex());
+        final String operand = argument.substring(state.getStartIndex());
         state.setOperand(operand);
     }
 
