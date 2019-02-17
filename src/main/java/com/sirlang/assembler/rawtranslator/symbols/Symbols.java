@@ -9,4 +9,5 @@ public interface Symbols {
     String COMMA = ",";
     String SLASH = "/";
     String LONG_POSTFIX = "L";
+    String SPACE = " ";
 }

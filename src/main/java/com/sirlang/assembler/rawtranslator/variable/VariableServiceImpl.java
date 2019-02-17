@@ -36,4 +36,14 @@ public class VariableServiceImpl implements VariableService {
         return optionalVarByName.isPresent();
     }
 
+    @Override
+    public boolean containsJavaVar(String varName) {
+        for (final JavaVariable javaVariable : variables.values()) {
+            if (javaVariable.getName().equals(varName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
