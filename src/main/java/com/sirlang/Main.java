@@ -39,4 +39,5 @@ class Main {
             System.out.println(SOMETHING_WAS_WRONG);
         }
     }
+    
 }

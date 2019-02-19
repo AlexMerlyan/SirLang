@@ -2,7 +2,7 @@ package com.sirlang.assembler.rawtranslator.mathoperation;
 
 import com.sirlang.assembler.rawtranslator.datatype.BooleanKeyword;
 import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitter;
-import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitterImpl;
+import com.sirlang.assembler.rawtranslator.variable.VariableService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -16,7 +16,13 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class MathOperationTranslatorImpl implements MathOperationTranslator {
 
-    private final MathOperationSplitter splitter = new MathOperationSplitterImpl();
+    private final MathOperationSplitter splitter;
+    private final VariableService variableService;
+
+    public MathOperationTranslatorImpl(final MathOperationSplitter splitter, final VariableService variableService) {
+        this.splitter = splitter;
+        this.variableService = variableService;
+    }
 
     @Override
     public String transformMathematicalOperations(final String expression) {
@@ -26,6 +32,7 @@ public class MathOperationTranslatorImpl implements MathOperationTranslator {
         }
         return transformedExpression;
     }
+
 
     private String transformMathematicalOperation(final String expression, final MathOperation operation) {
         final String result;
@@ -62,6 +69,8 @@ public class MathOperationTranslatorImpl implements MathOperationTranslator {
             preparedArg = getBoolean(arg).get().toString();
         } else if (isMathematicsExpression(arg)) {
             preparedArg = arg;
+        } else if (variableService.isVariableName(arg)) {
+            preparedArg = variableService.getVarByName(arg).getName();
         }
         return preparedArg;
     }
@@ -82,6 +91,7 @@ public class MathOperationTranslatorImpl implements MathOperationTranslator {
         }
         return sb.toString();
     }
+
 
     private String transformArgumentForOtherMathOperation(final String argument) {
         final String trimArg = argument.trim();
@@ -107,6 +117,11 @@ public class MathOperationTranslatorImpl implements MathOperationTranslator {
                 || argument.contains(MINUS.getOperation())
                 || argument.contains(MULTIPLY.getOperation())
                 || argument.contains(DIVIDE.getOperation());
+    }
+
+    @Override
+    public boolean isNotMathematicsExpression(String argument) {
+        return !isMathematicsExpression(argument);
     }
 
     @Override

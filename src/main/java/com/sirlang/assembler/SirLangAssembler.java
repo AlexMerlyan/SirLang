@@ -3,6 +3,13 @@ package com.sirlang.assembler;
 import com.google.common.base.Preconditions;
 import com.sirlang.assembler.rawtranslator.CodeRawTranslator;
 import com.sirlang.assembler.rawtranslator.CodeRawTranslatorImpl;
+import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator;
+import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslatorImpl;
+import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitter;
+import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitterImpl;
+import com.sirlang.assembler.rawtranslator.variable.JavaVarParser;
+import com.sirlang.assembler.rawtranslator.variable.VariableService;
+import com.sirlang.assembler.rawtranslator.variable.VariableServiceImpl;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,6 +19,7 @@ import java.util.Scanner;
 
 import static com.sirlang.ErrorMessages.*;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
+import static com.sirlang.assembler.rawtranslator.symbols.Symbols.SLASH;
 import static com.sirlang.java.JavaConstants.COMPILED_FILE_NAME;
 
 public class SirLangAssembler implements Assembler {
@@ -26,12 +34,21 @@ public class SirLangAssembler implements Assembler {
 
     private static final String JAVA_END_PROGRAM_EQUIVALENT = "}" + LINE_SEPARATOR + "}";
 
-    private final CodeRawTranslator rawTranslator = new CodeRawTranslatorImpl();
+    private final CodeRawTranslator rawTranslator;
+
+    public SirLangAssembler() {
+        final VariableService variableService = new VariableServiceImpl();
+        final MathOperationSplitter splitter = new MathOperationSplitterImpl();
+        final MathOperationTranslator operationTranslator = new MathOperationTranslatorImpl(splitter, variableService);
+        final JavaVarParser javaVarParser = new JavaVarParser(operationTranslator, variableService);
+        this.rawTranslator = new CodeRawTranslatorImpl(variableService, javaVarParser);
+    }
+
 
     public File compileSourceFile(@NonNull final String sourcePath) throws IOException {
         Preconditions.checkArgument(sourcePath.contains(SOURCE_FILE_EXTENSION), FILE_EXTENSION_ERROR_MESSAGE);
         final String sourceCode = readSourceFile(sourcePath);
-        final int startFileNameIndex = sourcePath.lastIndexOf("/") + 1;
+        final int startFileNameIndex = sourcePath.lastIndexOf(SLASH) + 1;
         final String fileNameWithExtension = sourcePath.substring(startFileNameIndex);
         final String javaFilePath = sourcePath.replace(fileNameWithExtension, COMPILED_FILE_NAME);
         return compileToJava(javaFilePath, sourceCode);
@@ -47,10 +64,12 @@ public class SirLangAssembler implements Assembler {
         return sb.toString();
     }
 
+
     private File compileToJava(@NonNull final String javaFilePath, @NonNull final String sourceCode) throws IOException {
         final char[] javaSourceCode = convertToJava(sourceCode);
         return writeJavaFile(javaFilePath, javaSourceCode);
     }
+
 
     private File writeJavaFile(@NonNull final String javaFilePath, @NonNull final char[] javaSourceCode) throws IOException {
         final File file = new File(javaFilePath);

@@ -7,6 +7,7 @@ import static com.sirlang.java.JavaConstants.*;
 
 public class JavaCodeCompilerImpl implements JavaCodeCompiler {
 
+
     @Override
     public File compileJavaFile(final File javaFile) throws InterruptedException, IOException {
         final String jrePath = System.getProperty(JRE_PROPERTY);

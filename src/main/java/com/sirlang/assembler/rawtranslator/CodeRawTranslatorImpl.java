@@ -1,60 +1,74 @@
 package com.sirlang.assembler.rawtranslator;
 
 import com.sirlang.assembler.command.Command;
-import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator;
-import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslatorImpl;
+import com.sirlang.assembler.rawtranslator.variable.JavaVarParser;
+import com.sirlang.assembler.rawtranslator.variable.JavaVariable;
+import com.sirlang.assembler.rawtranslator.variable.VariableService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import static com.sirlang.ErrorMessages.BOOLEAN_NOT_FOUND_ERROR_MESSAGE;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.*;
-import static org.apache.commons.lang3.math.NumberUtils.isNumber;
+import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
+@Slf4j
 public class CodeRawTranslatorImpl implements CodeRawTranslator {
 
-    private final MathOperationTranslator operationTranslator = new MathOperationTranslatorImpl();
+    private final VariableService variableService;
+    private final JavaVarParser javaVarParser;
 
-    public String transformToJava(String codeRow) {
+    public CodeRawTranslatorImpl(final VariableService variableService, final JavaVarParser javaVarParser) {
+        this.variableService = variableService;
+        this.javaVarParser = javaVarParser;
+    }
+
+    public String transformToJava(final String codeRow) {
         if (StringUtils.isNotEmpty(codeRow)) {
-            final String formattedCodeRow = codeRow.replaceAll(COMMA, StringUtils.EMPTY).toLowerCase();
-            for (Command command : Command.values()) {
+            final String formattedCodeRow = codeRow.replaceAll(COMMA, EMPTY).toLowerCase();
+            for (final Command command : Command.values()) {
                 if (formattedCodeRow.contains(command.getSirCommand())) {
-                    return String.format(command.getJavaCommand(), getArgument(codeRow)) + LINE_SEPARATOR;
+                    return transformCommandToJava(codeRow, command);
                 }
             }
         }
-        return StringUtils.EMPTY;
+        return EMPTY;
     }
+
+    private String transformCommandToJava(final String codeRow, final Command command) {
+        if (command.isContainAdditionalCommand()) {
+            return transformAdditionalCommandToJava(codeRow, command);
+        } else {
+            return format(command.getJavaCommand(), getArgument(codeRow));
+        }
+    }
+
+    private String transformAdditionalCommandToJava(final String codeRow, final Command command) {
+        final JavaVariable variable = getJavaVariable(codeRow, command);
+        final String sirLangVarName = getSirLangVarName(codeRow, command);
+        final String javaVarName = variableService.saveVar(sirLangVarName, variable);
+        return format(command.getJavaCommand(), variable.getType().getSimpleName(), javaVarName, variable.getValue());
+    }
+
+    private JavaVariable getJavaVariable(final String codeRow, final Command command) {
+        final String commandAndNameValuePair = codeRow.replace(command.getSirCommand(), EMPTY);
+        final String notTrimValue = commandAndNameValuePair.split(COMMAND_SEPARATOR)[1];
+        final String value = notTrimValue.trim();
+        return javaVarParser.parseArgumentToJavaVar(value);
+    }
+
+    private String getSirLangVarName(final String codeRow, final Command command) {
+        final String formattedCodeRow = codeRow.replaceAll(COMMA, EMPTY).toLowerCase();
+        final String notTrimCommandAndVarName = formattedCodeRow.split(COMMAND_SEPARATOR)[0];
+        final String notTrimVarName = notTrimCommandAndVarName.replace(command.getSirCommand(), EMPTY);
+        return notTrimVarName.trim();
+    }
+
 
     private Object getArgument(final String codeRow) {
         final String[] methodAndArgument = codeRow.split(COMMAND_SEPARATOR);
         final String formattedArgument = methodAndArgument[1].trim();
-        return getParsedArgument(formattedArgument);
-    }
-
-    private Object getParsedArgument(String formattedArgument) {
-        Object parsedArgument;
-        if (operationTranslator.isString(formattedArgument)) {
-            parsedArgument = formattedArgument;
-        } else if(operationTranslator.isMathematicsExpression(formattedArgument)) {
-            parsedArgument = operationTranslator.transformMathematicalOperations(formattedArgument);
-        } else if (isNumber(formattedArgument.replace(COMMA, POINT))) {
-            parsedArgument = getParsedNumber(formattedArgument);
-        } else {
-            parsedArgument = operationTranslator.getBoolean(formattedArgument).orElseThrow(() -> new IllegalArgumentException(BOOLEAN_NOT_FOUND_ERROR_MESSAGE));
-        }
-        return parsedArgument;
-    }
-
-    private Object getParsedNumber(String formattedArgument) {
-        Object parsedArgument;
-        if (formattedArgument.contains(POINT)) {
-            parsedArgument = Double.valueOf(formattedArgument);
-        } else if (formattedArgument.contains(COMMA)) {
-            parsedArgument = Double.valueOf(formattedArgument.replace(COMMA, POINT));
-        } else {
-            parsedArgument = formattedArgument + LONG_POSTFIX;
-        }
-        return parsedArgument;
+        final JavaVariable javaVariable = javaVarParser.parseArgumentToJavaVar(formattedArgument);
+        return javaVariable.getName() != null ? javaVariable.getName() : javaVariable.getValue();
     }
 
 }

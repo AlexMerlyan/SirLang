@@ -13,8 +13,8 @@ import java.io.PrintStream;
 import static com.sirlang.ErrorMessages.NO_ARGUMENTS_TO_COMPILE;
 import static com.sirlang.ErrorMessages.SOMETHING_WAS_WRONG;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
-import static com.sirlang.program.JavaConsoleOutput.HELLO_WORLD_PROGRAM_OUTPUT;
-import static com.sirlang.program.SirLangPrintProgramCode.HELLO_WORLD_PROGRAM;
+import static com.sirlang.program.helloworld.JavaHelloWorldOutput.HELLO_WORLD_OUTPUT;
+import static com.sirlang.program.helloworld.SirLangHelloWorld.HELLO_WORLD;
 import static org.junit.Assert.assertEquals;
 
 public class MainTest extends AbstractTest {
@@ -34,9 +34,9 @@ public class MainTest extends AbstractTest {
 
     @Test
     public void shouldCompileSirLangFileThroughMainMethod() throws IOException {
-        File file = createTestFile(SIR_FILE_NAME, HELLO_WORLD_PROGRAM);
+        final File file = createTestFile(SIR_FILE_NAME, HELLO_WORLD);
         Main.main(file.getAbsolutePath());
-        assertEquals(HELLO_WORLD_PROGRAM_OUTPUT + LINE_SEPARATOR, outContent.toString());
+        assertEquals(HELLO_WORLD_OUTPUT + LINE_SEPARATOR, outContent.toString());
     }
 
     @Test

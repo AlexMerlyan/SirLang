@@ -7,5 +7,7 @@ public interface Symbols {
     String QUOTE = "\"";
     String POINT = ".";
     String COMMA = ",";
+    String SLASH = "/";
     String LONG_POSTFIX = "L";
+    String SPACE = " ";
 }

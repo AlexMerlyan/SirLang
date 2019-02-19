@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static com.sirlang.assembler.rawtranslator.symbols.Symbols.LINE_SEPARATOR;
 import static com.sirlang.java.JavaConstants.*;
 
 public class JavaCodeRunnerImpl implements JavaCodeRunner {
@@ -19,12 +20,13 @@ public class JavaCodeRunnerImpl implements JavaCodeRunner {
 
         final Scanner scanner = new Scanner(process.getInputStream());
         final StringBuilder output = new StringBuilder();
-        while(scanner.hasNextLine()) {
-            output.append(scanner.nextLine());
+        while (scanner.hasNextLine()) {
+            output.append(scanner.nextLine()).append(LINE_SEPARATOR);
         }
         scanner.close();
 
         process.waitFor();
         return new ExecutionResult(output.toString());
     }
+
 }
