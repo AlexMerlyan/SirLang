@@ -116,4 +116,13 @@ interface JavaConcatVarsCode {
             "}" + LINE_SEPARATOR +
             "}" + LINE_SEPARATOR;
 
+    String PRINT_STRING_VAR_INIT_BY_STRING_VAR_PLUS_DOUBLE_VAR_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
+            "public static void main(String[] args) {" + LINE_SEPARATOR +
+            "String var0 = \"значение строки 1\";" + LINE_SEPARATOR +
+            "Double var1 = 2.2;" + LINE_SEPARATOR +
+            "String var2 = var0+var1;" + LINE_SEPARATOR +
+            "System.out.println(var2);" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR;
+
 }
