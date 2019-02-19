@@ -15,4 +15,6 @@ interface JavaConcatVarsOutput {
     String PRINT_BOOLEAN_VAR_PLUS_STRING_VAR_OUTPUT = "trueтестовая строка" + LINE_SEPARATOR;
     String PRINT_STRING_VAR_WITH_CONCAT_OUTPUT = "тестовая строка и еще одна тестовая строка" + LINE_SEPARATOR;
     String PRINT_DOUBLE_VAR_WITH_CONCAT_OUTPUT = "10.0" + LINE_SEPARATOR;
+    String PRINT_STRING_VAR_INIT_BY_STRING_VAR_PLUS_STRING_VAR_OUTPUT = "значение строки 1значение строки 2" + LINE_SEPARATOR;
+    String PRINT_DOUBLE_VAR_INIT_BY_DOUBLE_VAR_PLUS_LONG_VAR_OUTPUT = "3.2" + LINE_SEPARATOR;
 }

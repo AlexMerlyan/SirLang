@@ -9,5 +9,7 @@ public interface MathOperationTranslator {
 
     boolean isMathematicsExpression(final String argument);
 
+    boolean isNotMathematicsExpression(final String argument);
+
     Optional<Boolean> getBoolean(final String argument);
 }

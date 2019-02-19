@@ -1,5 +1,7 @@
 package com.sirlang.assembler.rawtranslator.variable;
 
+import java.util.Optional;
+
 public interface VariableService {
     JavaVariable getVarByName(final String varName);
 
@@ -7,5 +9,7 @@ public interface VariableService {
 
     boolean isVariableName(final String formattedArgument);
 
-    boolean containsJavaVar(final String varName);
+    Optional<JavaVariable> getVarByJavaName(final String javaVarName);
+
+    boolean hasVar(String[] args);
 }
