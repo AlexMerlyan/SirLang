@@ -120,6 +120,11 @@ public class MathOperationTranslatorImpl implements MathOperationTranslator {
     }
 
     @Override
+    public boolean isNotMathematicsExpression(String argument) {
+        return !isMathematicsExpression(argument);
+    }
+
+    @Override
     public Optional<Boolean> getBoolean(final String argument) {
         for (final BooleanKeyword keyword : BooleanKeyword.values()) {
             for (final String keywordVariant : keyword.getKeywords()) {

@@ -11,7 +11,6 @@ import static com.sirlang.java.JavaConstants.*;
 
 public class JavaCodeRunnerImpl implements JavaCodeRunner {
 
-
     public ExecutionResult runCompiledCode(File byteCodeFile) throws IOException, InterruptedException {
         final String jrePath = System.getProperty(JRE_PROPERTY);
         final String javaPath = jrePath.replace(JRE_DIRECTORY, RUN_COMMAND);
@@ -29,4 +28,5 @@ public class JavaCodeRunnerImpl implements JavaCodeRunner {
         process.waitFor();
         return new ExecutionResult(output.toString());
     }
+
 }

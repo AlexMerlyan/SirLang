@@ -7,6 +7,7 @@ import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslatorImpl;
 import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitter;
 import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitterImpl;
+import com.sirlang.assembler.rawtranslator.variable.JavaVarParser;
 import com.sirlang.assembler.rawtranslator.variable.VariableService;
 import com.sirlang.assembler.rawtranslator.variable.VariableServiceImpl;
 import lombok.NonNull;
@@ -39,7 +40,8 @@ public class SirLangAssembler implements Assembler {
         final VariableService variableService = new VariableServiceImpl();
         final MathOperationSplitter splitter = new MathOperationSplitterImpl();
         final MathOperationTranslator operationTranslator = new MathOperationTranslatorImpl(splitter, variableService);
-        this.rawTranslator = new CodeRawTranslatorImpl(variableService, operationTranslator);
+        final JavaVarParser javaVarParser = new JavaVarParser(operationTranslator, variableService);
+        this.rawTranslator = new CodeRawTranslatorImpl(variableService, javaVarParser);
     }
 
 

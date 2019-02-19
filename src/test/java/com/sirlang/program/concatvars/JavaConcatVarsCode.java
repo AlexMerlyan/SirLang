@@ -84,4 +84,45 @@ interface JavaConcatVarsCode {
             "}" + LINE_SEPARATOR +
             "}" + LINE_SEPARATOR;
 
+    String PRINT_STRING_VAR_WITH_CONCAT_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
+            "public static void main(String[] args) {" + LINE_SEPARATOR +
+            "String var0 = \"тестовая строка\" + \" и еще одна тестовая строка\";" + LINE_SEPARATOR +
+            "System.out.println(var0);" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR;
+
+    String PRINT_DOUBLE_VAR_WITH_CONCAT_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
+            "public static void main(String[] args) {" + LINE_SEPARATOR +
+            "Double var0 = 5.2+4.8;" + LINE_SEPARATOR +
+            "System.out.println(var0);" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR;
+
+    String PRINT_STRING_VAR_INIT_BY_STRING_VAR_PLUS_STRING_VAR_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
+            "public static void main(String[] args) {" + LINE_SEPARATOR +
+            "String var0 = \"значение строки 1\";" + LINE_SEPARATOR +
+            "String var1 = \"значение строки 2\";" + LINE_SEPARATOR +
+            "String var2 = var0+var1;" + LINE_SEPARATOR +
+            "System.out.println(var2);" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR;
+
+    String PRINT_DOUBLE_VAR_INIT_BY_DOUBLE_VAR_PLUS_LONG_VAR_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
+            "public static void main(String[] args) {" + LINE_SEPARATOR +
+            "Double var0 = 2.2;" + LINE_SEPARATOR +
+            "Long var1 = 1L;" + LINE_SEPARATOR +
+            "Double var2 = var0+var1;" + LINE_SEPARATOR +
+            "System.out.println(var2);" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR;
+
+    String PRINT_STRING_VAR_INIT_BY_STRING_VAR_PLUS_DOUBLE_VAR_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
+            "public static void main(String[] args) {" + LINE_SEPARATOR +
+            "String var0 = \"значение строки 1\";" + LINE_SEPARATOR +
+            "Double var1 = 2.2;" + LINE_SEPARATOR +
+            "String var2 = var0+var1;" + LINE_SEPARATOR +
+            "System.out.println(var2);" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR;
+
 }
