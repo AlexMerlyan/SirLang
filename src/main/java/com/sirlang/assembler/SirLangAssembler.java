@@ -3,6 +3,7 @@ package com.sirlang.assembler;
 import com.google.common.base.Preconditions;
 import com.sirlang.assembler.rawtranslator.CodeRawTranslator;
 import com.sirlang.assembler.rawtranslator.CodeRawTranslatorImpl;
+import com.sirlang.assembler.rawtranslator.booleanoperation.BooleanOperationTranslatorImpl;
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator;
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslatorImpl;
 import com.sirlang.assembler.rawtranslator.mathoperation.splitter.MathOperationSplitter;
@@ -40,7 +41,7 @@ public class SirLangAssembler implements Assembler {
         final VariableService variableService = new VariableServiceImpl();
         final MathOperationSplitter splitter = new MathOperationSplitterImpl();
         final MathOperationTranslator operationTranslator = new MathOperationTranslatorImpl(splitter, variableService);
-        final JavaVarParser javaVarParser = new JavaVarParser(operationTranslator, variableService);
+        final JavaVarParser javaVarParser = new JavaVarParser(operationTranslator, variableService, new BooleanOperationTranslatorImpl());
         this.rawTranslator = new CodeRawTranslatorImpl(variableService, javaVarParser);
     }
 
