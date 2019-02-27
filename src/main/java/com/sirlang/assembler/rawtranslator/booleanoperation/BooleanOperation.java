@@ -6,10 +6,10 @@ import lombok.Getter;
 public enum BooleanOperation {
 
     EQUALS("=", "=="),
-    GREATER_THEN(">", ">"),
-    LESS_THEN("<", "<"),
     GREATER_THEN_OR_EQUALS(">=", ">="),
-    LESS_THEN_OR_EQUALS("<=", "<=");
+    LESS_THEN_OR_EQUALS("<=", "<="),
+    GREATER_THEN(">", ">"),
+    LESS_THEN("<", "<");
 
     private final String operationSign;
     private final String equivalentJavaSign;
