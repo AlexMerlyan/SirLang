@@ -9,7 +9,8 @@ public enum BooleanOperation {
     GREATER_THEN_OR_EQUALS(">=", ">="),
     LESS_THEN_OR_EQUALS("<=", "<="),
     GREATER_THEN(">", ">"),
-    LESS_THEN("<", "<");
+    LESS_THEN("<", "<"),
+    NOT("не ", "!");
 
     private final String operationSign;
     private final String equivalentJavaSign;
