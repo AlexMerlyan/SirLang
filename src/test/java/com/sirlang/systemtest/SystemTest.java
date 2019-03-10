@@ -8,6 +8,7 @@ import com.sirlang.java.compiler.JavaCodeCompilerImpl;
 import com.sirlang.java.executor.ExecutionResult;
 import com.sirlang.java.executor.JavaCodeRunner;
 import com.sirlang.java.executor.JavaCodeRunnerImpl;
+import com.sirlang.program.booleanexpression.SirLangBooleanExpressionProgram;
 import com.sirlang.program.concat.SirLangConcatProgram;
 import com.sirlang.program.concatvars.SirLangConcatVarsProgram;
 import com.sirlang.program.datatypes.SirLangDataTypeProgram;
@@ -78,6 +79,13 @@ public class SystemTest extends AbstractTest {
     @Test
     @UseDataProvider("dataProvideSirLangConcatVarsProgram")
     public void shouldCompileSirLangConcatVarsProgram(final SirLangConcatVarsProgram program)
+            throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangBooleanExpressionProgram")
+    public void shouldCompileSirLangBooleanExpressionProgram(final SirLangBooleanExpressionProgram program)
             throws IOException, InterruptedException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
     }

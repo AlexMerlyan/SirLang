@@ -1,5 +1,6 @@
 package com.sirlang.assembler.rawtranslator.variable;
 
+import com.sirlang.assembler.rawtranslator.booleanoperation.BooleanOperationTranslator;
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperation;
 import com.sirlang.assembler.rawtranslator.mathoperation.MathOperationTranslator;
 
@@ -10,29 +11,35 @@ import static org.apache.commons.lang3.math.NumberUtils.isNumber;
 
 public class JavaVarParser {
 
-    private final MathOperationTranslator operationTranslator;
+    private final MathOperationTranslator mathOperationTranslator;
+    private final BooleanOperationTranslator booleanOperationTranslator;
     private final VariableService variableService;
     private final TypeIdentifier typeIdentifier;
 
-    public JavaVarParser(final MathOperationTranslator operationTranslator, final VariableService variableService) {
-        this.operationTranslator = operationTranslator;
+    public JavaVarParser(final MathOperationTranslator mathOperationTranslator, final VariableService variableService,
+                         final BooleanOperationTranslator booleanOperationTranslator) {
+        this.mathOperationTranslator = mathOperationTranslator;
+        this.booleanOperationTranslator = booleanOperationTranslator;
         this.variableService = variableService;
         this.typeIdentifier = new TypeIdentifier(variableService);
     }
 
     public JavaVariable parseArgumentToJavaVar(final String formattedArgument) {
         JavaVariable javaVariable;
-        if (operationTranslator.isString(formattedArgument)) {
+        if (mathOperationTranslator.isString(formattedArgument)) {
             javaVariable = new JavaVariable(formattedArgument, String.class);
         } else if (variableService.isVariableName(formattedArgument)) {
             javaVariable = variableService.getVarByName(formattedArgument);
-        } else if (operationTranslator.isMathematicsExpression(formattedArgument)) {
+        } else if (booleanOperationTranslator.isBooleanExpression(formattedArgument)) {
+            final String transformedExpression = booleanOperationTranslator.transformBooleanOperations(formattedArgument);
+            javaVariable = new JavaVariable(transformedExpression, Boolean.class);
+        } else if (mathOperationTranslator.isMathematicsExpression(formattedArgument)) {
             javaVariable = getJavaVariableForMathExpression(formattedArgument);
         } else if (isNumber(formattedArgument.replace(COMMA, POINT))) {
             final Number parsedNumber = typeIdentifier.getParsedNumber(formattedArgument);
             javaVariable = new JavaVariable(parsedNumber.toString(), parsedNumber.getClass());
         } else {
-            final Boolean parsedArgument = operationTranslator.getBoolean(formattedArgument).orElseThrow(()
+            final Boolean parsedArgument = mathOperationTranslator.getBoolean(formattedArgument).orElseThrow(()
                     -> new IllegalArgumentException(BOOLEAN_NOT_FOUND_ERROR_MESSAGE + formattedArgument));
             javaVariable = new JavaVariable(parsedArgument.toString(), parsedArgument.getClass());
         }
@@ -41,7 +48,7 @@ public class JavaVarParser {
     }
 
     private JavaVariable getJavaVariableForMathExpression(final String formattedArgument) {
-        final String expression = operationTranslator.transformMathematicalOperations(formattedArgument);
+        final String expression = mathOperationTranslator.transformMathematicalOperations(formattedArgument);
         final Class type = getExpressionDataType(expression);
         return new JavaVariable(expression, type);
     }
@@ -68,7 +75,7 @@ public class JavaVarParser {
 
     private void prepareToJavaValueIfNeeded(final JavaVariable javaVariable) {
         final String javaValue = javaVariable.getValue();
-        if (operationTranslator.isNotMathematicsExpression(javaValue)) {
+        if (mathOperationTranslator.isNotMathematicsExpression(javaValue)) {
             if (javaVariable.getType() == Long.class) {
                 javaVariable.setValue(javaValue + LONG_POSTFIX);
             }
