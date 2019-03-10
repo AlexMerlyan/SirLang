@@ -1,8 +1,11 @@
 package com.sirlang.assembler.rawtranslator.booleanoperation;
 
+import com.sirlang.assembler.rawtranslator.datatype.BooleanKeyword;
 import com.sirlang.assembler.rawtranslator.symbols.Symbols;
 
+import static com.sirlang.assembler.rawtranslator.booleanoperation.BooleanOperation.AND;
 import static com.sirlang.assembler.rawtranslator.booleanoperation.BooleanOperation.NOT;
+import static com.sirlang.assembler.rawtranslator.booleanoperation.BooleanOperation.OR;
 import static com.sirlang.assembler.rawtranslator.symbols.Symbols.*;
 import static org.apache.commons.lang3.StringUtils.*;
 
@@ -28,7 +31,14 @@ public class BooleanOperationTranslatorImpl implements BooleanOperationTranslato
     public String transformBooleanOperations(final String expression) {
         String result = expression.replaceAll(Symbols.SPACE, EMPTY);
         result = replaceSingleEqualsSign(result);
-        return result.replaceAll(NOT.getOperationSign(), NOT.getEquivalentJavaSign());
+        for (BooleanKeyword booleanKeyword : BooleanKeyword.values()) {
+            for (String keyword : booleanKeyword.getKeywords()) {
+                result = result.replaceAll(keyword.toLowerCase(), booleanKeyword.getJavaKeyword());
+            }
+        }
+        result = result.replaceAll(NOT.getOperationRegexSign(), NOT.getEquivalentJavaSign());
+        result = result.replaceAll(OR.getOperationRegexSign(), OR.getEquivalentJavaSign());
+        return result.replaceAll(AND.getOperationRegexSign(), AND.getEquivalentJavaSign());
     }
 
     private String replaceSingleEqualsSign(final String expression) {
