@@ -12,7 +12,7 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
 
     @Override
     public List<String> splitByCharOperation(final String argument, final char operationChar) {
-        final List<String> strings = new ArrayList<>();
+        final List<String> arguments = new ArrayList<>();
         if (StringUtils.isNotEmpty(argument)) {
             final char[] symbols = argument.toCharArray();
             final int lastCharIndex = symbols.length - 1;
@@ -22,11 +22,11 @@ public class MathOperationSplitterImpl implements MathOperationSplitter {
                 state.setIteration(i);
                 updateState(state, argument, operationChar);
                 if (StringUtils.isNotEmpty(state.getOperand())) {
-                    strings.add(state.getOperand());
+                    arguments.add(state.getOperand());
                 }
             }
         }
-        return strings;
+        return arguments;
     }
 
     private void updateState(final SplitState state, final String argument, final char operationChar) {

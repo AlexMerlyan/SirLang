@@ -16,6 +16,6 @@
 5. Open terminal from directory of this jar.
 6. Run command: java -cp %jar_file.jar% %packageOne.package2.ClassName% %dir1/dir/file.sir2%
 
-Example: java -cp SirLang-1.0-SNAPSHOT-jar-with-dependencies.jar com.sirlang.Main /home/arizel/IdeaProjects/SirLang/target/file.sir
+Example: java -cp SirLang-1.0-SNAPSHOT-jar-with-dependencies.jar com.sirlang.Main /home/user/IdeaProjects/SirLang/target/file.sir
 
 PROFIT!

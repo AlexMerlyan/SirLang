@@ -1,5 +1,6 @@
 package com.sirlang;
 
+import com.sirlang.program.booleanexpression.SirLangBooleanExpressionProgram;
 import com.sirlang.program.concat.SirLangConcatProgram;
 import com.sirlang.program.concatvars.SirLangConcatVarsProgram;
 import com.sirlang.program.datatypes.SirLangDataTypeProgram;
@@ -78,6 +79,11 @@ public abstract class AbstractTest {
     @DataProvider
     public static List<List<Object>> dataProvideSirLangConcatVarsProgram() {
         return getProgramsDataProvider(SirLangConcatVarsProgram.values());
+    }
+
+    @DataProvider
+    public static List<List<Object>> dataProvideSirLangBooleanExpressionProgram() {
+        return getProgramsDataProvider(SirLangBooleanExpressionProgram.values());
     }
 
     private static List<List<Object>> getProgramsDataProvider(final Object[] objects) {
