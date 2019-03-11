@@ -37,8 +37,10 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
     private String transformCommandToJava(final String codeRow, final Command command) {
         if (command.isContainAdditionalCommand()) {
             return transformAdditionalCommandToJava(codeRow, command);
-        } else {
+        } else if (command.isStringFormatNeeded() ) {
             return format(command.getJavaCommand(), getArgument(codeRow));
+        } else {
+            return command.getJavaCommand();
         }
     }
 
