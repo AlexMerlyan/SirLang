@@ -1,6 +1,7 @@
 package com.sirlang.assembler.rawtranslator;
 
 import com.sirlang.assembler.command.Command;
+import com.sirlang.assembler.rawtranslator.symbols.Symbols;
 import com.sirlang.assembler.rawtranslator.variable.JavaVarParser;
 import com.sirlang.assembler.rawtranslator.variable.JavaVariable;
 import com.sirlang.assembler.rawtranslator.variable.VariableService;
@@ -47,8 +48,17 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
     private String transformAdditionalCommandToJava(final String codeRow, final Command command) {
         final JavaVariable variable = getJavaVariable(codeRow, command);
         final String sirLangVarName = getSirLangVarName(codeRow, command);
-        final String javaVarName = variableService.saveVar(sirLangVarName, variable);
-        return format(command.getJavaCommand(), variable.getType().getSimpleName(), javaVarName, variable.getValue());
+        final String javaVarName;
+        if (variableService.isVarAlreadyExists(sirLangVarName)) {
+            final JavaVariable javaVariable = variableService.getVarByName(sirLangVarName);
+            final JavaVariable updatedVariable = variableService.updateVar(sirLangVarName, javaVariable).orElse(javaVariable);
+            javaVarName = updatedVariable.getName();
+            return format(command.getJavaCommand(), javaVarName, variable.getValue());
+        } else {
+            javaVarName = variableService.saveNewVar(sirLangVarName, variable);
+            final String javaVarType = variable.getType().getSimpleName();
+            return format(command.getJavaCommand(), javaVarType + Symbols.SPACE + javaVarName, variable.getValue());
+        }
     }
 
     private JavaVariable getJavaVariable(final String codeRow, final Command command) {

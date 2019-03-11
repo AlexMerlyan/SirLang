@@ -125,4 +125,12 @@ interface JavaConcatVarsCode {
             "}" + LINE_SEPARATOR +
             "}" + LINE_SEPARATOR;
 
+    String PRINT_INCREMENT_LONG_VAR_JAVA_CODE = "public class Main {" + LINE_SEPARATOR +
+            "public static void main(String[] args) {" + LINE_SEPARATOR +
+            "Long var0 = 0L;" + LINE_SEPARATOR +
+            "var0 = var0+1;" + LINE_SEPARATOR +
+            "System.out.println(var0);" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR +
+            "}" + LINE_SEPARATOR;
+
 }
