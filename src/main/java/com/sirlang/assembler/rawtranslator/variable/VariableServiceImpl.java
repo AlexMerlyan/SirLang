@@ -20,7 +20,6 @@ public class VariableServiceImpl implements VariableService {
         return variables.get(varName);
     }
 
-
     @Override
     public String saveNewVar(final String sirLangVarName, final JavaVariable variable) {
         final String javaVarName = VAR + variableCount;
@@ -31,19 +30,24 @@ public class VariableServiceImpl implements VariableService {
     }
 
     @Override
+    public void saveVar(String sirLangVarName, JavaVariable variable) {
+        variables.put(sirLangVarName, variable);
+    }
+
+    @Override
     public Optional<JavaVariable> updateVar(String sirLangVarName, JavaVariable variable) {
         return Optional.ofNullable(variables.put(sirLangVarName, variable));
     }
 
     @Override
-    public boolean isVariableName(final String varName) {
-        final Optional<JavaVariable> optionalVarByName = getOptionalVarByName(varName);
+    public boolean isVariableName(final String sirLangVarName) {
+        final Optional<JavaVariable> optionalVarByName = getOptionalVarByName(sirLangVarName);
         return optionalVarByName.isPresent();
     }
 
     @Override
-    public boolean isVarAlreadyExists(String varName) {
-        return isVariableName(varName);
+    public boolean isVarAlreadyExists(String sirLangVarName) {
+        return isVariableName(sirLangVarName);
     }
 
     private boolean containsJavaVar(String varName) {
@@ -63,6 +67,15 @@ public class VariableServiceImpl implements VariableService {
             }
         }
         return Optional.empty();
+    }
+
+    private boolean isVarExistsByJavaName(String javaVarName) {
+        return getVarByJavaName(javaVarName).isPresent();
+    }
+
+    @Override
+    public boolean isVarNotExistsByJavaName(String javaVarName) {
+        return !isVarExistsByJavaName(javaVarName);
     }
 
     @Override

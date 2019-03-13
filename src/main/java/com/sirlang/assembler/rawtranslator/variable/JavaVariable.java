@@ -10,6 +10,11 @@ public class JavaVariable {
     private Class type;
 
     JavaVariable(final String value, final Class type) {
+        this(null, value, type);
+    }
+
+    public JavaVariable(final String name, final String value, final Class type) {
+        this.name = name;
         this.value = value;
         this.type = type;
     }
