@@ -4,6 +4,8 @@ import com.sirlang.AbstractTest;
 import com.sirlang.program.booleanexpression.SirLangBooleanExpressionProgram;
 import com.sirlang.program.concat.SirLangConcatProgram;
 import com.sirlang.program.concatvars.SirLangConcatVarsProgram;
+import com.sirlang.program.condition.SirLangConditionProgram;
+import com.sirlang.program.cycle.SirLangCycleProgram;
 import com.sirlang.program.datatypes.SirLangDataTypeProgram;
 import com.sirlang.program.expression.SirLangExpressionProgram;
 import com.sirlang.program.helloworld.SirLangHelloWorldProgram;
@@ -84,6 +86,18 @@ public class SirLangAssemblerTest extends AbstractTest {
     @Test
     @UseDataProvider("dataProvideSirLangBooleanExpressionProgram")
     public void shouldCompileSirLangBooleanExpressionProgram(SirLangBooleanExpressionProgram program) throws IOException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangConditionProgram")
+    public void shouldCompileSirLangConditionProgram(SirLangConditionProgram program) throws IOException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangCycleProgram")
+    public void shouldCompileSirLangCycleProgram(SirLangCycleProgram program) throws IOException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
     }
 

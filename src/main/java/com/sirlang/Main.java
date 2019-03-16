@@ -17,7 +17,6 @@ import static com.sirlang.ErrorMessages.SOMETHING_WAS_WRONG;
 @Slf4j
 class Main {
 
-    private static final Assembler ASSEMBLER = new SirLangAssembler();
     private static final JavaCodeCompiler JAVA_CODE_COMPILER = new JavaCodeCompilerImpl();
     private static final JavaCodeRunner JAVA_CODE_RUNNER = new JavaCodeRunnerImpl();
 
@@ -30,8 +29,9 @@ class Main {
     }
 
     private static void compileByFilePath(final String sirLangFilePath) {
+        final Assembler assembler = new SirLangAssembler();
         try {
-            final File javaFile = ASSEMBLER.compileSourceFile(sirLangFilePath);
+            final File javaFile = assembler.compileSourceFile(sirLangFilePath);
             final File byteCodeFile = JAVA_CODE_COMPILER.compileJavaFile(javaFile);
             final ExecutionResult executionResult = JAVA_CODE_RUNNER.runCompiledCode(byteCodeFile);
             System.out.println(executionResult.getConsoleOutput());

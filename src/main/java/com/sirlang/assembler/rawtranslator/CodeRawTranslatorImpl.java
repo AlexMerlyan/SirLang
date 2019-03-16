@@ -1,6 +1,7 @@
 package com.sirlang.assembler.rawtranslator;
 
 import com.sirlang.assembler.command.Command;
+import com.sirlang.assembler.rawtranslator.symbols.Symbols;
 import com.sirlang.assembler.rawtranslator.variable.JavaVarParser;
 import com.sirlang.assembler.rawtranslator.variable.JavaVariable;
 import com.sirlang.assembler.rawtranslator.variable.VariableService;
@@ -37,16 +38,57 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
     private String transformCommandToJava(final String codeRow, final Command command) {
         if (command.isContainAdditionalCommand()) {
             return transformAdditionalCommandToJava(codeRow, command);
-        } else {
+        } else if (command.isStringFormatNeeded() ) {
             return format(command.getJavaCommand(), getArgument(codeRow));
+        } else {
+            return command.getJavaCommand();
         }
     }
 
     private String transformAdditionalCommandToJava(final String codeRow, final Command command) {
+        if (command == Command.CYCLE || command == Command.CYCLE_WITH_CONDITION) {
+            return transformAdditionalCommandForCycle(codeRow, command);
+        } else {
+            return defaultTransformAdditionalCommand(codeRow, command);
+        }
+    }
+
+    private String defaultTransformAdditionalCommand(String codeRow, Command command) {
         final JavaVariable variable = getJavaVariable(codeRow, command);
         final String sirLangVarName = getSirLangVarName(codeRow, command);
-        final String javaVarName = variableService.saveVar(sirLangVarName, variable);
-        return format(command.getJavaCommand(), variable.getType().getSimpleName(), javaVarName, variable.getValue());
+        final String javaVarName;
+        if (variableService.isVarAlreadyExists(sirLangVarName)) {
+            final JavaVariable javaVariable = variableService.getVarByName(sirLangVarName);
+            final JavaVariable updatedVariable = variableService.updateVar(sirLangVarName, javaVariable).orElse(javaVariable);
+            javaVarName = updatedVariable.getName();
+            return format(command.getJavaCommand(), javaVarName, variable.getValue());
+        } else {
+            javaVarName = variableService.saveNewVar(sirLangVarName, variable);
+            final String javaVarType = variable.getType().getSimpleName();
+            return format(command.getJavaCommand(), javaVarType + Symbols.SPACE + javaVarName, variable.getValue());
+        }
+    }
+
+    private String transformAdditionalCommandForCycle(final String codeRow, final Command command) {
+        for (int i = 0; ;i++) {
+            if (variableService.isVarNotExistsByJavaName(JAVA_COUNTER + i)) {
+                final int sirLangCounter = i + 1;
+                final String formattedJavaCounter = JAVA_COUNTER + sirLangCounter;
+                JavaVariable javaVariable = new JavaVariable(formattedJavaCounter, EMPTY, Long.class);
+                String sirLangName = SIRLANG_COUNTER + sirLangCounter;
+                variableService.saveVar(sirLangName, javaVariable);
+                return formatCycleCommand(codeRow, command, formattedJavaCounter);
+            }
+        }
+    }
+
+    private String formatCycleCommand(final String codeRow, final Command command, final String formattedJavaCounter) {
+        if (command == Command.CYCLE_WITH_CONDITION) {
+            return format(command.getJavaCommand(), formattedJavaCounter, getArgument(codeRow), formattedJavaCounter);
+        } else {
+            return format(command.getJavaCommand(), formattedJavaCounter, formattedJavaCounter, getArgument(codeRow),
+                    formattedJavaCounter);
+        }
     }
 
     private JavaVariable getJavaVariable(final String codeRow, final Command command) {

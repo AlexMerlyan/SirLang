@@ -41,7 +41,8 @@ public class SirLangAssembler implements Assembler {
         final VariableService variableService = new VariableServiceImpl();
         final MathOperationSplitter splitter = new MathOperationSplitterImpl();
         final MathOperationTranslator operationTranslator = new MathOperationTranslatorImpl(splitter, variableService);
-        final JavaVarParser javaVarParser = new JavaVarParser(operationTranslator, variableService, new BooleanOperationTranslatorImpl());
+        final JavaVarParser javaVarParser = new JavaVarParser(operationTranslator, variableService,
+                new BooleanOperationTranslatorImpl(variableService));
         this.rawTranslator = new CodeRawTranslatorImpl(variableService, javaVarParser);
     }
 

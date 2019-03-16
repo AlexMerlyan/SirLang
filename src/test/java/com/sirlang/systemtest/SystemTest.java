@@ -11,6 +11,8 @@ import com.sirlang.java.executor.JavaCodeRunnerImpl;
 import com.sirlang.program.booleanexpression.SirLangBooleanExpressionProgram;
 import com.sirlang.program.concat.SirLangConcatProgram;
 import com.sirlang.program.concatvars.SirLangConcatVarsProgram;
+import com.sirlang.program.condition.SirLangConditionProgram;
+import com.sirlang.program.cycle.SirLangCycleProgram;
 import com.sirlang.program.datatypes.SirLangDataTypeProgram;
 import com.sirlang.program.expression.SirLangExpressionProgram;
 import com.sirlang.program.helloworld.SirLangHelloWorldProgram;
@@ -29,14 +31,13 @@ import java.io.IOException;
 @RunWith(DataProviderRunner.class)
 public class SystemTest extends AbstractTest {
 
-    private static final Assembler ASSEMBLER = new SirLangAssembler();
     private static final JavaCodeCompiler JAVA_CODE_COMPILER = new JavaCodeCompilerImpl();
     private static final JavaCodeRunner JAVA_CODE_RUNNER = new JavaCodeRunnerImpl();
 
-
     private ExecutionResult compileByFilePath(final String sirLangFilePath)
             throws IOException, InterruptedException {
-        final File javaFile = ASSEMBLER.compileSourceFile(sirLangFilePath);
+        final Assembler assembler = new SirLangAssembler();
+        final File javaFile = assembler.compileSourceFile(sirLangFilePath);
         final File byteCodeFile = JAVA_CODE_COMPILER.compileJavaFile(javaFile);
         return JAVA_CODE_RUNNER.runCompiledCode(byteCodeFile);
     }
@@ -86,6 +87,20 @@ public class SystemTest extends AbstractTest {
     @Test
     @UseDataProvider("dataProvideSirLangBooleanExpressionProgram")
     public void shouldCompileSirLangBooleanExpressionProgram(final SirLangBooleanExpressionProgram program)
+            throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangConditionProgram")
+    public void shouldCompileSirLangConditionProgram(final SirLangConditionProgram program)
+            throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangCycleProgram")
+    public void shouldCompileSirLangCycleProgram(final SirLangCycleProgram program)
             throws IOException, InterruptedException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
     }
