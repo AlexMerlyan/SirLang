@@ -1,15 +1,7 @@
 package com.sirlang;
 
-import com.sirlang.assembler.Assembler;
-import com.sirlang.assembler.SirLangAssembler;
-import com.sirlang.java.compiler.JavaCodeCompiler;
-import com.sirlang.java.compiler.JavaCodeCompilerImpl;
 import com.sirlang.java.executor.ExecutionResult;
-import com.sirlang.java.executor.JavaCodeRunner;
-import com.sirlang.java.executor.JavaCodeRunnerImpl;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.File;
 
 import static com.sirlang.ErrorMessages.NO_ARGUMENTS_TO_COMPILE;
 import static com.sirlang.ErrorMessages.SOMETHING_WAS_WRONG;
@@ -17,8 +9,7 @@ import static com.sirlang.ErrorMessages.SOMETHING_WAS_WRONG;
 @Slf4j
 class Main {
 
-    private static final JavaCodeCompiler JAVA_CODE_COMPILER = new JavaCodeCompilerImpl();
-    private static final JavaCodeRunner JAVA_CODE_RUNNER = new JavaCodeRunnerImpl();
+    private static final Executor EXECUTOR = Executor.getInstance();
 
     public static void main(String... args) {
         if (args.length > 0) {
@@ -29,11 +20,8 @@ class Main {
     }
 
     private static void compileByFilePath(final String sirLangFilePath) {
-        final Assembler assembler = new SirLangAssembler();
         try {
-            final File javaFile = assembler.compileSourceFile(sirLangFilePath);
-            final File byteCodeFile = JAVA_CODE_COMPILER.compileJavaFile(javaFile);
-            final ExecutionResult executionResult = JAVA_CODE_RUNNER.runCompiledCode(byteCodeFile);
+            final ExecutionResult executionResult = EXECUTOR.execute(sirLangFilePath);
             System.out.println(executionResult.getConsoleOutput());
         } catch (Exception e) {
             System.out.println(SOMETHING_WAS_WRONG);
