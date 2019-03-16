@@ -4,6 +4,8 @@ import java.util.Optional;
 
 public interface VariableService {
 
+    Optional<JavaVariable> getOptionalVarByName(String varName);
+
     JavaVariable getVarByName(final String varName);
 
     String saveNewVar(final String sirLangVarName, final JavaVariable variable);

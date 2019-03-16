@@ -11,7 +11,8 @@ public class VariableServiceImpl implements VariableService {
     private int variableCount;
     private final Map<String, JavaVariable> variables = new HashMap<>();
 
-    private Optional<JavaVariable> getOptionalVarByName(String varName) {
+    @Override
+    public Optional<JavaVariable> getOptionalVarByName(String varName) {
         return Optional.ofNullable(variables.get(varName));
     }
 

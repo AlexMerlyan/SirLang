@@ -46,7 +46,7 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
     }
 
     private String transformAdditionalCommandToJava(final String codeRow, final Command command) {
-        if (command == Command.CYCLE) {
+        if (command == Command.CYCLE || command == Command.CYCLE_WITH_CONDITION) {
             return transformAdditionalCommandForCycle(codeRow, command);
         } else {
             return defaultTransformAdditionalCommand(codeRow, command);
@@ -77,8 +77,17 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
                 JavaVariable javaVariable = new JavaVariable(formattedJavaCounter, EMPTY, Long.class);
                 String sirLangName = SIRLANG_COUNTER + sirLangCounter;
                 variableService.saveVar(sirLangName, javaVariable);
-                return format(command.getJavaCommand(), formattedJavaCounter, formattedJavaCounter, getArgument(codeRow), formattedJavaCounter);
+                return formatCycleCommand(codeRow, command, formattedJavaCounter);
             }
+        }
+    }
+
+    private String formatCycleCommand(final String codeRow, final Command command, final String formattedJavaCounter) {
+        if (command == Command.CYCLE_WITH_CONDITION) {
+            return format(command.getJavaCommand(), formattedJavaCounter, getArgument(codeRow), formattedJavaCounter);
+        } else {
+            return format(command.getJavaCommand(), formattedJavaCounter, formattedJavaCounter, getArgument(codeRow),
+                    formattedJavaCounter);
         }
     }
 
