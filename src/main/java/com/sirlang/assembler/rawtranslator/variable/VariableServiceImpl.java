@@ -1,8 +1,11 @@
 package com.sirlang.assembler.rawtranslator.variable;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class VariableServiceImpl implements VariableService {
 
@@ -47,8 +50,29 @@ public class VariableServiceImpl implements VariableService {
     }
 
     @Override
+    public boolean hasVariableName(final String expression) {
+        return variables.keySet().stream().anyMatch(expression::contains);
+    }
+
+    @Override
+    public String replaceSirlangNamesToJavaNames(String expression) {
+        final Set<String> sirlangNames = variables.keySet();
+        for (final String name : sirlangNames) {
+            if (StringUtils.contains(expression, name)) {
+                expression = expression.replaceAll(name, variables.get(name).getName());
+            }
+        }
+        return expression;
+    }
+
+    @Override
     public boolean isVarAlreadyExists(String sirLangVarName) {
         return isVariableName(sirLangVarName);
+    }
+
+    @Override
+    public boolean isVarNotExists(String sirLangVarName) {
+        return !isVarAlreadyExists(sirLangVarName);
     }
 
     private boolean containsJavaVar(String varName) {

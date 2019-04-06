@@ -16,6 +16,7 @@ import com.sirlang.program.cycle.SirLangCycleProgram;
 import com.sirlang.program.datatypes.SirLangDataTypeProgram;
 import com.sirlang.program.expression.SirLangExpressionProgram;
 import com.sirlang.program.helloworld.SirLangHelloWorldProgram;
+import com.sirlang.program.tasks.SirLangTaskProgram;
 import com.sirlang.program.vars.SirLangVarsProgram;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
@@ -101,6 +102,13 @@ public class SystemTest extends AbstractTest {
     @Test
     @UseDataProvider("dataProvideSirLangCycleProgram")
     public void shouldCompileSirLangCycleProgram(final SirLangCycleProgram program)
+            throws IOException, InterruptedException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangTaskProgram")
+    public void shouldCompileSirLangTaskProgram(final SirLangTaskProgram program)
             throws IOException, InterruptedException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaOutputConsole());
     }

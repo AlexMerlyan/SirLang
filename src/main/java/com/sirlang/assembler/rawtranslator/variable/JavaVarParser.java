@@ -25,12 +25,29 @@ public class JavaVarParser {
     }
 
     public JavaVariable parseArgumentToJavaVar(final String formattedArgument) {
+        return parseArgumentToJavaVar(formattedArgument, EMPTY, false);
+    }
+
+    public JavaVariable parseArgumentToJavaVar(final String formattedArgument, final String sirlangName) {
+        return parseArgumentToJavaVar(formattedArgument, sirlangName, true);
+    }
+
+    private JavaVariable parseArgumentToJavaVar(final String formattedArgument, final String sirlangVarName, final boolean isTypeNeed) {
         JavaVariable javaVariable;
         if (mathOperationTranslator.isString(formattedArgument)) {
             javaVariable = new JavaVariable(formattedArgument, String.class);
         } else if (variableService.isVariableName(formattedArgument)) {
             javaVariable = variableService.getVarByName(formattedArgument);
-        } else if (booleanOperationTranslator.isBooleanExpression(formattedArgument)) {
+        }
+        else if (variableService.hasVariableName(formattedArgument)) {
+            final String transformedArgument = variableService.replaceSirlangNamesToJavaNames(formattedArgument);
+            Class type = null;
+            if (variableService.isVarNotExists(sirlangVarName) && isTypeNeed) {
+                type = getExpressionDataType(transformedArgument);
+            }
+            javaVariable = new JavaVariable(transformedArgument, type);
+        }
+        else if (booleanOperationTranslator.isBooleanExpression(formattedArgument)) {
             final String transformedExpression = booleanOperationTranslator.transformBooleanOperations(formattedArgument);
             javaVariable = new JavaVariable(transformedExpression, Boolean.class);
         } else if (mathOperationTranslator.isMathematicsExpression(formattedArgument)) {
