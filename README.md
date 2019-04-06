@@ -19,3 +19,28 @@
 Example: java -cp SirLang-1.0-SNAPSHOT-jar-with-dependencies.jar com.sirlang.Main /home/user/IdeaProjects/SirLang/target/file.sir
 
 PROFIT!
+
+Maven config:
+
+<repository>
+    <id>SirLang-mvn-repo</id>
+    <url>https://raw.github.com/AlexMerlyan/SirLang/mvn-repo/</url>
+    <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+    </snapshots>
+</repository>
+
+<dependency>
+    <groupId>SirLang</groupId>
+    <artifactId>SirLang</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+
+
+P.S.: If you wanna try work with it you can try https://calm-lake-11769.herokuapp.com/
+Try to send post request https://calm-lake-11769.herokuapp.com/compile
+with body:
+{
+	"sirlangCode": "Приветствую!\nСударь, будьте добры, выведите на экран это: \"Моя первая программа на языке Сударь!\"\nСпасибо вам! Всего хорошего!"
+}
