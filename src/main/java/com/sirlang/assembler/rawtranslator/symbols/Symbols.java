@@ -14,5 +14,7 @@ public interface Symbols {
     String SLASH = "/";
     String LONG_POSTFIX = "L";
     String SPACE = " ";
+    String JAVA_COUNTER = "i";
+    String SIRLANG_COUNTER = "счетчик";
 
 }

@@ -3,13 +3,31 @@ package com.sirlang.assembler.rawtranslator.variable;
 import java.util.Optional;
 
 public interface VariableService {
+
+    Optional<JavaVariable> getOptionalVarByName(String varName);
+
     JavaVariable getVarByName(final String varName);
 
-    String saveVar(final String sirLangVarName, final JavaVariable variable);
+    String saveNewVar(final String sirLangVarName, final JavaVariable variable);
 
-    boolean isVariableName(final String formattedArgument);
+    void saveVar(final String sirLangVarName, final JavaVariable variable);
+
+    Optional<JavaVariable> updateVar(final String sirLangVarName, final JavaVariable variable);
+
+    boolean isVariableName(final String sirLangVarName);
+
+    boolean hasVariableName(final String expression);
+
+    String replaceSirlangNamesToJavaNames(final String expression);
+
+    boolean isVarAlreadyExists(final String sirLangVarName);
+
+    boolean isVarNotExists(String sirLangVarName);
+
+    boolean isVarNotExistsByJavaName(String javaVarName);
 
     Optional<JavaVariable> getVarByJavaName(final String javaVarName);
 
     boolean hasVar(String[] args);
+
 }
