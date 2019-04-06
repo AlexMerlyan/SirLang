@@ -21,7 +21,7 @@ Example: java -cp SirLang-1.0-SNAPSHOT-jar-with-dependencies.jar com.sirlang.Mai
 PROFIT!
 
 Maven config:
-
+{code}
 <repository>
     <id>SirLang-mvn-repo</id>
     <url>https://raw.github.com/AlexMerlyan/SirLang/mvn-repo/</url>
@@ -36,6 +36,7 @@ Maven config:
     <artifactId>SirLang</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
+{code}
 
 
 P.S.: If you wanna try work with it you can try https://calm-lake-11769.herokuapp.com/
