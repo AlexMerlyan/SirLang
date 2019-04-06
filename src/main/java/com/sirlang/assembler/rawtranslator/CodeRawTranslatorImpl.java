@@ -54,8 +54,8 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
     }
 
     private String defaultTransformAdditionalCommand(String codeRow, Command command) {
-        final JavaVariable variable = getJavaVariable(codeRow, command);
         final String sirLangVarName = getSirLangVarName(codeRow, command);
+        final JavaVariable variable = getJavaVariable(codeRow, command, sirLangVarName);
         final String javaVarName;
         if (variableService.isVarAlreadyExists(sirLangVarName)) {
             final JavaVariable javaVariable = variableService.getVarByName(sirLangVarName);
@@ -91,11 +91,11 @@ public class CodeRawTranslatorImpl implements CodeRawTranslator {
         }
     }
 
-    private JavaVariable getJavaVariable(final String codeRow, final Command command) {
+    private JavaVariable getJavaVariable(final String codeRow, final Command command, final String sirlangVarName) {
         final String commandAndNameValuePair = codeRow.replace(command.getSirCommand(), EMPTY);
         final String notTrimValue = commandAndNameValuePair.split(COMMAND_SEPARATOR)[1];
         final String value = notTrimValue.trim();
-        return javaVarParser.parseArgumentToJavaVar(value);
+        return javaVarParser.parseArgumentToJavaVar(value, sirlangVarName);
     }
 
     private String getSirLangVarName(final String codeRow, final Command command) {

@@ -16,7 +16,13 @@ public interface VariableService {
 
     boolean isVariableName(final String sirLangVarName);
 
+    boolean hasVariableName(final String expression);
+
+    String replaceSirlangNamesToJavaNames(final String expression);
+
     boolean isVarAlreadyExists(final String sirLangVarName);
+
+    boolean isVarNotExists(String sirLangVarName);
 
     boolean isVarNotExistsByJavaName(String javaVarName);
 

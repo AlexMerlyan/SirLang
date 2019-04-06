@@ -9,6 +9,7 @@ import com.sirlang.program.cycle.SirLangCycleProgram;
 import com.sirlang.program.datatypes.SirLangDataTypeProgram;
 import com.sirlang.program.expression.SirLangExpressionProgram;
 import com.sirlang.program.helloworld.SirLangHelloWorldProgram;
+import com.sirlang.program.tasks.SirLangTaskProgram;
 import com.sirlang.program.vars.SirLangVarsProgram;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
@@ -98,6 +99,12 @@ public class SirLangAssemblerTest extends AbstractTest {
     @Test
     @UseDataProvider("dataProvideSirLangCycleProgram")
     public void shouldCompileSirLangCycleProgram(SirLangCycleProgram program) throws IOException {
+        compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
+    }
+
+    @Test
+    @UseDataProvider("dataProvideSirLangTaskProgram")
+    public void shouldCompileSirLangTaskProgram(SirLangTaskProgram program) throws IOException {
         compileAndAssertSirLangProgram(program.getSirLangProgram(), program.getJavaEquivalentProgram());
     }
 
