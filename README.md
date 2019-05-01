@@ -20,7 +20,7 @@ Example: java -cp SirLang-1.0-SNAPSHOT-jar-with-dependencies.jar com.sirlang.Mai
 
 PROFIT!
 
-Official Site: https://sirlang-react.herokuapp.com
+Official Site: https://sirlang.herokuapp.com
 
 Maven config:
 ```
@@ -41,8 +41,8 @@ Maven config:
 ```
 
 
-P.S.: If you wanna try work with it you can try https://calm-lake-11769.herokuapp.com/
-Try to send post request https://calm-lake-11769.herokuapp.com/compile
+P.S.: If you wanna try work with it you can try https://sirlang-service.herokuapp.com
+Try to send post request https://sirlang-service.herokuapp.com/compile
 with body:
 {
 	"sirlangCode": "Приветствую!\nСударь, будьте добры, выведите на экран это: \"Моя первая программа на языке Сударь!\"\nСпасибо вам! Всего хорошего!"
